@@ -1,0 +1,85 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "watsonx-tool-tester"
+version = "0.1.0"
+description = "Tests tool call capabilities of AI models in IBM WatsonX and via LiteLLM proxies"
+readme = "README.md"
+authors = [
+    {name = "IBM", email = "watsonx@ibm.com"}
+]
+license = {text = "Apache-2.0"}
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Testing",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "click>=8.0.0",
+    "requests>=2.25.0",
+    "tabulate>=0.8.0",
+    "colorama>=0.4.4",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=3.0.0",
+    "black>=23.0.0",
+    "isort>=5.10.0",
+    "flake8>=5.0.0",
+    "mypy>=1.0.0",
+]
+
+[project.urls]
+Documentation = "https://github.com/ibm/watsonx-tool-tester#readme"
+Source = "https://github.com/ibm/watsonx-tool-tester"
+Issues = "https://github.com/ibm/watsonx-tool-tester/issues"
+
+[project.scripts]
+watsonx-tool-tester = "watsonx_tool_tester.cli:cli"
+
+[tool.setuptools]
+packages = ["watsonx_tool_tester", 
+            "watsonx_tool_tester.tools", 
+            "watsonx_tool_tester.clients", 
+            "watsonx_tool_tester.testers",
+            "watsonx_tool_tester.utils"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+addopts = "--cov=watsonx_tool_tester --cov-report=term-missing"
+
+[tool.black]
+line-length = 79
+target-version = ["py38", "py39", "py310", "py311"]
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 79
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+
+[[tool.mypy.overrides]]
+module = ["tests.*"]
+disallow_untyped_defs = false
