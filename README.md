@@ -59,8 +59,8 @@ Only models that achieve full success are considered in the performance metrics 
 
 ```bash
 # Clone the repository
-git clone https://github.com/ibm/watsonx-tool-tester.git
-cd watsonx-tool-tester
+git clone git@github.com:daniel-butler-irl/watsonx_model_tool_test.git
+cd watsonx_MODEL_tool_test
 
 # Install the package
 pip install .
