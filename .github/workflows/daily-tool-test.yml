@@ -14,6 +14,8 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 jobs:
   test-models:
@@ -150,11 +152,11 @@ jobs:
           echo "<!-- TOOL_TEST_REPORT_START -->" > /tmp/new_section.txt
           echo "## 🔧 Tool Test Status" >> /tmp/new_section.txt
           echo "" >> /tmp/new_section.txt
-          echo "📊 **[Latest Daily Report](reports/latest_report.html)** | **[90-Day Comprehensive Report](reports/latest_comprehensive.html)**" >> /tmp/new_section.txt
+          echo "📊 **[Latest Daily Report](https://daniel-butler-irl.github.io/watsonx_model_tool_test/reports/latest_report.html)** | **[90-Day Comprehensive Report](https://daniel-butler-irl.github.io/watsonx_model_tool_test/reports/latest_comprehensive.html)**" >> /tmp/new_section.txt
           echo "" >> /tmp/new_section.txt
           echo "- **Last Updated:** $CURRENT_DATE" >> /tmp/new_section.txt
           echo "- **Test Iterations:** ${{ inputs.iterations || '20' }} per model" >> /tmp/new_section.txt
-          echo "- **All Reports:** [Browse Reports Directory](reports/)" >> /tmp/new_section.txt
+          echo "- **All Reports:** [Browse Reports Directory](https://daniel-butler-irl.github.io/watsonx_model_tool_test/reports/)" >> /tmp/new_section.txt
           echo "" >> /tmp/new_section.txt
           echo "*Daily reports generated at 06:00 UTC. Comprehensive report includes 90-day trend analysis and reliability assessment.*" >> /tmp/new_section.txt
           echo "<!-- TOOL_TEST_REPORT_END -->" >> /tmp/new_section.txt
@@ -186,11 +188,11 @@ jobs:
           echo "<!-- TOOL_TEST_REPORT_START -->" >> README.md
           echo "## 🔧 Tool Test Status" >> README.md
           echo "" >> README.md
-          echo "📊 **[Latest Daily Report](reports/latest_report.html)** | **[90-Day Comprehensive Report](reports/latest_comprehensive.html)**" >> README.md
+          echo "📊 **[Latest Daily Report](https://daniel-butler-irl.github.io/watsonx_model_tool_test/reports/latest_report.html)** | **[90-Day Comprehensive Report](https://daniel-butler-irl.github.io/watsonx_model_tool_test/reports/latest_comprehensive.html)**" >> README.md
           echo "" >> README.md
           echo "- **Last Updated:** $CURRENT_DATE" >> README.md
           echo "- **Test Iterations:** ${{ inputs.iterations || '20' }} per model" >> README.md
-          echo "- **All Reports:** [Browse Reports Directory](reports/)" >> README.md
+          echo "- **All Reports:** [Browse Reports Directory](https://daniel-butler-irl.github.io/watsonx_model_tool_test/reports/)" >> README.md
           echo "" >> README.md
           echo "*Daily reports generated at 06:00 UTC. Comprehensive report includes 90-day trend analysis and reliability assessment.*" >> README.md
           echo "<!-- TOOL_TEST_REPORT_END -->" >> README.md
@@ -215,6 +217,33 @@ jobs:
           git push
         fi
 
+  deploy-to-pages:
+    runs-on: ubuntu-latest
+    needs: test-models
+    if: always()
+    
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
+
+    - name: Setup Pages
+      uses: actions/configure-pages@v4
+
+    - name: Upload to GitHub Pages
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: .
+
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
 
   cleanup-old-reports:
     runs-on: ubuntu-latest

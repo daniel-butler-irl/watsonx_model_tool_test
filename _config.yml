@@ -1,0 +1,37 @@
+title: WatsonX Model Tool Test Reports
+description: Automated testing reports for WatsonX model tool calling capabilities
+baseurl: "/watsonx_model_tool_test"
+url: "https://daniel-butler-irl.github.io"
+
+# GitHub Pages settings
+plugins:
+  - jekyll-relative-links
+  - jekyll-optional-front-matter
+
+# Markdown settings
+markdown: kramdown
+highlighter: rouge
+
+# Include settings
+include:
+  - reports/
+  - .github/
+
+# Exclude settings
+exclude:
+  - .gitignore
+  - README.md
+  - LICENSE
+  - Makefile
+  - setup.py
+  - pyproject.toml
+  - requirements.txt
+  - tests/
+  - watsonx_tool_tester/
+  - .pytest_cache/
+  - __pycache__/
+  - "*.egg-info/"
+  - build/
+  - dist/
+  - .env
+  - .env.example
