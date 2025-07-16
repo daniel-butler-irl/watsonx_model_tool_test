@@ -723,7 +723,8 @@ class HistoryManager:
                     writer.writeheader()
 
                     for row in reader:
-                        if row["date"] >= cutoff_str:
+                        # Handle missing date field gracefully
+                        if "date" in row and row["date"] >= cutoff_str:
                             writer.writerow(row)
 
             os.replace(temp_file, self.results_file)
@@ -742,7 +743,8 @@ class HistoryManager:
                     writer.writeheader()
 
                     for row in reader:
-                        if row["date"] >= cutoff_str:
+                        # Handle missing date field gracefully
+                        if "date" in row and row["date"] >= cutoff_str:
                             writer.writerow(row)
 
             os.replace(temp_file, self.summary_file)
