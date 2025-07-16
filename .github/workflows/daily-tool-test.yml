@@ -12,6 +12,9 @@ on:
         default: '20'
         type: string
 
+permissions:
+  contents: write
+
 jobs:
   test-models:
     runs-on: ubuntu-latest
@@ -37,9 +40,6 @@ jobs:
       env:
         WATSONX_APIKEY: ${{ secrets.WATSONX_APIKEY }}
         WATSONX_PROJECT_ID: ${{ secrets.WATSONX_PROJECT_ID }}
-        WATSONX_URL: ${{ secrets.WATSONX_URL }}
-        WATSONX_REGION: ${{ secrets.WATSONX_REGION }}
-        WATSONX_API_VERSION: ${{ secrets.WATSONX_API_VERSION }}
         WATSONX_TOOL_CLIENT: watsonx
         WATSONX_TOOL_ITERATIONS: ${{ inputs.iterations || '20' }}
         WATSONX_TOOL_DEBUG: 'false'
