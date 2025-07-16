@@ -34,7 +34,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -677,6 +677,41 @@
             color: #333;
         }
 
+        /* Unsupported Models Section Styles */
+        .unsupported-models-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .unsupported-model-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 15px;
+            background: #f9f9f9;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            transition: background-color 0.2s ease;
+        }
+
+        .unsupported-model-item:hover {
+            background: #f5f5f5;
+        }
+
+        .unsupported-model-item .model-name {
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 0.95em;
+        }
+
+        .unsupported-model-item .model-details {
+            font-size: 0.85em;
+            color: #666;
+            font-style: italic;
+        }
+
         @media (max-width: 768px) {
             .model-row,
             .detail-row,
@@ -725,6 +760,10 @@
                 flex-direction: column;
                 align-items: flex-start;
             }
+
+            .unsupported-models-grid {
+                grid-template-columns: 1fr;
+            }
         }
         
     </style>
@@ -735,8 +774,8 @@
             <h1>WatsonX Tool Test Report</h1>
             <p class="subtitle">Comprehensive analysis of AI model tool calling capabilities</p>
             <div class="meta-info">
-                <span class="timestamp">Generated: 2025-07-16 16:59:23 UTC</span>
-                <div class="config-info"><span class="config-item">Iterations: 2</span><span class="config-item">Client: watsonx</span><span class="config-item">Models Tested: 44</span></div>
+                <span class="timestamp">Generated: 2025-07-16 17:22:22 UTC</span>
+                <div class="config-info"><span class="config-item">Iterations: 5</span><span class="config-item">Client: watsonx</span><span class="config-item">Models Tested: 44</span></div>
             </div>
         </header>
 
@@ -763,24 +802,24 @@
                 
             <div class="summary-card">
                 <h3>Reliability</h3>
-                <div class="value" style="color: var(--success-color);">12/44</div>
-                <div class="description">Models with 100% consistency (27.3%)</div>
+                <div class="value" style="color: var(--success-color);">11/44</div>
+                <div class="description">Models with 100% consistency (25.0%)</div>
             </div>
             
                 
             <div class="summary-card">
                 <h3>Fastest Model</h3>
-                <div class="value" style="color: var(--primary-color);">0.79s</div>
-                <div class="description">meta-llama/llama-4-maverick-17b-128e-instruct-fp8</div>
+                <div class="value" style="color: var(--primary-color);">0.76s</div>
+                <div class="description">ibm/granite-3-2b-instruct</div>
             </div>
             
                 <div class="summary-card">
                     <h3>Average Response Time</h3>
-                    <div class="value" style="color: var(--primary-color);">1.38s</div>
+                    <div class="value" style="color: var(--primary-color);">1.37s</div>
                     <div class="description">Total processing time</div>
                 </div>
             </div>
-            
+
             <div class="status-indicators">
                 <div class="status-badge status-success">
                     <span>✅</span>
@@ -832,7 +871,7 @@
                         <span class="model-name">granite-3-2-8b-instruct</span>
                     </div>
                     <div class="status-timeline">
-                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-untested" title="2025-07-16: untested"></div>
+                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-working" title="2025-07-16: Full tool calling support"></div>
                     </div>
                 </div>
             
@@ -841,7 +880,7 @@
                         <span class="model-name">granite-3-2b-instruct</span>
                     </div>
                     <div class="status-timeline">
-                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-untested" title="2025-07-16: untested"></div>
+                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-working" title="2025-07-16: Full tool calling support"></div>
                     </div>
                 </div>
             
@@ -850,7 +889,7 @@
                         <span class="model-name">granite-3-8b-instruct</span>
                     </div>
                     <div class="status-timeline">
-                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-untested" title="2025-07-16: untested"></div>
+                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-working" title="2025-07-16: Full tool calling support"></div>
                     </div>
                 </div>
             
@@ -859,7 +898,7 @@
                         <span class="model-name">llama-3-2-11b-vision-instruct</span>
                     </div>
                     <div class="status-timeline">
-                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-untested" title="2025-07-16: untested"></div>
+                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-working" title="2025-07-16: Full tool calling support"></div>
                     </div>
                 </div>
             
@@ -868,7 +907,7 @@
                         <span class="model-name">llama-3-2-3b-instruct</span>
                     </div>
                     <div class="status-timeline">
-                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-untested" title="2025-07-16: untested"></div>
+                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-working" title="2025-07-16: Full tool calling support"></div>
                     </div>
                 </div>
             
@@ -877,7 +916,7 @@
                         <span class="model-name">llama-3-2-90b-vision-instruct</span>
                     </div>
                     <div class="status-timeline">
-                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-untested" title="2025-07-16: untested"></div>
+                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-working" title="2025-07-16: Full tool calling support"></div>
                     </div>
                 </div>
             
@@ -886,7 +925,7 @@
                         <span class="model-name">llama-3-3-70b-instruct</span>
                     </div>
                     <div class="status-timeline">
-                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-untested" title="2025-07-16: untested"></div>
+                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-working" title="2025-07-16: Full tool calling support"></div>
                     </div>
                 </div>
             
@@ -895,7 +934,7 @@
                         <span class="model-name">llama-3-405b-instruct</span>
                     </div>
                     <div class="status-timeline">
-                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-untested" title="2025-07-16: untested"></div>
+                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-working" title="2025-07-16: Full tool calling support"></div>
                     </div>
                 </div>
             
@@ -904,7 +943,7 @@
                         <span class="model-name">llama-4-maverick-17b-128e-instruct-fp8</span>
                     </div>
                     <div class="status-timeline">
-                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-untested" title="2025-07-16: untested"></div>
+                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-working" title="2025-07-16: Full tool calling support"></div>
                     </div>
                 </div>
             
@@ -913,7 +952,7 @@
                         <span class="model-name">mistral-large</span>
                     </div>
                     <div class="status-timeline">
-                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-untested" title="2025-07-16: untested"></div>
+                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-working" title="2025-07-16: Full tool calling support"></div>
                     </div>
                 </div>
             
@@ -922,7 +961,7 @@
                         <span class="model-name">mistral-medium-2505</span>
                     </div>
                     <div class="status-timeline">
-                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-untested" title="2025-07-16: untested"></div>
+                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-working" title="2025-07-16: Full tool calling support"></div>
                     </div>
                 </div>
             
@@ -931,7 +970,7 @@
                         <span class="model-name">mistral-small-3-1-24b-instruct-2503</span>
                     </div>
                     <div class="status-timeline">
-                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-untested" title="2025-07-16: untested"></div>
+                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-working" title="2025-07-16: Full tool calling support"></div>
                     </div>
                 </div>
             
@@ -958,6 +997,13 @@
                         <div class="trend-metric">28.4%</div>
                     </div>
                 
+                    <div class="trend-row">
+                        <div class="trend-date">2025-07-16</div>
+                        <div class="trend-metric">0.383s</div>
+                        <div class="trend-metric">0.000s</div>
+                        <div class="trend-metric">27.3%</div>
+                    </div>
+                
                 </div>
             </div>
             
@@ -975,10 +1021,10 @@
                     </div>
                     
                     <div class="detail-row" data-model="ibm/slate-30m-english-rtrvr">
-                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-date">2025-07-16</div>
                         <div class="detail-model">slate-30m-english-rtrvr</div>
                         <div class="detail-status status-broken">Broken</div>
-                        <div class="detail-time">0.090s</div>
+                        <div class="detail-time">0.262s</div>
                         <div class="detail-success">0.0%</div>
                         <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
                         <div class="detail-expanded" style="display: none;">
@@ -987,16 +1033,16 @@
                                 <p><strong>Error:</strong> None</p>
                                 <p><strong>Expected:</strong> </p>
                                 <p><strong>Actual:</strong> </p>
-                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-30m-english-rtrvr' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '19a1d63715b9ce845d00f583e160e8e8', 'status_code': 400}</p>
+                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-30m-english-rtrvr' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '2fc72a30b2e12755e7ca91b1d7043de7', 'status_code': 400}</p>
                             </div>
                         </div>
                     </div>
                 
                     <div class="detail-row" data-model="ibm/slate-30m-english-rtrvr-v2">
-                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-date">2025-07-16</div>
                         <div class="detail-model">slate-30m-english-rtrvr-v2</div>
                         <div class="detail-status status-broken">Broken</div>
-                        <div class="detail-time">0.151s</div>
+                        <div class="detail-time">0.094s</div>
                         <div class="detail-success">0.0%</div>
                         <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
                         <div class="detail-expanded" style="display: none;">
@@ -1005,16 +1051,16 @@
                                 <p><strong>Error:</strong> None</p>
                                 <p><strong>Expected:</strong> </p>
                                 <p><strong>Actual:</strong> </p>
-                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-30m-english-rtrvr-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'bf1bccb62b40ca424bafbaccf78018de', 'status_code': 400}</p>
+                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-30m-english-rtrvr-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'e68d72a04bd7067c5a0cc672e24c1357', 'status_code': 400}</p>
                             </div>
                         </div>
                     </div>
                 
                     <div class="detail-row" data-model="intfloat/multilingual-e5-large">
-                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-date">2025-07-16</div>
                         <div class="detail-model">multilingual-e5-large</div>
                         <div class="detail-status status-broken">Broken</div>
-                        <div class="detail-time">0.095s</div>
+                        <div class="detail-time">0.122s</div>
                         <div class="detail-success">0.0%</div>
                         <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
                         <div class="detail-expanded" style="display: none;">
@@ -1023,16 +1069,16 @@
                                 <p><strong>Error:</strong> None</p>
                                 <p><strong>Expected:</strong> </p>
                                 <p><strong>Actual:</strong> </p>
-                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'intfloat/multilingual-e5-large' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'ce4f0cacc60cf1ea484d17558c1df2d5', 'status_code': 400}</p>
+                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'intfloat/multilingual-e5-large' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '4aee44f47dd201b2f1860ea94f311196', 'status_code': 400}</p>
                             </div>
                         </div>
                     </div>
                 
                     <div class="detail-row" data-model="meta-llama/llama-2-13b-chat">
-                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-date">2025-07-16</div>
                         <div class="detail-model">llama-2-13b-chat</div>
                         <div class="detail-status status-broken">Broken</div>
-                        <div class="detail-time">0.085s</div>
+                        <div class="detail-time">0.107s</div>
                         <div class="detail-success">0.0%</div>
                         <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
                         <div class="detail-expanded" style="display: none;">
@@ -1041,16 +1087,16 @@
                                 <p><strong>Error:</strong> None</p>
                                 <p><strong>Expected:</strong> </p>
                                 <p><strong>Actual:</strong> </p>
-                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'meta-llama/llama-2-13b-chat' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '5007fdbca444728832297ce3ff080821', 'status_code': 400}</p>
+                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'meta-llama/llama-2-13b-chat' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '4ef9959879e7cc7bb646b8da6a3b8c4d', 'status_code': 400}</p>
                             </div>
                         </div>
                     </div>
                 
                     <div class="detail-row" data-model="meta-llama/llama-3-1-8b">
-                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-date">2025-07-16</div>
                         <div class="detail-model">llama-3-1-8b</div>
                         <div class="detail-status status-broken">Broken</div>
-                        <div class="detail-time">0.236s</div>
+                        <div class="detail-time">0.089s</div>
                         <div class="detail-success">0.0%</div>
                         <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
                         <div class="detail-expanded" style="display: none;">
@@ -1059,16 +1105,16 @@
                                 <p><strong>Error:</strong> None</p>
                                 <p><strong>Expected:</strong> </p>
                                 <p><strong>Actual:</strong> </p>
-                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'meta-llama/llama-3-1-8b' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'b0524414183c59b868bd8572ea2eea62', 'status_code': 400}</p>
+                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'meta-llama/llama-3-1-8b' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '9211162d794c4c28eef70961d388c189', 'status_code': 400}</p>
                             </div>
                         </div>
                     </div>
                 
                     <div class="detail-row" data-model="meta-llama/llama-3-2-11b-vision-instruct">
-                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-date">2025-07-16</div>
                         <div class="detail-model">llama-3-2-11b-vision-instruct</div>
                         <div class="detail-status status-working">Working</div>
-                        <div class="detail-time">1.107s</div>
+                        <div class="detail-time">1.144s</div>
                         <div class="detail-success">100.0%</div>
                         <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
                         <div class="detail-expanded" style="display: none;">
@@ -1083,10 +1129,10 @@
                     </div>
                 
                     <div class="detail-row" data-model="meta-llama/llama-3-2-1b-instruct">
-                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-date">2025-07-16</div>
                         <div class="detail-model">llama-3-2-1b-instruct</div>
                         <div class="detail-status status-broken">Broken</div>
-                        <div class="detail-time">0.395s</div>
+                        <div class="detail-time">0.371s</div>
                         <div class="detail-success">0.0%</div>
                         <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
                         <div class="detail-expanded" style="display: none;">
@@ -1095,16 +1141,16 @@
                                 <p><strong>Error:</strong> None</p>
                                 <p><strong>Expected:</strong> </p>
                                 <p><strong>Actual:</strong> </p>
-                                <p><strong>Details:</strong> Model does not support tool calling. Finish reason: stop. Response: <|python_tag|>{"type": "function", "function": "hello_world", "parameters": {"properties": {"language": "spanish", "name": "Daniel"}}}</p>
+                                <p><strong>Details:</strong> Model does not support tool calling. Finish reason: stop. Response: <|python_tag|>{"type": "function", "function": "hello_world", "parameters": {"properties": {"language": "spanish", "name": "Daniel"}}}"</p>
                             </div>
                         </div>
                     </div>
                 
                     <div class="detail-row" data-model="meta-llama/llama-3-2-3b-instruct">
-                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-date">2025-07-16</div>
                         <div class="detail-model">llama-3-2-3b-instruct</div>
-                        <div class="detail-status status-partial">Partial</div>
-                        <div class="detail-time">1.304s</div>
+                        <div class="detail-status status-working">Working</div>
+                        <div class="detail-time">1.462s</div>
                         <div class="detail-success">100.0%</div>
                         <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
                         <div class="detail-expanded" style="display: none;">
@@ -1113,16 +1159,16 @@
                                 <p><strong>Error:</strong> None</p>
                                 <p><strong>Expected:</strong> </p>
                                 <p><strong>Actual:</strong> </p>
-                                <p><strong>Details:</strong> Inconsistent results across 2 iterations</p>
+                                <p><strong>Details:</strong> Consistent success across all iterations</p>
                             </div>
                         </div>
                     </div>
                 
                     <div class="detail-row" data-model="meta-llama/llama-3-2-90b-vision-instruct">
-                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-date">2025-07-16</div>
                         <div class="detail-model">llama-3-2-90b-vision-instruct</div>
                         <div class="detail-status status-working">Working</div>
-                        <div class="detail-time">6.019s</div>
+                        <div class="detail-time">1.708s</div>
                         <div class="detail-success">100.0%</div>
                         <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
                         <div class="detail-expanded" style="display: none;">
@@ -1137,10 +1183,10 @@
                     </div>
                 
                     <div class="detail-row" data-model="meta-llama/llama-3-3-70b-instruct">
-                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-date">2025-07-16</div>
                         <div class="detail-model">llama-3-3-70b-instruct</div>
                         <div class="detail-status status-working">Working</div>
-                        <div class="detail-time">1.827s</div>
+                        <div class="detail-time">1.774s</div>
                         <div class="detail-success">100.0%</div>
                         <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
                         <div class="detail-expanded" style="display: none;">
@@ -1155,10 +1201,10 @@
                     </div>
                 
                     <div class="detail-row" data-model="meta-llama/llama-3-405b-instruct">
-                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-date">2025-07-16</div>
                         <div class="detail-model">llama-3-405b-instruct</div>
                         <div class="detail-status status-working">Working</div>
-                        <div class="detail-time">1.571s</div>
+                        <div class="detail-time">1.592s</div>
                         <div class="detail-success">100.0%</div>
                         <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
                         <div class="detail-expanded" style="display: none;">
@@ -1173,10 +1219,10 @@
                     </div>
                 
                     <div class="detail-row" data-model="meta-llama/llama-4-maverick-17b-128e-instruct-fp8">
-                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-date">2025-07-16</div>
                         <div class="detail-model">llama-4-maverick-17b-128e-instruct-fp8</div>
                         <div class="detail-status status-working">Working</div>
-                        <div class="detail-time">0.857s</div>
+                        <div class="detail-time">0.785s</div>
                         <div class="detail-success">100.0%</div>
                         <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
                         <div class="detail-expanded" style="display: none;">
@@ -1191,10 +1237,10 @@
                     </div>
                 
                     <div class="detail-row" data-model="meta-llama/llama-guard-3-11b-vision">
-                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-date">2025-07-16</div>
                         <div class="detail-model">llama-guard-3-11b-vision</div>
                         <div class="detail-status status-broken">Broken</div>
-                        <div class="detail-time">0.179s</div>
+                        <div class="detail-time">0.240s</div>
                         <div class="detail-success">0.0%</div>
                         <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
                         <div class="detail-expanded" style="display: none;">
@@ -1203,16 +1249,16 @@
                                 <p><strong>Error:</strong> None</p>
                                 <p><strong>Expected:</strong> </p>
                                 <p><strong>Actual:</strong> </p>
-                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'meta-llama/llama-guard-3-11b-vision\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'a33b9751911e50088382028c2c04db6d', 'status_code': 400}</p>
+                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'meta-llama/llama-guard-3-11b-vision\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '3360ce4ab77cbddf46b29f3913a8bc82', 'status_code': 400}</p>
                             </div>
                         </div>
                     </div>
                 
                     <div class="detail-row" data-model="mistralai/mistral-large">
-                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-date">2025-07-16</div>
                         <div class="detail-model">mistral-large</div>
                         <div class="detail-status status-working">Working</div>
-                        <div class="detail-time">1.176s</div>
+                        <div class="detail-time">1.105s</div>
                         <div class="detail-success">100.0%</div>
                         <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
                         <div class="detail-expanded" style="display: none;">
@@ -1227,10 +1273,10 @@
                     </div>
                 
                     <div class="detail-row" data-model="mistralai/mistral-medium-2505">
-                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-date">2025-07-16</div>
                         <div class="detail-model">mistral-medium-2505</div>
                         <div class="detail-status status-working">Working</div>
-                        <div class="detail-time">0.828s</div>
+                        <div class="detail-time">0.876s</div>
                         <div class="detail-success">100.0%</div>
                         <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
                         <div class="detail-expanded" style="display: none;">
@@ -1245,10 +1291,10 @@
                     </div>
                 
                     <div class="detail-row" data-model="mistralai/mistral-small-3-1-24b-instruct-2503">
-                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-date">2025-07-16</div>
                         <div class="detail-model">mistral-small-3-1-24b-instruct-2503</div>
                         <div class="detail-status status-working">Working</div>
-                        <div class="detail-time">0.784s</div>
+                        <div class="detail-time">0.791s</div>
                         <div class="detail-success">100.0%</div>
                         <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
                         <div class="detail-expanded" style="display: none;">
@@ -1263,10 +1309,10 @@
                     </div>
                 
                     <div class="detail-row" data-model="mistralai/mixtral-8x7b-instruct-v01">
-                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-date">2025-07-16</div>
                         <div class="detail-model">mixtral-8x7b-instruct-v01</div>
                         <div class="detail-status status-broken">Broken</div>
-                        <div class="detail-time">0.160s</div>
+                        <div class="detail-time">0.188s</div>
                         <div class="detail-success">0.0%</div>
                         <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
                         <div class="detail-expanded" style="display: none;">
@@ -1275,16 +1321,16 @@
                                 <p><strong>Error:</strong> None</p>
                                 <p><strong>Expected:</strong> </p>
                                 <p><strong>Actual:</strong> </p>
-                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'mistralai/mixtral-8x7b-instruct-v01\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '96e6a81e27ace29a907c22854ad3e634', 'status_code': 400}</p>
+                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'mistralai/mixtral-8x7b-instruct-v01\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '71c903af46af54b3893693bc4cba5431', 'status_code': 400}</p>
                             </div>
                         </div>
                     </div>
                 
                     <div class="detail-row" data-model="mistralai/pixtral-12b">
-                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-date">2025-07-16</div>
                         <div class="detail-model">pixtral-12b</div>
                         <div class="detail-status status-broken">Broken</div>
-                        <div class="detail-time">0.458s</div>
+                        <div class="detail-time">0.470s</div>
                         <div class="detail-success">0.0%</div>
                         <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
                         <div class="detail-expanded" style="display: none;">
@@ -1299,10 +1345,10 @@
                     </div>
                 
                     <div class="detail-row" data-model="sentence-transformers/all-minilm-l12-v2">
-                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-date">2025-07-16</div>
                         <div class="detail-model">all-minilm-l12-v2</div>
                         <div class="detail-status status-broken">Broken</div>
-                        <div class="detail-time">0.089s</div>
+                        <div class="detail-time">0.088s</div>
                         <div class="detail-success">0.0%</div>
                         <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
                         <div class="detail-expanded" style="display: none;">
@@ -1311,16 +1357,16 @@
                                 <p><strong>Error:</strong> None</p>
                                 <p><strong>Expected:</strong> </p>
                                 <p><strong>Actual:</strong> </p>
-                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'sentence-transformers/all-minilm-l12-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '8634fcab898aa7975aaf5d90e9777f67', 'status_code': 400}</p>
+                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'sentence-transformers/all-minilm-l12-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '78bbea1ae88d8573c29c4d0842858749', 'status_code': 400}</p>
                             </div>
                         </div>
                     </div>
                 
                     <div class="detail-row" data-model="sentence-transformers/all-minilm-l6-v2">
-                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-date">2025-07-16</div>
                         <div class="detail-model">all-minilm-l6-v2</div>
                         <div class="detail-status status-broken">Broken</div>
-                        <div class="detail-time">0.096s</div>
+                        <div class="detail-time">0.114s</div>
                         <div class="detail-success">0.0%</div>
                         <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
                         <div class="detail-expanded" style="display: none;">
@@ -1329,7 +1375,7 @@
                                 <p><strong>Error:</strong> None</p>
                                 <p><strong>Expected:</strong> </p>
                                 <p><strong>Actual:</strong> </p>
-                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'sentence-transformers/all-minilm-l6-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '02e5b7d900e7a6a1b27b251065c9fd15', 'status_code': 400}</p>
+                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'sentence-transformers/all-minilm-l6-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'ba9342f72fad119bcb6479ce74fc5676', 'status_code': 400}</p>
                             </div>
                         </div>
                     </div>
@@ -1342,8 +1388,10 @@
         </section>
         
             
+        
         <section class="section">
-            <h2>🔍 Detailed Results</h2>
+            <h2>🔍 Models with Tool Support</h2>
+
             
             <div class="filter-controls">
                 <div class="filter-group">
@@ -1351,11 +1399,11 @@
                     <input type="text" id="model-filter" class="filter-input" placeholder="Enter model name...">
                 </div>
                 <div class="filter-group">
-                    <label for="support-filter">Tool Support:</label>
-                    <select id="support-filter" class="filter-input">
+                    <label for="reliability-filter">Reliability:</label>
+                    <select id="reliability-filter" class="filter-input">
                         <option value="">All</option>
-                        <option value="true">Supported</option>
-                        <option value="false">Not Supported</option>
+                        <option value="reliable">Reliable</option>
+                        <option value="unreliable">Unreliable</option>
                     </select>
                 </div>
                 <div class="filter-group">
@@ -1368,6 +1416,7 @@
                 </div>
             </div>
             
+
             <table class="results-table" id="results-table">
                 <thead>
                     <tr>
@@ -1383,91 +1432,14 @@
                 </thead>
                 <tbody>
                     
-            <tr data-model="cross-encoder/ms-marco-minilm-l-12-v2" data-support="False" data-handling="False">
-                <td class="model-name">cross-encoder/ms-marco-minilm-l-12-v2</td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.88s</span></td>
-                <td>N/A</td>
-                <td><span class="timing-info">0.88s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'cross-encoder/ms-marco-minilm-l-12-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '88773a6c0f60fb18d0e93263b0891bfc', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'cross-encoder/ms-marco-minilm-l-12-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '88773a6c0f60fb18d0e93263b0891bfc', 'status_code': 400}</span></td>
-            </tr>
-            
-            <tr data-model="google/flan-t5-xl" data-support="False" data-handling="False">
-                <td class="model-name">google/flan-t5-xl</td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.13s</span></td>
-                <td>N/A</td>
-                <td><span class="timing-info">0.13s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-t5-xl' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '13530d22e5d7f75e6114b14eefa4bb9f', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-t5-xl' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '13530d22e5d7f75e6114b14eefa4bb9f', 'status_code': 400}</span></td>
-            </tr>
-            
-            <tr data-model="google/flan-t5-xxl" data-support="False" data-handling="False">
-                <td class="model-name">google/flan-t5-xxl</td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.12s</span></td>
-                <td>N/A</td>
-                <td><span class="timing-info">0.12s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-t5-xxl' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '8be87c5f8975e22575ce2a0891508674', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-t5-xxl' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '8be87c5f8975e22575ce2a0891508674', 'status_code': 400}</span></td>
-            </tr>
-            
-            <tr data-model="google/flan-ul2" data-support="False" data-handling="False">
-                <td class="model-name">google/flan-ul2</td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.09s</span></td>
-                <td>N/A</td>
-                <td><span class="timing-info">0.09s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-ul2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'dd7ecd34482f6b55332eff4de4480b66', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-ul2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'dd7ecd34482f6b55332eff4de4480b66', 'status_code': 400}</span></td>
-            </tr>
-            
-            <tr data-model="ibm/granite-13b-instruct-v2" data-support="False" data-handling="False">
-                <td class="model-name">ibm/granite-13b-instruct-v2</td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.12s</span></td>
-                <td>N/A</td>
-                <td><span class="timing-info">0.12s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-13b-instruct-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '25793da61d961fbc5665ce8383011d92', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-13b-instruct-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '25793da61d961fbc5665ce8383011d92', 'status_code': 400}</span></td>
-            </tr>
-            
-            <tr data-model="ibm/granite-20b-code-instruct" data-support="False" data-handling="False">
-                <td class="model-name">ibm/granite-20b-code-instruct</td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.26s</span></td>
-                <td>N/A</td>
-                <td><span class="timing-info">0.26s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-20b-code-instruct\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'f42a827f10e677bf1af5d5295f4f1d10', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-20b-code-instruct\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'f42a827f10e677bf1af5d5295f4f1d10', 'status_code': 400}</span></td>
-            </tr>
-            
-            <tr data-model="ibm/granite-3-1-8b-base" data-support="False" data-handling="False">
-                <td class="model-name">ibm/granite-3-1-8b-base</td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.11s</span></td>
-                <td>N/A</td>
-                <td><span class="timing-info">0.11s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-3-1-8b-base' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '62c0d1ffc56332d0c303a7b3e8445280', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-3-1-8b-base' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '62c0d1ffc56332d0c303a7b3e8445280', 'status_code': 400}</span></td>
-            </tr>
-            
             <tr data-model="ibm/granite-3-2-8b-instruct" data-support="True" data-handling="True">
                 <td class="model-name">ibm/granite-3-2-8b-instruct</td>
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
-                <td><span class="timing-info">0.66s</span></td>
+                <td><span class="timing-info">0.67s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">1.00s</span></td>
+                <td><span class="timing-info">1.02s</span></td>
                 <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
             </tr>
             
@@ -1478,19 +1450,8 @@
                 <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
                 <td><span class="timing-info">0.48s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.85s</span></td>
+                <td><span class="timing-info">0.76s</span></td>
                 <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
-            </tr>
-            
-            <tr data-model="ibm/granite-3-3-8b-instruct" data-support="False" data-handling="False">
-                <td class="model-name">ibm/granite-3-3-8b-instruct</td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.40s</span></td>
-                <td>N/A</td>
-                <td><span class="timing-info">0.40s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling. Finish reason: stop. Response: Calling function with arguments: {"language": "spanish", "name": "Daniel"}">Model does not support tool calling. Finish reason: stop. Response: Calling function with arguments: {"language": "spanish", "name": "Daniel"}</span></td>
             </tr>
             
             <tr data-model="ibm/granite-3-8b-instruct" data-support="True" data-handling="True">
@@ -1498,208 +1459,10 @@
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
-                <td><span class="timing-info">2.24s</span></td>
+                <td><span class="timing-info">2.44s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">3.44s</span></td>
+                <td><span class="timing-info">3.25s</span></td>
                 <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
-            </tr>
-            
-            <tr data-model="ibm/granite-34b-code-instruct" data-support="False" data-handling="False">
-                <td class="model-name">ibm/granite-34b-code-instruct</td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.38s</span></td>
-                <td>N/A</td>
-                <td><span class="timing-info">0.38s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-34b-code-instruct\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '26ae33e97c8f74be56198256821bdf89', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-34b-code-instruct\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '26ae33e97c8f74be56198256821bdf89', 'status_code': 400}</span></td>
-            </tr>
-            
-            <tr data-model="ibm/granite-3b-code-instruct" data-support="False" data-handling="False">
-                <td class="model-name">ibm/granite-3b-code-instruct</td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.22s</span></td>
-                <td>N/A</td>
-                <td><span class="timing-info">0.22s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-3b-code-instruct' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'ecdef00c8af4e93cd3763f05449a6fee', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-3b-code-instruct' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'ecdef00c8af4e93cd3763f05449a6fee', 'status_code': 400}</span></td>
-            </tr>
-            
-            <tr data-model="ibm/granite-8b-code-instruct" data-support="False" data-handling="False">
-                <td class="model-name">ibm/granite-8b-code-instruct</td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.12s</span></td>
-                <td>N/A</td>
-                <td><span class="timing-info">0.12s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-8b-code-instruct' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '9ab98d9c37b44abc71ab1a32a64ba396', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-8b-code-instruct' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '9ab98d9c37b44abc71ab1a32a64ba396', 'status_code': 400}</span></td>
-            </tr>
-            
-            <tr data-model="ibm/granite-embedding-107m-multilingual" data-support="False" data-handling="False">
-                <td class="model-name">ibm/granite-embedding-107m-multilingual</td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.10s</span></td>
-                <td>N/A</td>
-                <td><span class="timing-info">0.10s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-embedding-107m-multilingual' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '24269447cf74d715ae156eb655ae60db', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-embedding-107m-multilingual' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '24269447cf74d715ae156eb655ae60db', 'status_code': 400}</span></td>
-            </tr>
-            
-            <tr data-model="ibm/granite-embedding-278m-multilingual" data-support="False" data-handling="False">
-                <td class="model-name">ibm/granite-embedding-278m-multilingual</td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.11s</span></td>
-                <td>N/A</td>
-                <td><span class="timing-info">0.11s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-embedding-278m-multilingual' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '2d397b126f6c7dc22f70f4056ced7d8c', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-embedding-278m-multilingual' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '2d397b126f6c7dc22f70f4056ced7d8c', 'status_code': 400}</span></td>
-            </tr>
-            
-            <tr data-model="ibm/granite-guardian-3-2b" data-support="False" data-handling="False">
-                <td class="model-name">ibm/granite-guardian-3-2b</td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.24s</span></td>
-                <td>N/A</td>
-                <td><span class="timing-info">0.24s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-guardian-3-2b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '5815a83162ef608ea0f1f76996a1859d', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-guardian-3-2b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '5815a83162ef608ea0f1f76996a1859d', 'status_code': 400}</span></td>
-            </tr>
-            
-            <tr data-model="ibm/granite-guardian-3-8b" data-support="False" data-handling="False">
-                <td class="model-name">ibm/granite-guardian-3-8b</td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.14s</span></td>
-                <td>N/A</td>
-                <td><span class="timing-info">0.14s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-guardian-3-8b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'f1f70742eca57e5aa59a58a9dc7f00bf', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-guardian-3-8b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'f1f70742eca57e5aa59a58a9dc7f00bf', 'status_code': 400}</span></td>
-            </tr>
-            
-            <tr data-model="ibm/granite-ttm-1024-96-r2" data-support="False" data-handling="False">
-                <td class="model-name">ibm/granite-ttm-1024-96-r2</td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.23s</span></td>
-                <td>N/A</td>
-                <td><span class="timing-info">0.23s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-1024-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'eb3101c35c0d26ad44b245ba73570ed4', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-1024-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'eb3101c35c0d26ad44b245ba73570ed4', 'status_code': 400}</span></td>
-            </tr>
-            
-            <tr data-model="ibm/granite-ttm-1536-96-r2" data-support="False" data-handling="False">
-                <td class="model-name">ibm/granite-ttm-1536-96-r2</td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.25s</span></td>
-                <td>N/A</td>
-                <td><span class="timing-info">0.25s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-1536-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'f94c5a827ecddffd93bd733102bad978', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-1536-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'f94c5a827ecddffd93bd733102bad978', 'status_code': 400}</span></td>
-            </tr>
-            
-            <tr data-model="ibm/granite-ttm-512-96-r2" data-support="False" data-handling="False">
-                <td class="model-name">ibm/granite-ttm-512-96-r2</td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.12s</span></td>
-                <td>N/A</td>
-                <td><span class="timing-info">0.12s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-512-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'bcb34f0881472b27e95809ed1e6756ed', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-512-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'bcb34f0881472b27e95809ed1e6756ed', 'status_code': 400}</span></td>
-            </tr>
-            
-            <tr data-model="ibm/granite-vision-3-2-2b" data-support="False" data-handling="False">
-                <td class="model-name">ibm/granite-vision-3-2-2b</td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.31s</span></td>
-                <td>N/A</td>
-                <td><span class="timing-info">0.31s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-vision-3-2-2b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'acc5430d0a8918b9dbfba68698535951', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-vision-3-2-2b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'acc5430d0a8918b9dbfba68698535951', 'status_code': 400}</span></td>
-            </tr>
-            
-            <tr data-model="ibm/slate-125m-english-rtrvr" data-support="False" data-handling="False">
-                <td class="model-name">ibm/slate-125m-english-rtrvr</td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.21s</span></td>
-                <td>N/A</td>
-                <td><span class="timing-info">0.21s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-125m-english-rtrvr' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'af0ce25e679169ba6a7973d34238cc54', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-125m-english-rtrvr' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'af0ce25e679169ba6a7973d34238cc54', 'status_code': 400}</span></td>
-            </tr>
-            
-            <tr data-model="ibm/slate-125m-english-rtrvr-v2" data-support="False" data-handling="False">
-                <td class="model-name">ibm/slate-125m-english-rtrvr-v2</td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.13s</span></td>
-                <td>N/A</td>
-                <td><span class="timing-info">0.13s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-125m-english-rtrvr-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'aa641c3af81184a5987fd87338b7ca94', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-125m-english-rtrvr-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'aa641c3af81184a5987fd87338b7ca94', 'status_code': 400}</span></td>
-            </tr>
-            
-            <tr data-model="ibm/slate-30m-english-rtrvr" data-support="False" data-handling="False">
-                <td class="model-name">ibm/slate-30m-english-rtrvr</td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.26s</span></td>
-                <td>N/A</td>
-                <td><span class="timing-info">0.26s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-30m-english-rtrvr' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '2fc72a30b2e12755e7ca91b1d7043de7', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-30m-english-rtrvr' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '2fc72a30b2e12755e7ca91b1d7043de7', 'status_code': 400}</span></td>
-            </tr>
-            
-            <tr data-model="ibm/slate-30m-english-rtrvr-v2" data-support="False" data-handling="False">
-                <td class="model-name">ibm/slate-30m-english-rtrvr-v2</td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.09s</span></td>
-                <td>N/A</td>
-                <td><span class="timing-info">0.09s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-30m-english-rtrvr-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'e68d72a04bd7067c5a0cc672e24c1357', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-30m-english-rtrvr-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'e68d72a04bd7067c5a0cc672e24c1357', 'status_code': 400}</span></td>
-            </tr>
-            
-            <tr data-model="intfloat/multilingual-e5-large" data-support="False" data-handling="False">
-                <td class="model-name">intfloat/multilingual-e5-large</td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.12s</span></td>
-                <td>N/A</td>
-                <td><span class="timing-info">0.12s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'intfloat/multilingual-e5-large' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '4aee44f47dd201b2f1860ea94f311196', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'intfloat/multilingual-e5-large' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '4aee44f47dd201b2f1860ea94f311196', 'status_code': 400}</span></td>
-            </tr>
-            
-            <tr data-model="meta-llama/llama-2-13b-chat" data-support="False" data-handling="False">
-                <td class="model-name">meta-llama/llama-2-13b-chat</td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.11s</span></td>
-                <td>N/A</td>
-                <td><span class="timing-info">0.11s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'meta-llama/llama-2-13b-chat' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '4ef9959879e7cc7bb646b8da6a3b8c4d', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'meta-llama/llama-2-13b-chat' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '4ef9959879e7cc7bb646b8da6a3b8c4d', 'status_code': 400}</span></td>
-            </tr>
-            
-            <tr data-model="meta-llama/llama-3-1-8b" data-support="False" data-handling="False">
-                <td class="model-name">meta-llama/llama-3-1-8b</td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.09s</span></td>
-                <td>N/A</td>
-                <td><span class="timing-info">0.09s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'meta-llama/llama-3-1-8b' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '9211162d794c4c28eef70961d388c189', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'meta-llama/llama-3-1-8b' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '9211162d794c4c28eef70961d388c189', 'status_code': 400}</span></td>
             </tr>
             
             <tr data-model="meta-llama/llama-3-2-11b-vision-instruct" data-support="True" data-handling="True">
@@ -1707,32 +1470,21 @@
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
-                <td><span class="timing-info">0.73s</span></td>
+                <td><span class="timing-info">0.66s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">1.14s</span></td>
+                <td><span class="timing-info">0.99s</span></td>
                 <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
-            </tr>
-            
-            <tr data-model="meta-llama/llama-3-2-1b-instruct" data-support="False" data-handling="False">
-                <td class="model-name">meta-llama/llama-3-2-1b-instruct</td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.37s</span></td>
-                <td>N/A</td>
-                <td><span class="timing-info">0.37s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling. Finish reason: stop. Response: <|python_tag|>{"type": "function", "function": "hello_world", "parameters": {"properties": {"language": "spanish", "name": "Daniel"}}}"">Model does not support tool calling. Finish reason: stop. Response: <|python_tag|>{"type": "function", "function": "hello_world", "parameters": {"properties": {"language": "spanish", "name": "Daniel"}}}"</span></td>
             </tr>
             
             <tr data-model="meta-llama/llama-3-2-3b-instruct" data-support="True" data-handling="True">
                 <td class="model-name">meta-llama/llama-3-2-3b-instruct</td>
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
-                <td><span class="support-indicator support-yes">✅ Yes</span></td>
-                <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
-                <td><span class="timing-info">0.45s</span></td>
+                <td><span class="support-indicator support-partial">⚠️ Unreliable (40%)</span></td>
+                <td><span class="reliability-badge reliability-partial">⚠️ 100%/40%</span></td>
+                <td><span class="timing-info">0.43s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">1.46s</span></td>
-                <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
+                <td><span class="timing-info">1.13s</span></td>
+                <td><span class="details-cell" title="Inconsistent results across 5 iterations">Inconsistent results across 5 iterations</span></td>
             </tr>
             
             <tr data-model="meta-llama/llama-3-2-90b-vision-instruct" data-support="True" data-handling="True">
@@ -1740,9 +1492,9 @@
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
-                <td><span class="timing-info">1.20s</span></td>
+                <td><span class="timing-info">1.06s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">1.71s</span></td>
+                <td><span class="timing-info">1.61s</span></td>
                 <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
             </tr>
             
@@ -1751,9 +1503,9 @@
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
-                <td><span class="timing-info">0.91s</span></td>
+                <td><span class="timing-info">0.88s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">1.77s</span></td>
+                <td><span class="timing-info">1.81s</span></td>
                 <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
             </tr>
             
@@ -1762,9 +1514,9 @@
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
-                <td><span class="timing-info">1.11s</span></td>
+                <td><span class="timing-info">0.94s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">1.59s</span></td>
+                <td><span class="timing-info">1.73s</span></td>
                 <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
             </tr>
             
@@ -1773,21 +1525,10 @@
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
-                <td><span class="timing-info">0.47s</span></td>
+                <td><span class="timing-info">0.45s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.79s</span></td>
+                <td><span class="timing-info">0.88s</span></td>
                 <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
-            </tr>
-            
-            <tr data-model="meta-llama/llama-guard-3-11b-vision" data-support="False" data-handling="False">
-                <td class="model-name">meta-llama/llama-guard-3-11b-vision</td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.24s</span></td>
-                <td>N/A</td>
-                <td><span class="timing-info">0.24s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'meta-llama/llama-guard-3-11b-vision\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '3360ce4ab77cbddf46b29f3913a8bc82', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'meta-llama/llama-guard-3-11b-vision\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '3360ce4ab77cbddf46b29f3913a8bc82', 'status_code': 400}</span></td>
             </tr>
             
             <tr data-model="mistralai/mistral-large" data-support="True" data-handling="True">
@@ -1795,9 +1536,9 @@
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
-                <td><span class="timing-info">0.74s</span></td>
+                <td><span class="timing-info">1.02s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">1.10s</span></td>
+                <td><span class="timing-info">1.56s</span></td>
                 <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
             </tr>
             
@@ -1806,9 +1547,9 @@
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
-                <td><span class="timing-info">0.55s</span></td>
+                <td><span class="timing-info">0.57s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.88s</span></td>
+                <td><span class="timing-info">0.90s</span></td>
                 <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
             </tr>
             
@@ -1817,64 +1558,195 @@
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
-                <td><span class="timing-info">0.49s</span></td>
+                <td><span class="timing-info">0.53s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.79s</span></td>
+                <td><span class="timing-info">0.81s</span></td>
                 <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
-            </tr>
-            
-            <tr data-model="mistralai/mixtral-8x7b-instruct-v01" data-support="False" data-handling="False">
-                <td class="model-name">mistralai/mixtral-8x7b-instruct-v01</td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.19s</span></td>
-                <td>N/A</td>
-                <td><span class="timing-info">0.19s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'mistralai/mixtral-8x7b-instruct-v01\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '71c903af46af54b3893693bc4cba5431', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'mistralai/mixtral-8x7b-instruct-v01\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '71c903af46af54b3893693bc4cba5431', 'status_code': 400}</span></td>
-            </tr>
-            
-            <tr data-model="mistralai/pixtral-12b" data-support="False" data-handling="False">
-                <td class="model-name">mistralai/pixtral-12b</td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.47s</span></td>
-                <td>N/A</td>
-                <td><span class="timing-info">0.47s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling. Finish reason: stop. Response: [TOOL_CALLS][{"name": "hello_world", "arguments": {"language": "spanish", "name": "Daniel"}}]">Model does not support tool calling. Finish reason: stop. Response: [TOOL_CALLS][{"name": "hello_world", "arguments": {"language": "spanish", "name": "Daniel"}}]</span></td>
-            </tr>
-            
-            <tr data-model="sentence-transformers/all-minilm-l12-v2" data-support="False" data-handling="False">
-                <td class="model-name">sentence-transformers/all-minilm-l12-v2</td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.09s</span></td>
-                <td>N/A</td>
-                <td><span class="timing-info">0.09s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'sentence-transformers/all-minilm-l12-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '78bbea1ae88d8573c29c4d0842858749', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'sentence-transformers/all-minilm-l12-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '78bbea1ae88d8573c29c4d0842858749', 'status_code': 400}</span></td>
-            </tr>
-            
-            <tr data-model="sentence-transformers/all-minilm-l6-v2" data-support="False" data-handling="False">
-                <td class="model-name">sentence-transformers/all-minilm-l6-v2</td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.11s</span></td>
-                <td>N/A</td>
-                <td><span class="timing-info">0.11s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'sentence-transformers/all-minilm-l6-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'ba9342f72fad119bcb6479ce74fc5676', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'sentence-transformers/all-minilm-l6-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'ba9342f72fad119bcb6479ce74fc5676', 'status_code': 400}</span></td>
             </tr>
             
                 </tbody>
             </table>
         </section>
         
+        
+        <section class="section">
+            <h2>❌ Models Without Tool Support (32 models)</h2>
+            <p style="color: #666; margin-bottom: 20px;">
+                These models do not support tool calling and are listed here for reference.
+            </p>
+            <div class="unsupported-models-grid">
+                
+            <div class="unsupported-model-item">
+                <span class="model-name">cross-encoder/ms-marco-minilm-l-12-v2</span>
+                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+            </div>
+            
+            <div class="unsupported-model-item">
+                <span class="model-name">google/flan-t5-xl</span>
+                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+            </div>
+            
+            <div class="unsupported-model-item">
+                <span class="model-name">google/flan-t5-xxl</span>
+                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+            </div>
+            
+            <div class="unsupported-model-item">
+                <span class="model-name">google/flan-ul2</span>
+                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+            </div>
+            
+            <div class="unsupported-model-item">
+                <span class="model-name">ibm/granite-13b-instruct-v2</span>
+                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+            </div>
+            
+            <div class="unsupported-model-item">
+                <span class="model-name">ibm/granite-20b-code-instruct</span>
+                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Inva...</span>
+            </div>
+            
+            <div class="unsupported-model-item">
+                <span class="model-name">ibm/granite-3-1-8b-base</span>
+                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+            </div>
+            
+            <div class="unsupported-model-item">
+                <span class="model-name">ibm/granite-3-3-8b-instruct</span>
+                <span class="model-details">Model does not support tool calling. Finish reason: stop. Response: ```python
+{
+  "arguments": {
+   ...</span>
+            </div>
+            
+            <div class="unsupported-model-item">
+                <span class="model-name">ibm/granite-34b-code-instruct</span>
+                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Inva...</span>
+            </div>
+            
+            <div class="unsupported-model-item">
+                <span class="model-name">ibm/granite-3b-code-instruct</span>
+                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+            </div>
+            
+            <div class="unsupported-model-item">
+                <span class="model-name">ibm/granite-8b-code-instruct</span>
+                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+            </div>
+            
+            <div class="unsupported-model-item">
+                <span class="model-name">ibm/granite-embedding-107m-multilingual</span>
+                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+            </div>
+            
+            <div class="unsupported-model-item">
+                <span class="model-name">ibm/granite-embedding-278m-multilingual</span>
+                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+            </div>
+            
+            <div class="unsupported-model-item">
+                <span class="model-name">ibm/granite-guardian-3-2b</span>
+                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Inva...</span>
+            </div>
+            
+            <div class="unsupported-model-item">
+                <span class="model-name">ibm/granite-guardian-3-8b</span>
+                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Inva...</span>
+            </div>
+            
+            <div class="unsupported-model-item">
+                <span class="model-name">ibm/granite-ttm-1024-96-r2</span>
+                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+            </div>
+            
+            <div class="unsupported-model-item">
+                <span class="model-name">ibm/granite-ttm-1536-96-r2</span>
+                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+            </div>
+            
+            <div class="unsupported-model-item">
+                <span class="model-name">ibm/granite-ttm-512-96-r2</span>
+                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+            </div>
+            
+            <div class="unsupported-model-item">
+                <span class="model-name">ibm/granite-vision-3-2-2b</span>
+                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Inva...</span>
+            </div>
+            
+            <div class="unsupported-model-item">
+                <span class="model-name">ibm/slate-125m-english-rtrvr</span>
+                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+            </div>
+            
+            <div class="unsupported-model-item">
+                <span class="model-name">ibm/slate-125m-english-rtrvr-v2</span>
+                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+            </div>
+            
+            <div class="unsupported-model-item">
+                <span class="model-name">ibm/slate-30m-english-rtrvr</span>
+                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+            </div>
+            
+            <div class="unsupported-model-item">
+                <span class="model-name">ibm/slate-30m-english-rtrvr-v2</span>
+                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+            </div>
+            
+            <div class="unsupported-model-item">
+                <span class="model-name">intfloat/multilingual-e5-large</span>
+                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+            </div>
+            
+            <div class="unsupported-model-item">
+                <span class="model-name">meta-llama/llama-2-13b-chat</span>
+                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+            </div>
+            
+            <div class="unsupported-model-item">
+                <span class="model-name">meta-llama/llama-3-1-8b</span>
+                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+            </div>
+            
+            <div class="unsupported-model-item">
+                <span class="model-name">meta-llama/llama-3-2-1b-instruct</span>
+                <span class="model-details">Model does not support tool calling. Finish reason: stop. Response: <|python_tag|>{"type": "function...</span>
+            </div>
+            
+            <div class="unsupported-model-item">
+                <span class="model-name">meta-llama/llama-guard-3-11b-vision</span>
+                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Inva...</span>
+            </div>
+            
+            <div class="unsupported-model-item">
+                <span class="model-name">mistralai/mixtral-8x7b-instruct-v01</span>
+                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Inva...</span>
+            </div>
+            
+            <div class="unsupported-model-item">
+                <span class="model-name">mistralai/pixtral-12b</span>
+                <span class="model-details">Model does not support tool calling. Finish reason: stop. Response: [TOOL_CALLS][{"name": "hello_wor...</span>
+            </div>
+            
+            <div class="unsupported-model-item">
+                <span class="model-name">sentence-transformers/all-minilm-l12-v2</span>
+                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+            </div>
+            
+            <div class="unsupported-model-item">
+                <span class="model-name">sentence-transformers/all-minilm-l6-v2</span>
+                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+            </div>
+            
+            </div>
+        </section>
+        
+        
             
         <section class="section">
             <h2>📈 Performance Analytics</h2>
-            
+
             <div class="chart-container">
                 <div class="chart-title">Model Support Categories</div>
                 <div class="performance-chart">
@@ -1892,7 +1764,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="chart-container">
                 <div class="chart-title">Average Response Times</div>
                 <div class="performance-chart">
@@ -1905,22 +1777,22 @@
                         <div class="performance-label">Response Processing</div>
                     </div>
                     <div class="performance-item">
-                        <div class="performance-value">1.38s</div>
+                        <div class="performance-value">1.37s</div>
                         <div class="performance-label">Total Time</div>
                     </div>
                 </div>
             </div>
-            
+
             
             <div class="chart-container">
                 <div class="chart-title">Reliability Assessment</div>
                 <div class="performance-chart">
                     <div class="performance-item">
-                        <div class="performance-value" style="color: var(--success-color);">12</div>
+                        <div class="performance-value" style="color: var(--success-color);">11</div>
                         <div class="performance-label">Reliable Models</div>
                     </div>
                     <div class="performance-item">
-                        <div class="performance-value" style="color: var(--warning-color);">0</div>
+                        <div class="performance-value" style="color: var(--warning-color);">1</div>
                         <div class="performance-label">Unreliable Models</div>
                     </div>
                     <div class="performance-item">
@@ -1928,7 +1800,7 @@
                         <div class="performance-label">Avg Tool Success Rate</div>
                     </div>
                     <div class="performance-item">
-                        <div class="performance-value" style="color: var(--primary-color);">27.3%</div>
+                        <div class="performance-value" style="color: var(--primary-color);">25.9%</div>
                         <div class="performance-label">Avg Response Success Rate</div>
                     </div>
                 </div>
@@ -1951,22 +1823,22 @@
             const supportFilter = document.getElementById('support-filter');
             const handlingFilter = document.getElementById('handling-filter');
             const table = document.getElementById('results-table');
-            
+
             if (!table) return;
-            
+
             function filterTable() {
                 const modelValue = modelFilter ? modelFilter.value.toLowerCase() : '';
                 const supportValue = supportFilter ? supportFilter.value : '';
                 const handlingValue = handlingFilter ? handlingFilter.value : '';
-                
+
                 const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-                
+
                 for (let row of rows) {
                     const modelText = row.cells[0].textContent.toLowerCase();
                     const supportMatch = !supportValue || row.dataset.support === supportValue;
                     const handlingMatch = !handlingValue || row.dataset.handling === handlingValue;
                     const modelMatch = !modelValue || modelText.includes(modelValue);
-                    
+
                     if (modelMatch && supportMatch && handlingMatch) {
                         row.style.display = '';
                     } else {
@@ -1974,21 +1846,21 @@
                     }
                 }
             }
-            
+
             if (modelFilter) modelFilter.addEventListener('input', filterTable);
             if (supportFilter) supportFilter.addEventListener('change', filterTable);
             if (handlingFilter) handlingFilter.addEventListener('change', filterTable);
         }
-        
+
         // Collapsible sections
         function initializeCollapsibles() {
             const headers = document.querySelectorAll('.collapsible-header');
-            
+
             headers.forEach(header => {
                 header.addEventListener('click', function() {
                     const content = this.nextElementSibling;
                     const icon = this.querySelector('.expand-icon');
-                    
+
                     if (content.classList.contains('active')) {
                         content.classList.remove('active');
                         if (icon) icon.classList.remove('rotated');
@@ -1999,12 +1871,12 @@
                 });
             });
         }
-        
+
         // Toggle details in history section
         function toggleDetails(element) {
             const row = element.closest('.detail-row');
             const expandedContent = row.querySelector('.detail-expanded');
-            
+
             if (expandedContent.style.display === 'none') {
                 expandedContent.style.display = 'block';
                 element.textContent = '▲';
@@ -2013,58 +1885,58 @@
                 element.textContent = '▼';
             }
         }
-        
+
         // Status cell tooltips and interactions
         function initializeStatusCells() {
             const statusCells = document.querySelectorAll('.status-cell');
-            
+
             statusCells.forEach(cell => {
                 cell.addEventListener('mouseenter', function() {
                     // Could add enhanced tooltip functionality here
                 });
             });
         }
-        
+
         // Sort table functionality
         function initializeTableSorting() {
             const table = document.getElementById('results-table');
             if (!table) return;
-            
+
             const headers = table.querySelectorAll('th');
             headers.forEach((header, index) => {
                 header.style.cursor = 'pointer';
                 header.addEventListener('click', () => sortTable(index));
             });
         }
-        
+
         function sortTable(columnIndex) {
             const table = document.getElementById('results-table');
             const tbody = table.getElementsByTagName('tbody')[0];
             const rows = Array.from(tbody.getElementsByTagName('tr'));
-            
+
             // Determine sort direction
             const isAsc = table.dataset.sortDirection !== 'asc';
             table.dataset.sortDirection = isAsc ? 'asc' : 'desc';
-            
+
             rows.sort((a, b) => {
                 const aVal = a.cells[columnIndex].textContent.trim();
                 const bVal = b.cells[columnIndex].textContent.trim();
-                
+
                 // Handle numeric columns (timing columns)
                 if (columnIndex >= 4 && columnIndex <= 6) {
                     const aNum = parseFloat(aVal.replace('s', '')) || 0;
                     const bNum = parseFloat(bVal.replace('s', '')) || 0;
                     return isAsc ? aNum - bNum : bNum - aNum;
                 }
-                
+
                 // Handle text columns
                 return isAsc ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
             });
-            
+
             // Rebuild table
             rows.forEach(row => tbody.appendChild(row));
         }
-        
+
         // Initialize all functionality when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
             initializeFilters();
@@ -2072,7 +1944,7 @@
             initializeStatusCells();
             initializeTableSorting();
         });
-        
+
         // Make toggleDetails globally available for inline onclick handlers
         window.toggleDetails = toggleDetails;
         
