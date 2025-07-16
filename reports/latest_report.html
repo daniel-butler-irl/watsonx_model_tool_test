@@ -735,7 +735,7 @@
             <h1>WatsonX Tool Test Report</h1>
             <p class="subtitle">Comprehensive analysis of AI model tool calling capabilities</p>
             <div class="meta-info">
-                <span class="timestamp">Generated: 2025-07-16 16:13:44 UTC</span>
+                <span class="timestamp">Generated: 2025-07-16 16:59:23 UTC</span>
                 <div class="config-info"><span class="config-item">Iterations: 2</span><span class="config-item">Client: watsonx</span><span class="config-item">Models Tested: 44</span></div>
             </div>
         </header>
@@ -757,26 +757,26 @@
                 </div>
                 <div class="summary-card">
                     <h3>Response Handling</h3>
-                    <div class="value" style="color: var(--success-color);">9</div>
-                    <div class="description">Models using tool results (75.0%)</div>
+                    <div class="value" style="color: var(--success-color);">12</div>
+                    <div class="description">Models using tool results (100.0%)</div>
                 </div>
                 
             <div class="summary-card">
                 <h3>Reliability</h3>
-                <div class="value" style="color: var(--success-color);">9/44</div>
-                <div class="description">Models with 100% consistency (20.5%)</div>
+                <div class="value" style="color: var(--success-color);">12/44</div>
+                <div class="description">Models with 100% consistency (27.3%)</div>
             </div>
             
                 
             <div class="summary-card">
                 <h3>Fastest Model</h3>
-                <div class="value" style="color: var(--primary-color);">0.78s</div>
-                <div class="description">ibm/granite-3-2b-instruct</div>
+                <div class="value" style="color: var(--primary-color);">0.79s</div>
+                <div class="description">meta-llama/llama-4-maverick-17b-128e-instruct-fp8</div>
             </div>
             
                 <div class="summary-card">
                     <h3>Average Response Time</h3>
-                    <div class="value" style="color: var(--primary-color);">1.55s</div>
+                    <div class="value" style="color: var(--primary-color);">1.38s</div>
                     <div class="description">Total processing time</div>
                 </div>
             </div>
@@ -941,6 +941,401 @@
         <div class="detailed-history">
             
             
+            <div class="performance-trends">
+                <h3>Performance Trends</h3>
+                <div class="trends-table">
+                    <div class="trends-header">
+                        <div class="trend-date">Date</div>
+                        <div class="trend-metric">Avg Tool Time</div>
+                        <div class="trend-metric">Avg Response Time</div>
+                        <div class="trend-metric">Success Rate</div>
+                    </div>
+                    
+                    <div class="trend-row">
+                        <div class="trend-date">2025-07-16T16:13:44.132759</div>
+                        <div class="trend-metric">0.426s</div>
+                        <div class="trend-metric">0.000s</div>
+                        <div class="trend-metric">28.4%</div>
+                    </div>
+                
+                </div>
+            </div>
+            
+            
+            <div class="detailed-results">
+                <h3>Recent Test Details</h3>
+                <div class="details-table">
+                    <div class="details-header">
+                        <div class="detail-date">Date</div>
+                        <div class="detail-model">Model</div>
+                        <div class="detail-status">Status</div>
+                        <div class="detail-time">Time</div>
+                        <div class="detail-success">Success</div>
+                        <div class="detail-expand"></div>
+                    </div>
+                    
+                    <div class="detail-row" data-model="ibm/slate-30m-english-rtrvr">
+                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-model">slate-30m-english-rtrvr</div>
+                        <div class="detail-status status-broken">Broken</div>
+                        <div class="detail-time">0.090s</div>
+                        <div class="detail-success">0.0%</div>
+                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                        <div class="detail-expanded" style="display: none;">
+                            <div class="expanded-content">
+                                <h5>Test Details</h5>
+                                <p><strong>Error:</strong> None</p>
+                                <p><strong>Expected:</strong> </p>
+                                <p><strong>Actual:</strong> </p>
+                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-30m-english-rtrvr' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '19a1d63715b9ce845d00f583e160e8e8', 'status_code': 400}</p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="detail-row" data-model="ibm/slate-30m-english-rtrvr-v2">
+                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-model">slate-30m-english-rtrvr-v2</div>
+                        <div class="detail-status status-broken">Broken</div>
+                        <div class="detail-time">0.151s</div>
+                        <div class="detail-success">0.0%</div>
+                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                        <div class="detail-expanded" style="display: none;">
+                            <div class="expanded-content">
+                                <h5>Test Details</h5>
+                                <p><strong>Error:</strong> None</p>
+                                <p><strong>Expected:</strong> </p>
+                                <p><strong>Actual:</strong> </p>
+                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-30m-english-rtrvr-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'bf1bccb62b40ca424bafbaccf78018de', 'status_code': 400}</p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="detail-row" data-model="intfloat/multilingual-e5-large">
+                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-model">multilingual-e5-large</div>
+                        <div class="detail-status status-broken">Broken</div>
+                        <div class="detail-time">0.095s</div>
+                        <div class="detail-success">0.0%</div>
+                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                        <div class="detail-expanded" style="display: none;">
+                            <div class="expanded-content">
+                                <h5>Test Details</h5>
+                                <p><strong>Error:</strong> None</p>
+                                <p><strong>Expected:</strong> </p>
+                                <p><strong>Actual:</strong> </p>
+                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'intfloat/multilingual-e5-large' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'ce4f0cacc60cf1ea484d17558c1df2d5', 'status_code': 400}</p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="detail-row" data-model="meta-llama/llama-2-13b-chat">
+                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-model">llama-2-13b-chat</div>
+                        <div class="detail-status status-broken">Broken</div>
+                        <div class="detail-time">0.085s</div>
+                        <div class="detail-success">0.0%</div>
+                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                        <div class="detail-expanded" style="display: none;">
+                            <div class="expanded-content">
+                                <h5>Test Details</h5>
+                                <p><strong>Error:</strong> None</p>
+                                <p><strong>Expected:</strong> </p>
+                                <p><strong>Actual:</strong> </p>
+                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'meta-llama/llama-2-13b-chat' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '5007fdbca444728832297ce3ff080821', 'status_code': 400}</p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="detail-row" data-model="meta-llama/llama-3-1-8b">
+                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-model">llama-3-1-8b</div>
+                        <div class="detail-status status-broken">Broken</div>
+                        <div class="detail-time">0.236s</div>
+                        <div class="detail-success">0.0%</div>
+                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                        <div class="detail-expanded" style="display: none;">
+                            <div class="expanded-content">
+                                <h5>Test Details</h5>
+                                <p><strong>Error:</strong> None</p>
+                                <p><strong>Expected:</strong> </p>
+                                <p><strong>Actual:</strong> </p>
+                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'meta-llama/llama-3-1-8b' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'b0524414183c59b868bd8572ea2eea62', 'status_code': 400}</p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="detail-row" data-model="meta-llama/llama-3-2-11b-vision-instruct">
+                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-model">llama-3-2-11b-vision-instruct</div>
+                        <div class="detail-status status-working">Working</div>
+                        <div class="detail-time">1.107s</div>
+                        <div class="detail-success">100.0%</div>
+                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                        <div class="detail-expanded" style="display: none;">
+                            <div class="expanded-content">
+                                <h5>Test Details</h5>
+                                <p><strong>Error:</strong> None</p>
+                                <p><strong>Expected:</strong> </p>
+                                <p><strong>Actual:</strong> </p>
+                                <p><strong>Details:</strong> Consistent success across all iterations</p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="detail-row" data-model="meta-llama/llama-3-2-1b-instruct">
+                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-model">llama-3-2-1b-instruct</div>
+                        <div class="detail-status status-broken">Broken</div>
+                        <div class="detail-time">0.395s</div>
+                        <div class="detail-success">0.0%</div>
+                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                        <div class="detail-expanded" style="display: none;">
+                            <div class="expanded-content">
+                                <h5>Test Details</h5>
+                                <p><strong>Error:</strong> None</p>
+                                <p><strong>Expected:</strong> </p>
+                                <p><strong>Actual:</strong> </p>
+                                <p><strong>Details:</strong> Model does not support tool calling. Finish reason: stop. Response: <|python_tag|>{"type": "function", "function": "hello_world", "parameters": {"properties": {"language": "spanish", "name": "Daniel"}}}</p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="detail-row" data-model="meta-llama/llama-3-2-3b-instruct">
+                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-model">llama-3-2-3b-instruct</div>
+                        <div class="detail-status status-partial">Partial</div>
+                        <div class="detail-time">1.304s</div>
+                        <div class="detail-success">100.0%</div>
+                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                        <div class="detail-expanded" style="display: none;">
+                            <div class="expanded-content">
+                                <h5>Test Details</h5>
+                                <p><strong>Error:</strong> None</p>
+                                <p><strong>Expected:</strong> </p>
+                                <p><strong>Actual:</strong> </p>
+                                <p><strong>Details:</strong> Inconsistent results across 2 iterations</p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="detail-row" data-model="meta-llama/llama-3-2-90b-vision-instruct">
+                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-model">llama-3-2-90b-vision-instruct</div>
+                        <div class="detail-status status-working">Working</div>
+                        <div class="detail-time">6.019s</div>
+                        <div class="detail-success">100.0%</div>
+                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                        <div class="detail-expanded" style="display: none;">
+                            <div class="expanded-content">
+                                <h5>Test Details</h5>
+                                <p><strong>Error:</strong> None</p>
+                                <p><strong>Expected:</strong> </p>
+                                <p><strong>Actual:</strong> </p>
+                                <p><strong>Details:</strong> Consistent success across all iterations</p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="detail-row" data-model="meta-llama/llama-3-3-70b-instruct">
+                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-model">llama-3-3-70b-instruct</div>
+                        <div class="detail-status status-working">Working</div>
+                        <div class="detail-time">1.827s</div>
+                        <div class="detail-success">100.0%</div>
+                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                        <div class="detail-expanded" style="display: none;">
+                            <div class="expanded-content">
+                                <h5>Test Details</h5>
+                                <p><strong>Error:</strong> None</p>
+                                <p><strong>Expected:</strong> </p>
+                                <p><strong>Actual:</strong> </p>
+                                <p><strong>Details:</strong> Consistent success across all iterations</p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="detail-row" data-model="meta-llama/llama-3-405b-instruct">
+                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-model">llama-3-405b-instruct</div>
+                        <div class="detail-status status-working">Working</div>
+                        <div class="detail-time">1.571s</div>
+                        <div class="detail-success">100.0%</div>
+                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                        <div class="detail-expanded" style="display: none;">
+                            <div class="expanded-content">
+                                <h5>Test Details</h5>
+                                <p><strong>Error:</strong> None</p>
+                                <p><strong>Expected:</strong> </p>
+                                <p><strong>Actual:</strong> </p>
+                                <p><strong>Details:</strong> Consistent success across all iterations</p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="detail-row" data-model="meta-llama/llama-4-maverick-17b-128e-instruct-fp8">
+                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-model">llama-4-maverick-17b-128e-instruct-fp8</div>
+                        <div class="detail-status status-working">Working</div>
+                        <div class="detail-time">0.857s</div>
+                        <div class="detail-success">100.0%</div>
+                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                        <div class="detail-expanded" style="display: none;">
+                            <div class="expanded-content">
+                                <h5>Test Details</h5>
+                                <p><strong>Error:</strong> None</p>
+                                <p><strong>Expected:</strong> </p>
+                                <p><strong>Actual:</strong> </p>
+                                <p><strong>Details:</strong> Consistent success across all iterations</p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="detail-row" data-model="meta-llama/llama-guard-3-11b-vision">
+                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-model">llama-guard-3-11b-vision</div>
+                        <div class="detail-status status-broken">Broken</div>
+                        <div class="detail-time">0.179s</div>
+                        <div class="detail-success">0.0%</div>
+                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                        <div class="detail-expanded" style="display: none;">
+                            <div class="expanded-content">
+                                <h5>Test Details</h5>
+                                <p><strong>Error:</strong> None</p>
+                                <p><strong>Expected:</strong> </p>
+                                <p><strong>Actual:</strong> </p>
+                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'meta-llama/llama-guard-3-11b-vision\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'a33b9751911e50088382028c2c04db6d', 'status_code': 400}</p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="detail-row" data-model="mistralai/mistral-large">
+                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-model">mistral-large</div>
+                        <div class="detail-status status-working">Working</div>
+                        <div class="detail-time">1.176s</div>
+                        <div class="detail-success">100.0%</div>
+                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                        <div class="detail-expanded" style="display: none;">
+                            <div class="expanded-content">
+                                <h5>Test Details</h5>
+                                <p><strong>Error:</strong> None</p>
+                                <p><strong>Expected:</strong> </p>
+                                <p><strong>Actual:</strong> </p>
+                                <p><strong>Details:</strong> Consistent success across all iterations</p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="detail-row" data-model="mistralai/mistral-medium-2505">
+                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-model">mistral-medium-2505</div>
+                        <div class="detail-status status-working">Working</div>
+                        <div class="detail-time">0.828s</div>
+                        <div class="detail-success">100.0%</div>
+                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                        <div class="detail-expanded" style="display: none;">
+                            <div class="expanded-content">
+                                <h5>Test Details</h5>
+                                <p><strong>Error:</strong> None</p>
+                                <p><strong>Expected:</strong> </p>
+                                <p><strong>Actual:</strong> </p>
+                                <p><strong>Details:</strong> Consistent success across all iterations</p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="detail-row" data-model="mistralai/mistral-small-3-1-24b-instruct-2503">
+                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-model">mistral-small-3-1-24b-instruct-2503</div>
+                        <div class="detail-status status-working">Working</div>
+                        <div class="detail-time">0.784s</div>
+                        <div class="detail-success">100.0%</div>
+                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                        <div class="detail-expanded" style="display: none;">
+                            <div class="expanded-content">
+                                <h5>Test Details</h5>
+                                <p><strong>Error:</strong> None</p>
+                                <p><strong>Expected:</strong> </p>
+                                <p><strong>Actual:</strong> </p>
+                                <p><strong>Details:</strong> Consistent success across all iterations</p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="detail-row" data-model="mistralai/mixtral-8x7b-instruct-v01">
+                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-model">mixtral-8x7b-instruct-v01</div>
+                        <div class="detail-status status-broken">Broken</div>
+                        <div class="detail-time">0.160s</div>
+                        <div class="detail-success">0.0%</div>
+                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                        <div class="detail-expanded" style="display: none;">
+                            <div class="expanded-content">
+                                <h5>Test Details</h5>
+                                <p><strong>Error:</strong> None</p>
+                                <p><strong>Expected:</strong> </p>
+                                <p><strong>Actual:</strong> </p>
+                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'mistralai/mixtral-8x7b-instruct-v01\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '96e6a81e27ace29a907c22854ad3e634', 'status_code': 400}</p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="detail-row" data-model="mistralai/pixtral-12b">
+                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-model">pixtral-12b</div>
+                        <div class="detail-status status-broken">Broken</div>
+                        <div class="detail-time">0.458s</div>
+                        <div class="detail-success">0.0%</div>
+                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                        <div class="detail-expanded" style="display: none;">
+                            <div class="expanded-content">
+                                <h5>Test Details</h5>
+                                <p><strong>Error:</strong> None</p>
+                                <p><strong>Expected:</strong> </p>
+                                <p><strong>Actual:</strong> </p>
+                                <p><strong>Details:</strong> Model does not support tool calling. Finish reason: stop. Response: [TOOL_CALLS][{"name": "hello_world", "arguments": {"language": "spanish", "name": "Daniel"}}]</p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="detail-row" data-model="sentence-transformers/all-minilm-l12-v2">
+                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-model">all-minilm-l12-v2</div>
+                        <div class="detail-status status-broken">Broken</div>
+                        <div class="detail-time">0.089s</div>
+                        <div class="detail-success">0.0%</div>
+                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                        <div class="detail-expanded" style="display: none;">
+                            <div class="expanded-content">
+                                <h5>Test Details</h5>
+                                <p><strong>Error:</strong> None</p>
+                                <p><strong>Expected:</strong> </p>
+                                <p><strong>Actual:</strong> </p>
+                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'sentence-transformers/all-minilm-l12-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '8634fcab898aa7975aaf5d90e9777f67', 'status_code': 400}</p>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="detail-row" data-model="sentence-transformers/all-minilm-l6-v2">
+                        <div class="detail-date">2025-07-16T16:13:44.132759</div>
+                        <div class="detail-model">all-minilm-l6-v2</div>
+                        <div class="detail-status status-broken">Broken</div>
+                        <div class="detail-time">0.096s</div>
+                        <div class="detail-success">0.0%</div>
+                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                        <div class="detail-expanded" style="display: none;">
+                            <div class="expanded-content">
+                                <h5>Test Details</h5>
+                                <p><strong>Error:</strong> None</p>
+                                <p><strong>Expected:</strong> </p>
+                                <p><strong>Actual:</strong> </p>
+                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'sentence-transformers/all-minilm-l6-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '02e5b7d900e7a6a1b27b251065c9fd15', 'status_code': 400}</p>
+                            </div>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
             
         </div>
         
@@ -993,10 +1388,10 @@
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">1.05s</span></td>
+                <td><span class="timing-info">0.88s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">1.05s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'cross-encoder/ms-marco-minilm-l-12-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '9ef109b717438866e32e130d025bffe6', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'cross-encoder/ms-marco-minilm-l-12-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '9ef109b717438866e32e130d025bffe6', 'status_code': 400}</span></td>
+                <td><span class="timing-info">0.88s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'cross-encoder/ms-marco-minilm-l-12-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '88773a6c0f60fb18d0e93263b0891bfc', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'cross-encoder/ms-marco-minilm-l-12-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '88773a6c0f60fb18d0e93263b0891bfc', 'status_code': 400}</span></td>
             </tr>
             
             <tr data-model="google/flan-t5-xl" data-support="False" data-handling="False">
@@ -1004,10 +1399,10 @@
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.22s</span></td>
+                <td><span class="timing-info">0.13s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.22s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-t5-xl' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '3bf9c554338a196ab83fff0c64f803ae', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-t5-xl' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '3bf9c554338a196ab83fff0c64f803ae', 'status_code': 400}</span></td>
+                <td><span class="timing-info">0.13s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-t5-xl' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '13530d22e5d7f75e6114b14eefa4bb9f', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-t5-xl' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '13530d22e5d7f75e6114b14eefa4bb9f', 'status_code': 400}</span></td>
             </tr>
             
             <tr data-model="google/flan-t5-xxl" data-support="False" data-handling="False">
@@ -1015,10 +1410,10 @@
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.24s</span></td>
+                <td><span class="timing-info">0.12s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.24s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-t5-xxl' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '489932d8d8519ee8da94e1f261e7bb51', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-t5-xxl' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '489932d8d8519ee8da94e1f261e7bb51', 'status_code': 400}</span></td>
+                <td><span class="timing-info">0.12s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-t5-xxl' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '8be87c5f8975e22575ce2a0891508674', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-t5-xxl' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '8be87c5f8975e22575ce2a0891508674', 'status_code': 400}</span></td>
             </tr>
             
             <tr data-model="google/flan-ul2" data-support="False" data-handling="False">
@@ -1026,10 +1421,10 @@
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.25s</span></td>
+                <td><span class="timing-info">0.09s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.25s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-ul2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '10eb51a9d52b1cf1eb415d25e1dab4d8', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-ul2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '10eb51a9d52b1cf1eb415d25e1dab4d8', 'status_code': 400}</span></td>
+                <td><span class="timing-info">0.09s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-ul2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'dd7ecd34482f6b55332eff4de4480b66', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-ul2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'dd7ecd34482f6b55332eff4de4480b66', 'status_code': 400}</span></td>
             </tr>
             
             <tr data-model="ibm/granite-13b-instruct-v2" data-support="False" data-handling="False">
@@ -1040,7 +1435,7 @@
                 <td><span class="timing-info">0.12s</span></td>
                 <td>N/A</td>
                 <td><span class="timing-info">0.12s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-13b-instruct-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '87d1a5acefc65b369ec66745d03ce36b', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-13b-instruct-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '87d1a5acefc65b369ec66745d03ce36b', 'status_code': 400}</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-13b-instruct-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '25793da61d961fbc5665ce8383011d92', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-13b-instruct-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '25793da61d961fbc5665ce8383011d92', 'status_code': 400}</span></td>
             </tr>
             
             <tr data-model="ibm/granite-20b-code-instruct" data-support="False" data-handling="False">
@@ -1048,10 +1443,10 @@
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.38s</span></td>
+                <td><span class="timing-info">0.26s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.38s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-20b-code-instruct\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '278fe25997eb610015d20f8900f61bd9', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-20b-code-instruct\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '278fe25997eb610015d20f8900f61bd9', 'status_code': 400}</span></td>
+                <td><span class="timing-info">0.26s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-20b-code-instruct\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'f42a827f10e677bf1af5d5295f4f1d10', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-20b-code-instruct\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'f42a827f10e677bf1af5d5295f4f1d10', 'status_code': 400}</span></td>
             </tr>
             
             <tr data-model="ibm/granite-3-1-8b-base" data-support="False" data-handling="False">
@@ -1059,10 +1454,10 @@
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.12s</span></td>
+                <td><span class="timing-info">0.11s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.12s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-3-1-8b-base' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '61b55f08bacb73bec65db262539edf28', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-3-1-8b-base' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '61b55f08bacb73bec65db262539edf28', 'status_code': 400}</span></td>
+                <td><span class="timing-info">0.11s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-3-1-8b-base' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '62c0d1ffc56332d0c303a7b3e8445280', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-3-1-8b-base' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '62c0d1ffc56332d0c303a7b3e8445280', 'status_code': 400}</span></td>
             </tr>
             
             <tr data-model="ibm/granite-3-2-8b-instruct" data-support="True" data-handling="True">
@@ -1070,21 +1465,21 @@
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
-                <td><span class="timing-info">0.72s</span></td>
+                <td><span class="timing-info">0.66s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">1.11s</span></td>
+                <td><span class="timing-info">1.00s</span></td>
                 <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
             </tr>
             
-            <tr data-model="ibm/granite-3-2b-instruct" data-support="True" data-handling="False">
+            <tr data-model="ibm/granite-3-2b-instruct" data-support="True" data-handling="True">
                 <td class="model-name">ibm/granite-3-2b-instruct</td>
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-partial">⚠️ 100%/50%</span></td>
-                <td><span class="timing-info">0.49s</span></td>
+                <td><span class="support-indicator support-yes">✅ Yes</span></td>
+                <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
+                <td><span class="timing-info">0.48s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.78s</span></td>
-                <td><span class="details-cell" title="Inconsistent results across 2 iterations">Inconsistent results across 2 iterations</span></td>
+                <td><span class="timing-info">0.85s</span></td>
+                <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
             </tr>
             
             <tr data-model="ibm/granite-3-3-8b-instruct" data-support="False" data-handling="False">
@@ -1092,21 +1487,21 @@
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.48s</span></td>
+                <td><span class="timing-info">0.40s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.62s</span></td>
-                <td><span class="details-cell" title="Tool calling not supported">Tool calling not supported</span></td>
+                <td><span class="timing-info">0.40s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling. Finish reason: stop. Response: Calling function with arguments: {"language": "spanish", "name": "Daniel"}">Model does not support tool calling. Finish reason: stop. Response: Calling function with arguments: {"language": "spanish", "name": "Daniel"}</span></td>
             </tr>
             
-            <tr data-model="ibm/granite-3-8b-instruct" data-support="True" data-handling="False">
+            <tr data-model="ibm/granite-3-8b-instruct" data-support="True" data-handling="True">
                 <td class="model-name">ibm/granite-3-8b-instruct</td>
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-partial">⚠️ 100%/50%</span></td>
-                <td><span class="timing-info">0.43s</span></td>
+                <td><span class="support-indicator support-yes">✅ Yes</span></td>
+                <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
+                <td><span class="timing-info">2.24s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">1.18s</span></td>
-                <td><span class="details-cell" title="Inconsistent results across 2 iterations">Inconsistent results across 2 iterations</span></td>
+                <td><span class="timing-info">3.44s</span></td>
+                <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
             </tr>
             
             <tr data-model="ibm/granite-34b-code-instruct" data-support="False" data-handling="False">
@@ -1114,10 +1509,10 @@
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.23s</span></td>
+                <td><span class="timing-info">0.38s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.23s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-34b-code-instruct\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '6cdc6cab910bafad8fb14e7d07f1e4f0', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-34b-code-instruct\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '6cdc6cab910bafad8fb14e7d07f1e4f0', 'status_code': 400}</span></td>
+                <td><span class="timing-info">0.38s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-34b-code-instruct\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '26ae33e97c8f74be56198256821bdf89', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-34b-code-instruct\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '26ae33e97c8f74be56198256821bdf89', 'status_code': 400}</span></td>
             </tr>
             
             <tr data-model="ibm/granite-3b-code-instruct" data-support="False" data-handling="False">
@@ -1125,10 +1520,10 @@
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.11s</span></td>
+                <td><span class="timing-info">0.22s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.11s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-3b-code-instruct' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '5dd43b1e0270adb1fde17a0759cca96a', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-3b-code-instruct' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '5dd43b1e0270adb1fde17a0759cca96a', 'status_code': 400}</span></td>
+                <td><span class="timing-info">0.22s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-3b-code-instruct' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'ecdef00c8af4e93cd3763f05449a6fee', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-3b-code-instruct' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'ecdef00c8af4e93cd3763f05449a6fee', 'status_code': 400}</span></td>
             </tr>
             
             <tr data-model="ibm/granite-8b-code-instruct" data-support="False" data-handling="False">
@@ -1136,10 +1531,10 @@
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.22s</span></td>
+                <td><span class="timing-info">0.12s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.22s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-8b-code-instruct' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '8a8e08c99f603a5025b7681c467e7705', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-8b-code-instruct' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '8a8e08c99f603a5025b7681c467e7705', 'status_code': 400}</span></td>
+                <td><span class="timing-info">0.12s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-8b-code-instruct' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '9ab98d9c37b44abc71ab1a32a64ba396', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-8b-code-instruct' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '9ab98d9c37b44abc71ab1a32a64ba396', 'status_code': 400}</span></td>
             </tr>
             
             <tr data-model="ibm/granite-embedding-107m-multilingual" data-support="False" data-handling="False">
@@ -1150,7 +1545,7 @@
                 <td><span class="timing-info">0.10s</span></td>
                 <td>N/A</td>
                 <td><span class="timing-info">0.10s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-embedding-107m-multilingual' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '00aeac36dbe2a9c389b92febbdb51917', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-embedding-107m-multilingual' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '00aeac36dbe2a9c389b92febbdb51917', 'status_code': 400}</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-embedding-107m-multilingual' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '24269447cf74d715ae156eb655ae60db', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-embedding-107m-multilingual' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '24269447cf74d715ae156eb655ae60db', 'status_code': 400}</span></td>
             </tr>
             
             <tr data-model="ibm/granite-embedding-278m-multilingual" data-support="False" data-handling="False">
@@ -1158,10 +1553,10 @@
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.13s</span></td>
+                <td><span class="timing-info">0.11s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.13s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-embedding-278m-multilingual' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '100b75846d45070b6bf6e646db0f7795', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-embedding-278m-multilingual' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '100b75846d45070b6bf6e646db0f7795', 'status_code': 400}</span></td>
+                <td><span class="timing-info">0.11s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-embedding-278m-multilingual' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '2d397b126f6c7dc22f70f4056ced7d8c', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-embedding-278m-multilingual' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '2d397b126f6c7dc22f70f4056ced7d8c', 'status_code': 400}</span></td>
             </tr>
             
             <tr data-model="ibm/granite-guardian-3-2b" data-support="False" data-handling="False">
@@ -1169,10 +1564,10 @@
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.22s</span></td>
+                <td><span class="timing-info">0.24s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.22s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-guardian-3-2b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '7067299c4b72f90d1bcb96cc2fc59628', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-guardian-3-2b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '7067299c4b72f90d1bcb96cc2fc59628', 'status_code': 400}</span></td>
+                <td><span class="timing-info">0.24s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-guardian-3-2b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '5815a83162ef608ea0f1f76996a1859d', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-guardian-3-2b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '5815a83162ef608ea0f1f76996a1859d', 'status_code': 400}</span></td>
             </tr>
             
             <tr data-model="ibm/granite-guardian-3-8b" data-support="False" data-handling="False">
@@ -1183,7 +1578,7 @@
                 <td><span class="timing-info">0.14s</span></td>
                 <td>N/A</td>
                 <td><span class="timing-info">0.14s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-guardian-3-8b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '154844751604ca4299b51522c66fe7cb', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-guardian-3-8b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '154844751604ca4299b51522c66fe7cb', 'status_code': 400}</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-guardian-3-8b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'f1f70742eca57e5aa59a58a9dc7f00bf', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-guardian-3-8b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'f1f70742eca57e5aa59a58a9dc7f00bf', 'status_code': 400}</span></td>
             </tr>
             
             <tr data-model="ibm/granite-ttm-1024-96-r2" data-support="False" data-handling="False">
@@ -1191,10 +1586,10 @@
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.11s</span></td>
+                <td><span class="timing-info">0.23s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.11s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-1024-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '75fd5f6f5d9aa63e4014c272282c7c46', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-1024-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '75fd5f6f5d9aa63e4014c272282c7c46', 'status_code': 400}</span></td>
+                <td><span class="timing-info">0.23s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-1024-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'eb3101c35c0d26ad44b245ba73570ed4', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-1024-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'eb3101c35c0d26ad44b245ba73570ed4', 'status_code': 400}</span></td>
             </tr>
             
             <tr data-model="ibm/granite-ttm-1536-96-r2" data-support="False" data-handling="False">
@@ -1202,10 +1597,10 @@
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.14s</span></td>
+                <td><span class="timing-info">0.25s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.14s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-1536-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'db2236a1032347d601d058061cfcb527', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-1536-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'db2236a1032347d601d058061cfcb527', 'status_code': 400}</span></td>
+                <td><span class="timing-info">0.25s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-1536-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'f94c5a827ecddffd93bd733102bad978', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-1536-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'f94c5a827ecddffd93bd733102bad978', 'status_code': 400}</span></td>
             </tr>
             
             <tr data-model="ibm/granite-ttm-512-96-r2" data-support="False" data-handling="False">
@@ -1213,10 +1608,10 @@
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.11s</span></td>
+                <td><span class="timing-info">0.12s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.11s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-512-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'af58f43fa467cf36e1da78dcbb3b5774', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-512-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'af58f43fa467cf36e1da78dcbb3b5774', 'status_code': 400}</span></td>
+                <td><span class="timing-info">0.12s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-512-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'bcb34f0881472b27e95809ed1e6756ed', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-512-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'bcb34f0881472b27e95809ed1e6756ed', 'status_code': 400}</span></td>
             </tr>
             
             <tr data-model="ibm/granite-vision-3-2-2b" data-support="False" data-handling="False">
@@ -1224,10 +1619,10 @@
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.21s</span></td>
+                <td><span class="timing-info">0.31s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.21s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-vision-3-2-2b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'caa379e74a1e65881e4a672e0b519705', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-vision-3-2-2b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'caa379e74a1e65881e4a672e0b519705', 'status_code': 400}</span></td>
+                <td><span class="timing-info">0.31s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-vision-3-2-2b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'acc5430d0a8918b9dbfba68698535951', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-vision-3-2-2b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'acc5430d0a8918b9dbfba68698535951', 'status_code': 400}</span></td>
             </tr>
             
             <tr data-model="ibm/slate-125m-english-rtrvr" data-support="False" data-handling="False">
@@ -1235,10 +1630,10 @@
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.08s</span></td>
+                <td><span class="timing-info">0.21s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.08s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-125m-english-rtrvr' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'cfc1db6372ee1278f26a34e3612541d7', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-125m-english-rtrvr' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'cfc1db6372ee1278f26a34e3612541d7', 'status_code': 400}</span></td>
+                <td><span class="timing-info">0.21s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-125m-english-rtrvr' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'af0ce25e679169ba6a7973d34238cc54', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-125m-english-rtrvr' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'af0ce25e679169ba6a7973d34238cc54', 'status_code': 400}</span></td>
             </tr>
             
             <tr data-model="ibm/slate-125m-english-rtrvr-v2" data-support="False" data-handling="False">
@@ -1246,10 +1641,10 @@
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.14s</span></td>
+                <td><span class="timing-info">0.13s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.14s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-125m-english-rtrvr-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '14906905cb58ec3728b190e7cd751047', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-125m-english-rtrvr-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '14906905cb58ec3728b190e7cd751047', 'status_code': 400}</span></td>
+                <td><span class="timing-info">0.13s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-125m-english-rtrvr-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'aa641c3af81184a5987fd87338b7ca94', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-125m-english-rtrvr-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'aa641c3af81184a5987fd87338b7ca94', 'status_code': 400}</span></td>
             </tr>
             
             <tr data-model="ibm/slate-30m-english-rtrvr" data-support="False" data-handling="False">
@@ -1257,10 +1652,10 @@
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.09s</span></td>
+                <td><span class="timing-info">0.26s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.09s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-30m-english-rtrvr' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '19a1d63715b9ce845d00f583e160e8e8', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-30m-english-rtrvr' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '19a1d63715b9ce845d00f583e160e8e8', 'status_code': 400}</span></td>
+                <td><span class="timing-info">0.26s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-30m-english-rtrvr' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '2fc72a30b2e12755e7ca91b1d7043de7', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-30m-english-rtrvr' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '2fc72a30b2e12755e7ca91b1d7043de7', 'status_code': 400}</span></td>
             </tr>
             
             <tr data-model="ibm/slate-30m-english-rtrvr-v2" data-support="False" data-handling="False">
@@ -1268,10 +1663,10 @@
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.15s</span></td>
+                <td><span class="timing-info">0.09s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.15s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-30m-english-rtrvr-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'bf1bccb62b40ca424bafbaccf78018de', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-30m-english-rtrvr-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'bf1bccb62b40ca424bafbaccf78018de', 'status_code': 400}</span></td>
+                <td><span class="timing-info">0.09s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-30m-english-rtrvr-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'e68d72a04bd7067c5a0cc672e24c1357', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-30m-english-rtrvr-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'e68d72a04bd7067c5a0cc672e24c1357', 'status_code': 400}</span></td>
             </tr>
             
             <tr data-model="intfloat/multilingual-e5-large" data-support="False" data-handling="False">
@@ -1279,10 +1674,10 @@
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.09s</span></td>
+                <td><span class="timing-info">0.12s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.09s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'intfloat/multilingual-e5-large' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'ce4f0cacc60cf1ea484d17558c1df2d5', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'intfloat/multilingual-e5-large' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'ce4f0cacc60cf1ea484d17558c1df2d5', 'status_code': 400}</span></td>
+                <td><span class="timing-info">0.12s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'intfloat/multilingual-e5-large' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '4aee44f47dd201b2f1860ea94f311196', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'intfloat/multilingual-e5-large' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '4aee44f47dd201b2f1860ea94f311196', 'status_code': 400}</span></td>
             </tr>
             
             <tr data-model="meta-llama/llama-2-13b-chat" data-support="False" data-handling="False">
@@ -1290,10 +1685,10 @@
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.08s</span></td>
+                <td><span class="timing-info">0.11s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.08s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'meta-llama/llama-2-13b-chat' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '5007fdbca444728832297ce3ff080821', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'meta-llama/llama-2-13b-chat' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '5007fdbca444728832297ce3ff080821', 'status_code': 400}</span></td>
+                <td><span class="timing-info">0.11s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'meta-llama/llama-2-13b-chat' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '4ef9959879e7cc7bb646b8da6a3b8c4d', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'meta-llama/llama-2-13b-chat' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '4ef9959879e7cc7bb646b8da6a3b8c4d', 'status_code': 400}</span></td>
             </tr>
             
             <tr data-model="meta-llama/llama-3-1-8b" data-support="False" data-handling="False">
@@ -1301,10 +1696,10 @@
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.24s</span></td>
+                <td><span class="timing-info">0.09s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.24s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'meta-llama/llama-3-1-8b' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'b0524414183c59b868bd8572ea2eea62', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'meta-llama/llama-3-1-8b' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'b0524414183c59b868bd8572ea2eea62', 'status_code': 400}</span></td>
+                <td><span class="timing-info">0.09s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'meta-llama/llama-3-1-8b' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '9211162d794c4c28eef70961d388c189', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'meta-llama/llama-3-1-8b' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '9211162d794c4c28eef70961d388c189', 'status_code': 400}</span></td>
             </tr>
             
             <tr data-model="meta-llama/llama-3-2-11b-vision-instruct" data-support="True" data-handling="True">
@@ -1312,9 +1707,9 @@
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
-                <td><span class="timing-info">0.72s</span></td>
+                <td><span class="timing-info">0.73s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">1.11s</span></td>
+                <td><span class="timing-info">1.14s</span></td>
                 <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
             </tr>
             
@@ -1323,21 +1718,21 @@
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.40s</span></td>
+                <td><span class="timing-info">0.37s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.40s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling. Finish reason: stop. Response: <|python_tag|>{"type": "function", "function": "hello_world", "parameters": {"properties": {"language": "spanish", "name": "Daniel"}}}">Model does not support tool calling. Finish reason: stop. Response: <|python_tag|>{"type": "function", "function": "hello_world", "parameters": {"properties": {"language": "spanish", "name": "Daniel"}}}</span></td>
+                <td><span class="timing-info">0.37s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling. Finish reason: stop. Response: <|python_tag|>{"type": "function", "function": "hello_world", "parameters": {"properties": {"language": "spanish", "name": "Daniel"}}}"">Model does not support tool calling. Finish reason: stop. Response: <|python_tag|>{"type": "function", "function": "hello_world", "parameters": {"properties": {"language": "spanish", "name": "Daniel"}}}"</span></td>
             </tr>
             
-            <tr data-model="meta-llama/llama-3-2-3b-instruct" data-support="True" data-handling="False">
+            <tr data-model="meta-llama/llama-3-2-3b-instruct" data-support="True" data-handling="True">
                 <td class="model-name">meta-llama/llama-3-2-3b-instruct</td>
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
-                <td><span class="support-indicator support-no">❌ No</span></td>
-                <td><span class="reliability-badge reliability-partial">⚠️ 100%/0%</span></td>
-                <td><span class="timing-info">0.48s</span></td>
+                <td><span class="support-indicator support-yes">✅ Yes</span></td>
+                <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
+                <td><span class="timing-info">0.45s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">1.30s</span></td>
-                <td><span class="details-cell" title="Inconsistent results across 2 iterations">Inconsistent results across 2 iterations</span></td>
+                <td><span class="timing-info">1.46s</span></td>
+                <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
             </tr>
             
             <tr data-model="meta-llama/llama-3-2-90b-vision-instruct" data-support="True" data-handling="True">
@@ -1345,9 +1740,9 @@
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
-                <td><span class="timing-info">4.86s</span></td>
+                <td><span class="timing-info">1.20s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">6.02s</span></td>
+                <td><span class="timing-info">1.71s</span></td>
                 <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
             </tr>
             
@@ -1356,9 +1751,9 @@
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
-                <td><span class="timing-info">0.89s</span></td>
+                <td><span class="timing-info">0.91s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">1.83s</span></td>
+                <td><span class="timing-info">1.77s</span></td>
                 <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
             </tr>
             
@@ -1367,9 +1762,9 @@
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
-                <td><span class="timing-info">1.17s</span></td>
+                <td><span class="timing-info">1.11s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">1.57s</span></td>
+                <td><span class="timing-info">1.59s</span></td>
                 <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
             </tr>
             
@@ -1378,9 +1773,9 @@
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
-                <td><span class="timing-info">0.45s</span></td>
+                <td><span class="timing-info">0.47s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.86s</span></td>
+                <td><span class="timing-info">0.79s</span></td>
                 <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
             </tr>
             
@@ -1389,10 +1784,10 @@
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.18s</span></td>
+                <td><span class="timing-info">0.24s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.18s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'meta-llama/llama-guard-3-11b-vision\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'a33b9751911e50088382028c2c04db6d', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'meta-llama/llama-guard-3-11b-vision\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'a33b9751911e50088382028c2c04db6d', 'status_code': 400}</span></td>
+                <td><span class="timing-info">0.24s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'meta-llama/llama-guard-3-11b-vision\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '3360ce4ab77cbddf46b29f3913a8bc82', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'meta-llama/llama-guard-3-11b-vision\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '3360ce4ab77cbddf46b29f3913a8bc82', 'status_code': 400}</span></td>
             </tr>
             
             <tr data-model="mistralai/mistral-large" data-support="True" data-handling="True">
@@ -1400,9 +1795,9 @@
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
-                <td><span class="timing-info">0.77s</span></td>
+                <td><span class="timing-info">0.74s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">1.18s</span></td>
+                <td><span class="timing-info">1.10s</span></td>
                 <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
             </tr>
             
@@ -1411,9 +1806,9 @@
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
-                <td><span class="timing-info">0.53s</span></td>
+                <td><span class="timing-info">0.55s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.83s</span></td>
+                <td><span class="timing-info">0.88s</span></td>
                 <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
             </tr>
             
@@ -1422,9 +1817,9 @@
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="support-indicator support-yes">✅ Yes</span></td>
                 <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
-                <td><span class="timing-info">0.45s</span></td>
+                <td><span class="timing-info">0.49s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.78s</span></td>
+                <td><span class="timing-info">0.79s</span></td>
                 <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
             </tr>
             
@@ -1433,10 +1828,10 @@
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.16s</span></td>
+                <td><span class="timing-info">0.19s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.16s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'mistralai/mixtral-8x7b-instruct-v01\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '96e6a81e27ace29a907c22854ad3e634', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'mistralai/mixtral-8x7b-instruct-v01\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '96e6a81e27ace29a907c22854ad3e634', 'status_code': 400}</span></td>
+                <td><span class="timing-info">0.19s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'mistralai/mixtral-8x7b-instruct-v01\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '71c903af46af54b3893693bc4cba5431', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'mistralai/mixtral-8x7b-instruct-v01\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '71c903af46af54b3893693bc4cba5431', 'status_code': 400}</span></td>
             </tr>
             
             <tr data-model="mistralai/pixtral-12b" data-support="False" data-handling="False">
@@ -1444,9 +1839,9 @@
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.46s</span></td>
+                <td><span class="timing-info">0.47s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.46s</span></td>
+                <td><span class="timing-info">0.47s</span></td>
                 <td><span class="details-cell" title="Model does not support tool calling. Finish reason: stop. Response: [TOOL_CALLS][{"name": "hello_world", "arguments": {"language": "spanish", "name": "Daniel"}}]">Model does not support tool calling. Finish reason: stop. Response: [TOOL_CALLS][{"name": "hello_world", "arguments": {"language": "spanish", "name": "Daniel"}}]</span></td>
             </tr>
             
@@ -1458,7 +1853,7 @@
                 <td><span class="timing-info">0.09s</span></td>
                 <td>N/A</td>
                 <td><span class="timing-info">0.09s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'sentence-transformers/all-minilm-l12-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '8634fcab898aa7975aaf5d90e9777f67', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'sentence-transformers/all-minilm-l12-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '8634fcab898aa7975aaf5d90e9777f67', 'status_code': 400}</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'sentence-transformers/all-minilm-l12-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '78bbea1ae88d8573c29c4d0842858749', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'sentence-transformers/all-minilm-l12-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '78bbea1ae88d8573c29c4d0842858749', 'status_code': 400}</span></td>
             </tr>
             
             <tr data-model="sentence-transformers/all-minilm-l6-v2" data-support="False" data-handling="False">
@@ -1466,10 +1861,10 @@
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="support-indicator support-no">❌ No</span></td>
                 <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
-                <td><span class="timing-info">0.10s</span></td>
+                <td><span class="timing-info">0.11s</span></td>
                 <td>N/A</td>
-                <td><span class="timing-info">0.10s</span></td>
-                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'sentence-transformers/all-minilm-l6-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '02e5b7d900e7a6a1b27b251065c9fd15', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'sentence-transformers/all-minilm-l6-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '02e5b7d900e7a6a1b27b251065c9fd15', 'status_code': 400}</span></td>
+                <td><span class="timing-info">0.11s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'sentence-transformers/all-minilm-l6-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'ba9342f72fad119bcb6479ce74fc5676', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'sentence-transformers/all-minilm-l6-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'ba9342f72fad119bcb6479ce74fc5676', 'status_code': 400}</span></td>
             </tr>
             
                 </tbody>
@@ -1484,11 +1879,11 @@
                 <div class="chart-title">Model Support Categories</div>
                 <div class="performance-chart">
                     <div class="performance-item">
-                        <div class="performance-value" style="color: var(--success-color);">9</div>
+                        <div class="performance-value" style="color: var(--success-color);">12</div>
                         <div class="performance-label">Full Support</div>
                     </div>
                     <div class="performance-item">
-                        <div class="performance-value" style="color: var(--warning-color);">3</div>
+                        <div class="performance-value" style="color: var(--warning-color);">0</div>
                         <div class="performance-label">Partial Support</div>
                     </div>
                     <div class="performance-item">
@@ -1502,7 +1897,7 @@
                 <div class="chart-title">Average Response Times</div>
                 <div class="performance-chart">
                     <div class="performance-item">
-                        <div class="performance-value">1.00s</div>
+                        <div class="performance-value">0.84s</div>
                         <div class="performance-label">Tool Call Time</div>
                     </div>
                     <div class="performance-item">
@@ -1510,7 +1905,7 @@
                         <div class="performance-label">Response Processing</div>
                     </div>
                     <div class="performance-item">
-                        <div class="performance-value">1.55s</div>
+                        <div class="performance-value">1.38s</div>
                         <div class="performance-label">Total Time</div>
                     </div>
                 </div>
@@ -1521,19 +1916,19 @@
                 <div class="chart-title">Reliability Assessment</div>
                 <div class="performance-chart">
                     <div class="performance-item">
-                        <div class="performance-value" style="color: var(--success-color);">9</div>
+                        <div class="performance-value" style="color: var(--success-color);">12</div>
                         <div class="performance-label">Reliable Models</div>
                     </div>
                     <div class="performance-item">
-                        <div class="performance-value" style="color: var(--warning-color);">3</div>
+                        <div class="performance-value" style="color: var(--warning-color);">0</div>
                         <div class="performance-label">Unreliable Models</div>
                     </div>
                     <div class="performance-item">
-                        <div class="performance-value" style="color: var(--primary-color);">28.4%</div>
+                        <div class="performance-value" style="color: var(--primary-color);">27.3%</div>
                         <div class="performance-label">Avg Tool Success Rate</div>
                     </div>
                     <div class="performance-item">
-                        <div class="performance-value" style="color: var(--primary-color);">23.9%</div>
+                        <div class="performance-value" style="color: var(--primary-color);">27.3%</div>
                         <div class="performance-label">Avg Response Success Rate</div>
                     </div>
                 </div>
