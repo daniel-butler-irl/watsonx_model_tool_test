@@ -1050,8 +1050,35 @@ class HTMLReportGenerator:
             handles_response = result.get("handles_response", False)
             details = result.get("details", "N/A")
 
-            # Format support indicators
-            tool_support_html = f'<span class="support-indicator support-{"yes" if tool_support else "no"}">{"✅ Yes" if tool_support else "❌ No"}</span>'
+            # Calculate tool successes for use in both tool support and response handling
+            tool_successes = 0
+            iterations = 1
+
+            # Format tool support with reliability context
+            if has_reliability and "reliability" in result:
+                rel_info = result["reliability"]
+                is_reliable = rel_info.get("is_reliable")
+                tool_success_rate = rel_info.get("tool_call_success_rate", 0)
+                iterations = rel_info.get("iterations", 1)
+
+                # Calculate actual success count from rate and iterations
+                tool_successes = int(tool_success_rate * iterations)
+
+                # Show success/total format for supported models (only consider tool calling success)
+                if tool_support and is_reliable is not None:
+                    if tool_success_rate == 1.0:
+                        tool_support_html = f'<span class="support-indicator support-yes">✅ Reliable ({tool_successes}/{iterations})</span>'
+                    else:
+                        tool_support_html = f'<span class="support-indicator support-partial">⚠️ Unreliable ({tool_successes}/{iterations})</span>'
+                elif not tool_support:
+                    # For unsupported models, show 0/iterations
+                    tool_support_html = f'<span class="support-indicator support-no">❌ Not Supported (0/{iterations})</span>'
+                else:
+                    tool_support_html = f'<span class="support-indicator support-{"yes" if tool_support else "no"}">{"✅ Yes" if tool_support else "❌ No"}</span>'
+            else:
+                # For models without reliability data, assume 1 success if tool_support is True
+                tool_successes = 1 if tool_support else 0
+                tool_support_html = f'<span class="support-indicator support-{"yes" if tool_support else "no"}">{"✅ Yes" if tool_support else "❌ No"}</span>'
 
             # Format response handling with reliability context
             if has_reliability and "reliability" in result:
@@ -1061,12 +1088,25 @@ class HTMLReportGenerator:
                     "response_handling_success_rate", 0
                 )
 
-                # If model is unreliable, show response rate instead of binary yes/no
-                if is_reliable is False and tool_support:
-                    if response_success_rate > 0:
-                        response_support_html = f'<span class="support-indicator support-partial">⚠️ Unreliable ({response_success_rate:.0%})</span>'
+                # Calculate actual success count from rate and tool_successes
+                response_successes = (
+                    int(response_success_rate * tool_successes)
+                    if tool_successes > 0
+                    else 0
+                )
+
+                # Show response handling based on model support
+                if not tool_support:
+                    # For unsupported models, show N/A
+                    response_support_html = '<span class="support-indicator" style="color: #888;">N/A</span>'
+                elif tool_support and tool_successes > 0:
+                    # For supported models, show success/attempts format
+                    if response_success_rate == 1.0:
+                        response_support_html = f'<span class="support-indicator support-yes">✅ Correct ({response_successes}/{tool_successes})</span>'
+                    elif response_success_rate > 0:
+                        response_support_html = f'<span class="support-indicator support-partial">⚠️ Partial ({response_successes}/{tool_successes})</span>'
                     else:
-                        response_support_html = f'<span class="support-indicator support-no">❌ Never Handles</span>'
+                        response_support_html = f'<span class="support-indicator support-no">❌ Never Handles (0/{tool_successes})</span>'
                 else:
                     response_support_html = f'<span class="support-indicator support-{"yes" if handles_response else "no"}">{"✅ Yes" if handles_response else "❌ No"}</span>'
             else:
@@ -1082,14 +1122,15 @@ class HTMLReportGenerator:
                     "response_handling_success_rate", 0
                 )
 
+                # Simplified reliability display since other columns show the detail
                 if not tool_support:
-                    reliability_html = '<span class="reliability-badge reliability-none">NOT SUPPORTED</span>'
+                    reliability_html = '<span class="reliability-badge reliability-none">❌ NOT SUPPORTED</span>'
                 elif is_reliable:
-                    reliability_html = '<span class="reliability-badge reliability-perfect">✅ 100%/100%</span>'
+                    reliability_html = '<span class="reliability-badge reliability-perfect">✅ RELIABLE</span>'
                 else:
-                    reliability_html = f'<span class="reliability-badge reliability-partial">⚠️ {tool_success_rate:.0%}/{response_success_rate:.0%}</span>'
+                    reliability_html = '<span class="reliability-badge reliability-partial">⚠️ UNRELIABLE</span>'
             elif has_reliability:
-                reliability_html = '<span class="reliability-badge reliability-none">SINGLE</span>'
+                reliability_html = '<span class="reliability-badge reliability-perfect">✅ SINGLE TEST</span>'
 
             # Format timing info
             times = result.get("response_times", {})

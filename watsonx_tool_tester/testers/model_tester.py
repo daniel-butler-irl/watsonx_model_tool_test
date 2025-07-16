@@ -216,7 +216,7 @@ class ModelTester:
                 "details": f"Error: {str(e)}",
                 "response_times": {
                     "tool_call_time": 0,
-                    "response_time": 0,
+                    "response_processing_time": 0,
                     "total_time": 0,
                 },
                 "raw_response": None,
@@ -289,7 +289,7 @@ class ModelTester:
                         response_times.get("tool_call_time", 0) or 0
                     )
                     total_response_time += (
-                        response_times.get("response_time", 0) or 0
+                        response_times.get("response_processing_time", 0) or 0
                     )
                     total_time += response_times.get("total_time", 0) or 0
 
@@ -345,7 +345,7 @@ class ModelTester:
                         "details": error_msg,
                         "response_times": {
                             "tool_call_time": 0,
-                            "response_time": 0,
+                            "response_processing_time": 0,
                             "total_time": 0,
                         },
                     }
@@ -357,8 +357,13 @@ class ModelTester:
         tool_call_success_rate = (
             tool_call_successes / iterations if iterations > 0 else 0
         )
+
+        # Response handling success rate should only count iterations where tool calls succeeded
+        # If tool call fails, we can't evaluate response handling for that iteration
         response_handling_success_rate = (
-            response_handling_successes / iterations if iterations > 0 else 0
+            response_handling_successes / tool_call_successes
+            if tool_call_successes > 0
+            else 0
         )
 
         # Determine overall support - ANY successful tool calls indicate support
@@ -432,7 +437,7 @@ class ModelTester:
             "details": details,
             "response_times": {
                 "tool_call_time": avg_tool_call_time,
-                "response_time": avg_response_time,
+                "response_processing_time": avg_response_time,
                 "total_time": avg_total_time,
             },
             # Reliability metrics
@@ -755,7 +760,7 @@ class ModelTester:
             "details": details,
             "response_times": {
                 "tool_call_time": response_times.get("tool_call_time", 0),
-                "response_time": response_times.get(
+                "response_processing_time": response_times.get(
                     "response_processing_time", 0
                 ),
                 "total_time": response_times.get("total_time", 0),

@@ -87,10 +87,53 @@ class ResultHandler:
             supports_tool_call = result["tool_call_support"]
             handles_response = result["handles_response"]
 
-            # Format tool call support and response handling status
-            tool_call_status = format_tool_call_success(supports_tool_call)
+            # Format tool call support with reliability context
+            if has_reliability_data and "reliability" in result:
+                reliability_info = result.get("reliability")
+                is_reliable = (
+                    reliability_info.get("is_reliable")
+                    if reliability_info
+                    else None
+                )
+                tool_success_rate = (
+                    reliability_info.get("tool_call_success_rate", 0)
+                    if reliability_info
+                    else 0
+                )
+                iterations = (
+                    reliability_info.get("iterations", 1)
+                    if reliability_info
+                    else 1
+                )
 
-            # For unreliable models, show response handling with reliability context
+                # Calculate actual success count from rate and iterations
+                tool_successes = int(tool_success_rate * iterations)
+
+                # Show success/total format for supported models (only consider tool calling success)
+                if supports_tool_call and is_reliable is not None:
+                    if tool_success_rate == 1.0:
+                        tool_call_status = click.style(
+                            f"✅ RELIABLE ({tool_successes}/{iterations})",
+                            fg="green",
+                        )
+                    else:
+                        tool_call_status = click.style(
+                            f"⚠️ UNRELIABLE ({tool_successes}/{iterations})",
+                            fg="yellow",
+                        )
+                elif not supports_tool_call:
+                    # For unsupported models, show 0/iterations
+                    tool_call_status = click.style(
+                        f"❌ NOT SUPPORTED (0/{iterations})", fg="red"
+                    )
+                else:
+                    tool_call_status = format_tool_call_success(
+                        supports_tool_call
+                    )
+            else:
+                tool_call_status = format_tool_call_success(supports_tool_call)
+
+            # Format response handling with reliability context
             if has_reliability_data and "reliability" in result:
                 reliability_info = result.get("reliability")
                 is_reliable = (
@@ -103,17 +146,39 @@ class ResultHandler:
                     if reliability_info
                     else 0
                 )
+                iterations = (
+                    reliability_info.get("iterations", 1)
+                    if reliability_info
+                    else 1
+                )
 
-                # If model is unreliable, show response rate instead of binary correct/incorrect
-                if is_reliable is False and supports_tool_call:
-                    if response_success_rate > 0:
+                # Calculate actual success count from rate and iterations
+                # For response handling, use tool_successes as denominator since we calculated it above
+                response_successes = (
+                    int(response_success_rate * tool_successes)
+                    if tool_successes > 0
+                    else 0
+                )
+
+                # Show response handling based on model support
+                if not supports_tool_call:
+                    # For unsupported models, show N/A
+                    response_status = click.style("N/A", fg="bright_black")
+                elif supports_tool_call and tool_successes > 0:
+                    # For supported models, show success/attempts format
+                    if response_success_rate == 1.0:
                         response_status = click.style(
-                            f"⚠️ UNRELIABLE ({response_success_rate:.0%})",
+                            f"✅ CORRECT ({response_successes}/{tool_successes})",
+                            fg="green",
+                        )
+                    elif response_success_rate > 0:
+                        response_status = click.style(
+                            f"⚠️ PARTIAL ({response_successes}/{tool_successes})",
                             fg="yellow",
                         )
                     else:
                         response_status = click.style(
-                            "❌ NEVER HANDLES", fg="red"
+                            f"❌ NEVER HANDLES (0/{tool_successes})", fg="red"
                         )
                 else:
                     response_status = format_response_success(handles_response)
@@ -168,22 +233,21 @@ class ResultHandler:
                             "response_handling_success_rate", 0
                         )
 
-                        # Check if model supports tool calling at all
+                        # Simplified reliability display since other columns show the detail
                         if is_reliable is None:
-                            reliability_str = "NOT SUPPORTED"
+                            reliability_str = "❌ NOT SUPPORTED"
                         elif is_reliable:
                             reliability_str = "✅ RELIABLE"
                         else:
-                            # Show clear labels for the percentages
-                            reliability_str = f"⚠️ UNRELIABLE (Tool: {tool_success_rate:.0%}, Response: {response_success_rate:.0%})"
+                            reliability_str = "⚠️ UNRELIABLE"
                     else:
                         # Single iteration results
                         if not result.get("tool_call_support", False):
-                            reliability_str = "NOT SUPPORTED"
+                            reliability_str = "❌ NOT SUPPORTED"
                         else:
-                            reliability_str = "SINGLE TEST"
+                            reliability_str = "✅ SINGLE TEST"
                 else:
-                    reliability_str = "SINGLE TEST"
+                    reliability_str = "✅ SINGLE TEST"
                 row_data.append(reliability_str)
 
             # Add timing columns
