@@ -47,7 +47,7 @@ class HTMLReportGenerator:
             str: Complete HTML report as a string
         """
         # Generate report timestamp
-        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S UTC")
+        timestamp = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
 
         # Build HTML structure
         html_content = f"""
