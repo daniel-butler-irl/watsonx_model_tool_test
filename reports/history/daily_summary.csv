@@ -1,1 +1,2 @@
 datetime,total_models,working_models,handling_models,reliable_models,avg_tool_time,avg_response_time,avg_total_time,fastest_model,fastest_time
+2025-07-16T13:41:47.551593,44,12,11,9,0.356,0.000,0.494,ibm/granite-ttm-1024-96-r2,0.080
