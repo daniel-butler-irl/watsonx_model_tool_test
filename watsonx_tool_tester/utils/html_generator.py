@@ -609,10 +609,6 @@ class HTMLReportGenerator:
             font-size: 0.9em;
         }
 
-        .model-provider {
-            font-size: 0.8em;
-            color: #666;
-        }
 
         .status-timeline {
             display: flex;
@@ -1217,7 +1213,6 @@ class HTMLReportGenerator:
         for model in trackable_models:
             model_id = model["model_id"]
             display_name = model["display_name"]
-            provider = model["provider"]
 
             # Get status for each date
             status_cells = []
@@ -1251,7 +1246,6 @@ class HTMLReportGenerator:
                 <div class="model-row">
                     <div class="model-info">
                         <span class="model-name">{display_name}</span>
-                        <span class="model-provider">{provider}</span>
                     </div>
                     <div class="status-timeline">
                         {''.join(status_cells)}

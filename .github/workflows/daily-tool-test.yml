@@ -53,10 +53,29 @@ jobs:
         
         # Generate HTML report
         HTML_REPORT_FILE="reports/tool_test_report_${TIMESTAMP}.html"
-        watsonx-tool-tester test --iterations ${{ inputs.iterations || '20' }} --output "$HTML_REPORT_FILE" --html-output --save-history
+        echo "🔧 Running tool test with HTML output..."
+        echo "Output file: $HTML_REPORT_FILE"
+        
+        if watsonx-tool-tester test --iterations ${{ inputs.iterations || '20' }} --output "$HTML_REPORT_FILE" --html-output --save-history; then
+          echo "✅ Tool test completed successfully"
+        else
+          echo "❌ Tool test failed with exit code $?"
+          echo "Directory contents:"
+          ls -la reports/
+          exit 1
+        fi
         
         # Copy the latest report (no symlinks for web compatibility)
-        cp "$HTML_REPORT_FILE" reports/latest_report.html
+        echo "📋 Copying report files..."
+        if [ -f "$HTML_REPORT_FILE" ]; then
+          cp "$HTML_REPORT_FILE" reports/latest_report.html
+          echo "✅ Report copied to latest_report.html"
+        else
+          echo "❌ ERROR: HTML report file not found: $HTML_REPORT_FILE"
+          echo "Files in reports directory:"
+          ls -la reports/
+          exit 1
+        fi
         
         # Verify the HTML report was created and contains content
         if [ -f reports/latest_report.html ] && [ -s reports/latest_report.html ]; then
