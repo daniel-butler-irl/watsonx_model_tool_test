@@ -55,8 +55,15 @@ jobs:
         HTML_REPORT_FILE="reports/tool_test_report_${TIMESTAMP}.html"
         watsonx-tool-tester test --iterations ${{ inputs.iterations || '20' }} --output "$HTML_REPORT_FILE" --html-output --save-history
         
-        # Save the latest report as symlink
-        ln -sf "tool_test_report_${TIMESTAMP}.html" reports/latest_report.html
+        # Copy the latest report (no symlinks for web compatibility)
+        cp "$HTML_REPORT_FILE" reports/latest_report.html
+        
+        # Verify the HTML report was created and contains content
+        if [ -f reports/latest_report.html ] && [ -s reports/latest_report.html ]; then
+          echo "✅ Latest report created successfully: $(wc -c < reports/latest_report.html) bytes"
+        else
+          echo "❌ Failed to create latest report or file is empty"
+        fi
         
         # Generate comprehensive 90-day report using historical data
         COMPREHENSIVE_REPORT_FILE="reports/comprehensive_report.html"
@@ -68,10 +75,19 @@ jobs:
           echo "No historical data available, skipping comprehensive report generation"
         fi
         
-        # Create symlink for comprehensive report
+        # Copy comprehensive report (no symlinks for web compatibility)
         if [ -f "$COMPREHENSIVE_REPORT_FILE" ]; then
-          ln -sf "comprehensive_report.html" reports/latest_comprehensive.html
+          cp "$COMPREHENSIVE_REPORT_FILE" reports/latest_comprehensive.html
           echo "COMPREHENSIVE_REPORT_FILE=$COMPREHENSIVE_REPORT_FILE" >> $GITHUB_ENV
+          
+          # Verify comprehensive report
+          if [ -f reports/latest_comprehensive.html ] && [ -s reports/latest_comprehensive.html ]; then
+            echo "✅ Comprehensive report created successfully: $(wc -c < reports/latest_comprehensive.html) bytes"
+          else
+            echo "❌ Failed to create comprehensive report or file is empty"
+          fi
+        else
+          echo "⚠️ No comprehensive report file found to copy"
         fi
         
         # Set environment variables for later steps
@@ -109,25 +125,59 @@ jobs:
         # Update README.md to include link to latest report using comment markers
         CURRENT_DATE=$(date -u '+%Y-%m-%d %H:%M:%S UTC')
         
-        # Simple approach - just echo the new content
+        # Update README section in-place to preserve positioning
         if grep -q "<!-- TOOL_TEST_REPORT_START -->" README.md; then
-          # Remove old section
-          sed -i '/<!-- TOOL_TEST_REPORT_START -->/,/<!-- TOOL_TEST_REPORT_END -->/d' README.md
+          # Create temporary file with new section content using echo
+          echo "<!-- TOOL_TEST_REPORT_START -->" > /tmp/new_section.txt
+          echo "## 🔧 Tool Test Status" >> /tmp/new_section.txt
+          echo "" >> /tmp/new_section.txt
+          echo "📊 **[Latest Daily Report](reports/latest_report.html)** | **[90-Day Comprehensive Report](reports/latest_comprehensive.html)**" >> /tmp/new_section.txt
+          echo "" >> /tmp/new_section.txt
+          echo "- **Last Updated:** $CURRENT_DATE" >> /tmp/new_section.txt
+          echo "- **Test Iterations:** ${{ inputs.iterations || '20' }} per model" >> /tmp/new_section.txt
+          echo "- **All Reports:** [Browse Reports Directory](reports/)" >> /tmp/new_section.txt
+          echo "" >> /tmp/new_section.txt
+          echo "*Daily reports generated at 06:00 UTC. Comprehensive report includes 90-day trend analysis and reliability assessment.*" >> /tmp/new_section.txt
+          echo "<!-- TOOL_TEST_REPORT_END -->" >> /tmp/new_section.txt
+          
+          # Use awk to replace the section in-place
+          awk '
+            /<!-- TOOL_TEST_REPORT_START -->/ {
+              while ((getline line < "/tmp/new_section.txt") > 0) {
+                print line
+              }
+              close("/tmp/new_section.txt")
+              skip = 1
+              next
+            }
+            /<!-- TOOL_TEST_REPORT_END -->/ {
+              skip = 0
+              next
+            }
+            !skip
+          ' README.md > README.md.tmp && mv README.md.tmp README.md
+          
+          # Clean up
+          rm -f /tmp/new_section.txt
+          
+          echo "✅ README section updated in-place"
+        else
+          # Add new section at the end if markers don't exist
+          echo "" >> README.md
+          echo "<!-- TOOL_TEST_REPORT_START -->" >> README.md
+          echo "## 🔧 Tool Test Status" >> README.md
+          echo "" >> README.md
+          echo "📊 **[Latest Daily Report](reports/latest_report.html)** | **[90-Day Comprehensive Report](reports/latest_comprehensive.html)**" >> README.md
+          echo "" >> README.md
+          echo "- **Last Updated:** $CURRENT_DATE" >> README.md
+          echo "- **Test Iterations:** ${{ inputs.iterations || '20' }} per model" >> README.md
+          echo "- **All Reports:** [Browse Reports Directory](reports/)" >> README.md
+          echo "" >> README.md
+          echo "*Daily reports generated at 06:00 UTC. Comprehensive report includes 90-day trend analysis and reliability assessment.*" >> README.md
+          echo "<!-- TOOL_TEST_REPORT_END -->" >> README.md
+          
+          echo "✅ README section added (markers didn't exist)"
         fi
-        
-        # Add new section
-        echo "" >> README.md
-        echo "<!-- TOOL_TEST_REPORT_START -->" >> README.md
-        echo "## 🔧 Tool Test Status" >> README.md
-        echo "" >> README.md
-        echo "📊 **[Latest Daily Report](reports/latest_report.html)** | **[90-Day Comprehensive Report](reports/latest_comprehensive.html)**" >> README.md
-        echo "" >> README.md
-        echo "- **Last Updated:** $CURRENT_DATE" >> README.md
-        echo "- **Test Iterations:** ${{ inputs.iterations || '20' }} per model" >> README.md
-        echo "- **All Reports:** [Browse Reports Directory](reports/)" >> README.md
-        echo "" >> README.md
-        echo "*Daily reports generated at 06:00 UTC. Comprehensive report includes 90-day trend analysis and reliability assessment.*" >> README.md
-        echo "<!-- TOOL_TEST_REPORT_END -->" >> README.md
 
     - name: Commit README Update
       if: steps.upload-report.outcome == 'success'

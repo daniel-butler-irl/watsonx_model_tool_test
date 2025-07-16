@@ -13,6 +13,17 @@ The package supports direct testing against WatsonX.ai API or through a LiteLLM 
 
 ![Example Tool Tester Output](./images/sample_report.png)
 
+<!-- TOOL_TEST_REPORT_START -->
+## 🔧 Tool Test Status
+
+📊 **[Latest Daily Report](reports/latest_report.html)** | **[90-Day Comprehensive Report](reports/latest_comprehensive.html)**
+
+- **Last Updated:** *Check back daily for automated updates*
+- **Test Iterations:** 20 per model for reliability assessment
+- **All Reports:** [Browse Reports Directory](reports/)
+
+*Daily reports generated at 06:00 UTC. Comprehensive report includes 90-day trend analysis and reliability assessment.*
+<!-- TOOL_TEST_REPORT_END -->
 
 ## How Tests Work
 
