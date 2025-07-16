@@ -19,6 +19,7 @@ from watsonx_tool_tester.config import (
 from watsonx_tool_tester.testers.model_tester import ModelTester
 from watsonx_tool_tester.testers.result_handler import ResultHandler
 from watsonx_tool_tester.utils import errors
+from watsonx_tool_tester.utils.history_manager import HistoryManager
 
 
 @click.group()
@@ -75,6 +76,20 @@ def cli():
     help="Set logging level (default: INFO, overridden by --debug)",
 )
 @click.option("--output", "-o", help="File to save results in JSON format")
+@click.option(
+    "--html-output", is_flag=True, help="Generate HTML report instead of JSON"
+)
+@click.option(
+    "--iterations",
+    type=int,
+    default=5,
+    help="Number of times to test each model for reliability assessment (default: 5)",
+)
+@click.option(
+    "--save-history",
+    is_flag=True,
+    help="Save test results to CSV files in reports/history/ directory",
+)
 def test(
     client: Optional[str],
     watsonx_url: Optional[str],
@@ -92,6 +107,9 @@ def test(
     log_dir: Optional[str],
     log_level: Optional[str],
     output: Optional[str],
+    html_output: bool,
+    iterations: int,
+    save_history: bool,
 ):
     """Test AI models for tool call capabilities.
 
@@ -120,6 +138,9 @@ def test(
         "log_dir": log_dir,
         "log_level": log_level,
         "output": output,
+        "html_output": html_output,
+        "iterations": iterations,
+        "save_history": save_history,
     }
 
     # Filter out None values
@@ -137,6 +158,11 @@ def test(
         # Initialize and run the tester
         tester = ModelTester(config)
         results = tester.test_all_models(filter_model=config.model)
+
+        # Record test results in history if enabled
+        if config.save_history:
+            history_manager = HistoryManager()
+            history_manager.record_test_results(results)
 
         # Print summary
         handler = ResultHandler()

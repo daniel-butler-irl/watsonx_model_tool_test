@@ -7,7 +7,6 @@ to test tool call capabilities of models.
 """
 
 import json
-import re
 import time
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -169,31 +168,27 @@ class WatsonXClient(BaseClient):  # Changed from ModelClient to BaseClient
         if watson_tools:
             payload["tools"] = watson_tools
             if tool_choice:
-                payload["tool_choice"] = tool_choice
+                payload["tool_choice_option"] = tool_choice
             else:
-                payload["tool_choice"] = "auto"
+                payload["tool_choice_option"] = "auto"
 
-        # Try multiple endpoints to find one that works
-        endpoints = [
-            f"{self.base_url}/ml/v1/chat/completions?version={self.api_version}",
-            f"{self.base_url}/ml/v1/generation?version={self.api_version}",
-            f"{self.base_url}/ml/v1/text/generation?version={self.api_version}",
-        ]
+        # Use the correct chat endpoint for tool calling
+        endpoint = (
+            f"{self.base_url}/ml/v1/text/chat?version={self.api_version}"
+        )
 
-        last_error = None
-        for endpoint in endpoints:
-            try:
-                response = requests.post(
-                    endpoint, headers=headers, json=payload, timeout=60
+        try:
+            response = requests.post(
+                endpoint, headers=headers, json=payload, timeout=60
+            )
+            if response.status_code == 200:
+                return response.json()
+            else:
+                raise ValueError(
+                    f"API request failed: {response.status_code} - {response.text}"
                 )
-                if response.status_code == 200:
-                    return response.json()
-                last_error = response.text
-            except Exception as e:
-                last_error = str(e)
-
-        # If we got here, all attempts failed
-        raise ValueError(f"Failed to generate response: {last_error}")
+        except Exception as e:
+            raise ValueError(f"Failed to generate response: {str(e)}")
 
     def get_iam_token(self) -> Optional[str]:
         """Get an IAM token using the IBM Cloud API key.
@@ -426,7 +421,7 @@ class WatsonXClient(BaseClient):  # Changed from ModelClient to BaseClient
     ) -> Tuple[
         bool, bool, str, Optional[Dict[str, Any]], Dict[str, Optional[float]]
     ]:
-        """Test model with all supported payload formats to find the one that works best.
+        """Test model using proper WatsonX tool calling API.
 
         Args:
             model_id: The ID of the model to test
@@ -447,47 +442,10 @@ class WatsonXClient(BaseClient):  # Changed from ModelClient to BaseClient
             "total_time": None,
         }
 
-        # Classify model to determine appropriate approach
-        model_family = "other"
-        if "llama-3" in model_id or "meta-llama/llama-3" in model_id:
-            model_family = "llama3"
-        elif "granite-3" in model_id:
-            model_family = "granite3"
-        elif "mistral" in model_id:
-            model_family = "mistral"
+        total_start_time = time.time()
 
-        # Custom system prompts per model family
-        system_prompt = "You are a helpful assistant that must use provided functions when needed. When a user requests something that requires using a function, you must call the function rather than trying to perform the task yourself. Never define functions in your response - only use the functions provided to you."
-
-        if model_family == "llama3":
-            # Llama 3 needs very explicit instructions about function calling format
-            system_prompt = "You are a helpful assistant with access to functions. When asked to perform a task that can be accomplished using a function, you MUST use the provided function without explanation. DO NOT define or implement the function - only call the existing function with appropriate parameters. For Spanish greetings, use the provided hello_world function with language='spanish'."
-        elif model_family == "granite3":
-            # Granite 3 models need a clear function calling prompt
-            system_prompt = "You are a helpful assistant that must use provided functions. Always call the function directly without explanations when a user requests something that matches a function's purpose. Never write your own implementation - only use the provided function."
-        elif model_family == "mistral":
-            # Mistral models need specific instruction about function format
-            system_prompt = "You are a helpful assistant with access to functions. You must call the appropriate function when needed. Follow the function specification exactly. Do not create your own functions - only use the ones provided to you. Use JSON format for function arguments."
-
-        # Format 1: OpenAI-style format with custom input formatting for WatsonX text generation
-        payload1 = {
-            "model_id": model_id,
-            "parameters": {
-                "temperature": 0.0,  # Use 0 temperature for deterministic function calling
-                "max_new_tokens": 800,
-                "decoding_method": "greedy",
-                "min_new_tokens": 0,
-                "stop_sequences": [],
-                "repetition_penalty": 1,
-            },
-            "input": f"<|start_of_role|>system<|end_of_role|>{system_prompt}<|end_of_text|>\n<|start_of_role|>user<|end_of_role|>{prompt}<|end_of_text|><|start_of_role|>assistant<|end_of_role|>",
-            "tools": [self.hello_world_tool],
-            "tool_choice": "auto",
-            "project_id": self.project_id,
-        }
-
-        # Format 2: OpenAI chat completions format - this is what LiteLLM is using
-        payload2 = {
+        # Create proper chat format payload
+        payload = {
             "model_id": model_id,
             "parameters": {
                 "temperature": 0.0,
@@ -498,1163 +456,388 @@ class WatsonXClient(BaseClient):  # Changed from ModelClient to BaseClient
                 "repetition_penalty": 1,
             },
             "messages": [
-                {"role": "system", "content": system_prompt},
+                {
+                    "role": "system",
+                    "content": "You are a helpful assistant that uses tools when needed.",
+                },
                 {"role": "user", "content": prompt},
             ],
             "tools": [self.hello_world_tool],
-            "tool_choice": "auto",
+            "tool_choice_option": "auto",
             "project_id": self.project_id,
         }
 
-        # List of payloads to try, in order of preference
-        payloads = [payload1, payload2]
-        endpoints = [
-            f"{self.base_url}/ml/v1/text/generation?version={self.api_version}",
-            f"{self.base_url}/ml/v1/generation?version={self.api_version}",
-            f"{self.base_url}/ml/v1/chat/completions?version={self.api_version}",
-        ]
-
-        # Try each combination until one works
-        headers = self.get_auth_headers()
-        success = False
-        total_start_time = time.time()
-
-        for payload_num, payload in enumerate(payloads, 1):
-            if success:
-                break
-
-            for endpoint_num, endpoint in enumerate(endpoints, 1):
-                if success:
-                    break
-
-                if self.debug:
-                    logger.info(
-                        f"Trying payload {payload_num} with endpoint {endpoint_num}: {endpoint}"
-                    )
-
-                try:
-                    start_time = time.time()
-                    response = requests.post(
-                        endpoint, headers=headers, json=payload, timeout=60
-                    )
-                    api_call_time = time.time() - start_time
-
-                    if self.debug:
-                        logger.info(
-                            f"Request completed in {api_call_time:.2f} seconds"
-                        )
-                        logger.info(
-                            f"Response Status Code: {response.status_code}"
-                        )
-
-                    if response.status_code == 200:
-                        response_data = response.json()
-
-                        if self.debug:
-                            logger.info(
-                                f"Full Response: {json.dumps(response_data, indent=2)}"
-                            )
-
-                        # Handle WatsonX text generation format
-                        if (
-                            "results" in response_data
-                            and len(response_data["results"]) > 0
-                        ):
-                            generated_text = response_data["results"][0].get(
-                                "generated_text", ""
-                            )
-
-                            # Check for Python tag-based function calls (Llama models often do this)
-                            python_tag_match = re.search(
-                                r"<\|python_tag\|>(.*?)$", generated_text
-                            )
-                            if python_tag_match:
-                                result = (
-                                    self._process_python_tag_function_call(
-                                        python_tag_match,
-                                        generated_text,
-                                        model_id,
-                                        prompt,
-                                        api_call_time,
-                                        endpoint,
-                                        headers,
-                                        payload,
-                                        response_times,
-                                    )
-                                )
-                                if result[0]:  # If successful
-                                    return result
-
-                            # Check for JSON-style function calls in raw text
-                            json_match = re.search(
-                                r'(\{.*"name"\s*:\s*"hello_world".*\})',
-                                generated_text,
-                            )
-                            if json_match:
-                                result = (
-                                    self._process_json_in_text_function_call(
-                                        json_match,
-                                        generated_text,
-                                        model_id,
-                                        prompt,
-                                        api_call_time,
-                                        endpoint,
-                                        headers,
-                                        payload,
-                                        response_times,
-                                    )
-                                )
-                                if result[0]:  # If successful
-                                    return result
-
-                            # Check for function call syntax in code blocks
-                            code_block_match = re.search(
-                                r"```(?:json)?\s*(\{.*\})```", generated_text
-                            )
-                            if code_block_match:
-                                try:
-                                    code_json = json.loads(
-                                        code_block_match.group(1)
-                                    )
-                                    if (
-                                        "name" in code_json
-                                        and code_json["name"] == "hello_world"
-                                    ):
-                                        result = self._process_code_block_function_call(
-                                            code_json,
-                                            generated_text,
-                                            model_id,
-                                            prompt,
-                                            api_call_time,
-                                            endpoint,
-                                            headers,
-                                            payload,
-                                            response_times,
-                                        )
-                                        if result[0]:  # If successful
-                                            return result
-                                except json.JSONDecodeError:
-                                    pass
-
-                            # Check for direct function calling syntax
-                            function_call_match = re.search(
-                                r"hello_world\((.*?)\)", generated_text
-                            )
-                            if function_call_match:
-                                result = self._process_direct_function_call(
-                                    function_call_match,
-                                    generated_text,
-                                    model_id,
-                                    prompt,
-                                    api_call_time,
-                                    endpoint,
-                                    headers,
-                                    payload,
-                                    response_times,
-                                )
-                                if result[0]:  # If successful
-                                    return result
-
-                        # Handle OpenAI-style response format
-                        elif (
-                            "choices" in response_data
-                            and len(response_data["choices"]) > 0
-                        ):
-                            message = response_data["choices"][0].get(
-                                "message", {}
-                            )
-
-                            # Check for tool calls in OpenAI format
-                            if (
-                                "tool_calls" in message
-                                and message["tool_calls"]
-                            ):
-                                result = self._process_openai_tool_calls(
-                                    message["tool_calls"],
-                                    message,
-                                    model_id,
-                                    prompt,
-                                    api_call_time,
-                                    endpoint,
-                                    headers,
-                                    payload,
-                                    response_times,
-                                )
-                                if result[0]:  # If successful
-                                    return result
-
-                        # No function call detected
-                        if self.debug:
-                            logger.info(
-                                f"No function call detected with payload {payload_num} and endpoint {endpoint_num}"
-                            )
-                    else:
-                        if self.debug:
-                            logger.info(
-                                f"Request failed with status code {response.status_code}: {response.text}"
-                            )
-
-                except Exception as e:
-                    if self.debug:
-                        logger.error(
-                            f"Error with payload {payload_num} and endpoint {endpoint_num}: {str(e)}"
-                        )
-
-        # If we got here, all attempts failed
-        total_time = time.time() - total_start_time
-        response_times["tool_call_time"] = total_time
-        response_times["total_time"] = total_time
-
-        return (
-            False,
-            False,
-            "No tool calls in response with any format",
-            None,
-            response_times,
+        # Use the correct chat endpoint for tool calling
+        endpoint = (
+            f"{self.base_url}/ml/v1/text/chat?version={self.api_version}"
         )
+        headers = self.get_auth_headers()
 
-    def execute_tool_call(
-        self, function_name: str, arguments: Dict[str, Any]
-    ) -> Dict[str, Any]:
-        """Execute a tool call with the given arguments.
-
-        Args:
-            function_name: Name of the function to execute
-            arguments: Arguments to pass to the function
-
-        Returns:
-            Dict[str, Any]: Result of the tool execution
-        """
-        if function_name == "hello_world":
-            name = arguments.get("name", "User")
-            language = arguments.get("language", "english").lower()
-
-            greeting = f"Hello, {name}!"
-            if language == "spanish":
-                greeting = f"¡Hola, {name}!"
-            elif language == "french":
-                greeting = f"Bonjour, {name}!"
-            elif language == "german":
-                greeting = f"Hallo, {name}!"
-            elif language == "italian":
-                greeting = f"Ciao, {name}!"
-
-            return {"greeting": greeting}
-        else:
-            return {"error": f"Unknown function: {function_name}"}
-
-    def _process_python_tag_function_call(
-        self,
-        match,
-        generated_text,
-        model_id,
-        prompt,
-        api_call_time,
-        endpoint,
-        headers,
-        payload,
-        response_times,
-    ) -> Tuple[
-        bool, bool, str, Optional[Dict[str, Any]], Dict[str, Optional[float]]
-    ]:
-        """Process Python tag-based function call and execute the second request.
-
-        Args:
-            match: Regular expression match object containing the function call
-            generated_text: The full generated text from the model
-            model_id: The ID of the model being tested
-            prompt: The original prompt
-            api_call_time: Time taken for the first API call
-            endpoint: The API endpoint used
-            headers: The request headers
-            payload: The request payload
-            response_times: Dictionary to track response times
-
-        Returns:
-            Tuple containing results (see test_hello_world_tool)
-        """
-        python_code = match.group(1).strip()
-        if self.debug:
-            logger.info(
-                f"✅ SUCCESS: Found Python function call: {python_code}"
-            )
-
-        # Parse the Python function call to extract function name and arguments
         try:
-            # Match the function name and arguments
-            func_match = re.match(r"(\w+)\((.*)\)", python_code)
-            if not func_match:
+            # Phase 1: Send initial request to get tool call
+            start_time = time.time()
+            response = requests.post(
+                endpoint, headers=headers, json=payload, timeout=60
+            )
+            tool_call_time = time.time() - start_time
+            response_times["tool_call_time"] = tool_call_time
+
+            if self.debug:
+                logger.info(
+                    f"Tool call request completed in {tool_call_time:.2f} seconds"
+                )
+                logger.info(f"Response Status Code: {response.status_code}")
+
+            if response.status_code != 200:
+                response_times["total_time"] = time.time() - total_start_time
+                # Check if the error indicates unsupported tool calling
+                if response.status_code == 400 or response.status_code == 422:
+                    try:
+                        error_data = response.json()
+                        error_message = str(error_data)
+                        if any(
+                            keyword in error_message.lower()
+                            for keyword in [
+                                "tool",
+                                "function",
+                                "unsupported",
+                                "not supported",
+                            ]
+                        ):
+                            return (
+                                False,
+                                False,
+                                f"Model does not support tool calling: {error_message}",
+                                None,
+                                response_times,
+                            )
+                    except:
+                        pass
+
                 return (
                     False,
                     False,
-                    "Failed to parse Python function call",
+                    f"API request failed: {response.status_code} - {response.text}",
                     None,
                     response_times,
                 )
 
-            function_name = func_match.group(1)
-            arg_string = func_match.group(2)
-
-            # Ensure it's calling the hello_world function
-            if function_name != "hello_world":
-                return (
-                    False,
-                    False,
-                    f"Model called {function_name} instead of hello_world",
-                    None,
-                    response_times,
-                )
-
-            # Parse arguments using regex
-            arguments = {}
-
-            # Extract name parameter
-            name_match = re.search(
-                r'name\s*=\s*["\']([^"\']+)["\']', arg_string
-            )
-            if name_match:
-                arguments["name"] = name_match.group(1)
-            else:
-                # Try positional argument
-                pos_args = re.findall(r'["\']([^"\']+)["\']', arg_string)
-                if pos_args:
-                    arguments["name"] = pos_args[0]
-
-            # Extract language parameter if present
-            lang_match = re.search(
-                r'language\s*=\s*["\']([^"\']+)["\']', arg_string
-            )
-            if lang_match:
-                arguments["language"] = lang_match.group(1).lower()
-
-            # Validate that at minimum we have a name
-            if "name" not in arguments:
-                return (
-                    False,
-                    False,
-                    "Missing required 'name' parameter",
-                    None,
-                    response_times,
-                )
+            response_data = response.json()
 
             if self.debug:
                 logger.info(
-                    f"✅ SUCCESS: Extracted function call parameters: {json.dumps(arguments, indent=2)}"
+                    f"Full Response: {json.dumps(response_data, indent=2)}"
                 )
 
-            # Execute the tool and get the result
-            tool_result = self.execute_tool_call(function_name, arguments)
-            if self.debug:
-                logger.info(
-                    f"Tool execution result: {json.dumps(tool_result, indent=2)}"
-                )
-
-            # Now prepare a second request with the tool result
-            second_system_msg = "You are a helpful assistant. You previously called the hello_world function and received its result. Respond to the user with the greeting returned by the function."
-            second_payload = {
-                "model_id": model_id,
-                "parameters": payload["parameters"].copy(),
-                "input": f"<|start_of_role|>system<|end_of_role|>{second_system_msg}<|end_of_text|>\n<|start_of_role|>user<|end_of_role|>{prompt}<|end_of_text|>\n<|start_of_role|>assistant<|end_of_role|>{generated_text}<|end_of_text|>\n<|start_of_role|>tool<|end_of_role|>{json.dumps(tool_result)}<|end_of_text|>\n<|start_of_role|>assistant<|end_of_role|>",
-                "project_id": self.project_id,
-            }
-
-            if self.debug:
-                logger.info(
-                    "Sending second request to test tool result handling..."
-                )
-                logger.info(
-                    f"Second Request Payload: {json.dumps(second_payload, indent=2)}"
-                )
-
-            second_start_time = time.time()
-            second_response = requests.post(
-                endpoint,
-                headers=headers,
-                json=second_payload,
-                timeout=60,
-            )
-            response_processing_time = time.time() - second_start_time
-            response_times["tool_call_time"] = api_call_time
-            response_times["response_processing_time"] = (
-                response_processing_time
-            )
-            response_times["total_time"] = (
-                api_call_time + response_processing_time
-            )
-
-            if self.debug:
-                logger.info(
-                    f"Second request completed in {response_processing_time:.2f} seconds"
-                )
-                logger.info(
-                    f"Total processing time: {response_times['total_time']:.2f} seconds"
-                )
-
-            if second_response.status_code == 200:
-                second_response_data = second_response.json()
-                if self.debug:
-                    logger.info(
-                        f"Second Response: {json.dumps(second_response_data, indent=2)}"
-                    )
-
-                # Extract content from the second response
-                second_content = ""
-                if (
-                    "results" in second_response_data
-                    and len(second_response_data["results"]) > 0
-                ):
-                    second_content = second_response_data["results"][0].get(
-                        "generated_text", ""
-                    )
-
-                # Check if the response contains the greeting in Spanish
-                if (
-                    "¡Hola, Daniel!" in second_content
-                    or "Hola, Daniel" in second_content
-                ):
-                    if self.debug:
-                        logger.info(
-                            "✅ SUCCESS: Model correctly used the tool result"
-                        )
-                    return (
-                        True,
-                        True,
-                        "Successfully handled tool result (Python tag format)",
-                        second_response_data,
-                        response_times,
-                    )
-                else:
-                    if self.debug:
-                        logger.warning(
-                            "⚠️ PARTIAL: Model used tool but did not properly incorporate result"
-                        )
-                        logger.info(f"Response content: {second_content}")
-                    return (
-                        True,
-                        False,
-                        "Tool called but result not properly used",
-                        second_response_data,
-                        response_times,
-                    )
-            else:
-                if self.debug:
-                    logger.error(
-                        f"❌ ERROR: Second request failed: {second_response.text}"
-                    )
-                return (
-                    True,
-                    False,
-                    f"Tool called but failed to process result: {self.extract_error_details(second_response.text)}",
-                    None,
-                    response_times,
-                )
-        except Exception as e:
-            if self.debug:
-                logger.error(
-                    f"❌ ERROR: Failed to process Python tag function call: {e}"
-                )
-            response_times["total_time"] = api_call_time
-            return (
-                False,
-                False,
-                f"Error processing Python tag function call: {str(e)}",
-                None,
-                response_times,
-            )
-
-    def _process_json_in_text_function_call(
-        self,
-        match,
-        generated_text,
-        model_id,
-        prompt,
-        api_call_time,
-        endpoint,
-        headers,
-        payload,
-        response_times,
-    ) -> Tuple[
-        bool, bool, str, Optional[Dict[str, Any]], Dict[str, Optional[float]]
-    ]:
-        """Process JSON-style function call embedded in text and execute the second request.
-
-        Args:
-            match: Regular expression match object containing the JSON function call
-            generated_text: The full generated text from the model
-            model_id: The ID of the model being tested
-            prompt: The original prompt
-            api_call_time: Time taken for the first API call
-            endpoint: The API endpoint used
-            headers: The request headers
-            payload: The request payload
-            response_times: Dictionary to track response times
-
-        Returns:
-            Tuple containing results (see test_hello_world_tool)
-        """
-        try:
-            extracted_json = match.group(1)
-            # Clean up the JSON if needed (some models generate invalid JSON)
-            extracted_json = re.sub(r",\s*}", "}", extracted_json)
-            extracted_json = re.sub(
-                r"([{,])\s*(\w+):", r'\1"\2":', extracted_json
-            )
-
-            function_call = json.loads(extracted_json)
-
+            # STRICT VALIDATION: Only accept proper structured tool calls
             if (
-                "name" not in function_call
-                or function_call["name"] != "hello_world"
+                "choices" in response_data
+                and len(response_data["choices"]) > 0
             ):
-                return (
-                    False,
-                    False,
-                    f"Invalid function call: {extracted_json}",
-                    None,
-                    response_times,
-                )
+                choice = response_data["choices"][0]
+                message = choice.get("message", {})
+                finish_reason = choice.get("finish_reason")
 
-            # Extract arguments
-            arguments = {}
-            if "arguments" in function_call and isinstance(
-                function_call["arguments"], dict
-            ):
-                arguments = function_call["arguments"]
-            elif "arguments" in function_call and isinstance(
-                function_call["arguments"], str
-            ):
-                try:
-                    arguments = json.loads(function_call["arguments"])
-                except json.JSONDecodeError:
-                    # Try to extract arguments with regex if JSON parsing fails
-                    name_match = re.search(
-                        r'"name"\s*:\s*"([^"]+)"', function_call["arguments"]
-                    )
-                    if name_match:
-                        arguments["name"] = name_match.group(1)
-
-                    lang_match = re.search(
-                        r'"language"\s*:\s*"([^"]+)"',
-                        function_call["arguments"],
-                    )
-                    if lang_match:
-                        arguments["language"] = lang_match.group(1).lower()
-
-            # Validate arguments (at minimum need name)
-            if "name" not in arguments:
-                arguments["name"] = (
-                    "Daniel"  # Default to Daniel as requested in the prompt
-                )
-
-            if "language" not in arguments:
-                arguments["language"] = (
-                    "spanish"  # Default to Spanish as requested in the prompt
-                )
-
-            if self.debug:
-                logger.info(
-                    f"✅ SUCCESS: Extracted JSON function call: {json.dumps(arguments, indent=2)}"
-                )
-
-            # Execute the tool and handle second request
-            tool_result = self.execute_tool_call("hello_world", arguments)
-
-            # Now prepare a second request with the tool result
-            second_system_msg = "You are a helpful assistant. You previously called the hello_world function and received its result. Respond to the user with the greeting returned by the function."
-            second_payload = {
-                "model_id": model_id,
-                "parameters": payload["parameters"].copy(),
-                "input": f"<|start_of_role|>system<|end_of_role|>{second_system_msg}<|end_of_text|>\n<|start_of_role|>user<|end_of_role|>{prompt}<|end_of_text|>\n<|start_of_role|>assistant<|end_of_role|>{generated_text}<|end_of_text|>\n<|start_of_role|>tool<|end_of_role|>{json.dumps(tool_result)}<|end_of_text|>\n<|start_of_role|>assistant<|end_of_role|>",
-                "project_id": self.project_id,
-            }
-
-            # Process second request
-            second_start_time = time.time()
-            second_response = requests.post(
-                endpoint, headers=headers, json=second_payload, timeout=60
-            )
-            response_processing_time = time.time() - second_start_time
-
-            response_times["tool_call_time"] = api_call_time
-            response_times["response_processing_time"] = (
-                response_processing_time
-            )
-            response_times["total_time"] = (
-                api_call_time + response_processing_time
-            )
-
-            if second_response.status_code == 200:
-                second_response_data = second_response.json()
-
-                # Extract content from the second response
-                second_content = ""
-                if (
-                    "results" in second_response_data
-                    and len(second_response_data["results"]) > 0
-                ):
-                    second_content = second_response_data["results"][0].get(
-                        "generated_text", ""
-                    )
-
-                # Check if the response contains the greeting in Spanish
-                if (
-                    "¡Hola, Daniel!" in second_content
-                    or "Hola, Daniel" in second_content
-                ):
-                    return (
-                        True,
-                        True,
-                        "Successfully handled tool result (JSON in text format)",
-                        second_response_data,
-                        response_times,
-                    )
-                else:
-                    return (
-                        True,
-                        False,
-                        "Tool called but result not properly used",
-                        second_response_data,
-                        response_times,
-                    )
-            else:
-                return (
-                    True,
-                    False,
-                    f"Tool called but failed to process result: {self.extract_error_details(second_response.text)}",
-                    None,
-                    response_times,
-                )
-
-        except Exception as e:
-            if self.debug:
-                logger.error(
-                    f"❌ ERROR: Failed to process JSON in text function call: {e}"
-                )
-            response_times["total_time"] = api_call_time
-            return (
-                False,
-                False,
-                f"Error processing JSON function call: {str(e)}",
-                None,
-                response_times,
-            )
-
-    def _process_openai_tool_calls(
-        self,
-        tool_calls,
-        message,
-        model_id,
-        prompt,
-        api_call_time,
-        endpoint,
-        headers,
-        payload,
-        response_times,
-    ) -> Tuple[
-        bool, bool, str, Optional[Dict[str, Any]], Dict[str, Optional[float]]
-    ]:
-        """Process OpenAI-format tool calls and execute the second request.
-
-        Args:
-            tool_calls: The tool calls from the OpenAI format response
-            message: The complete message from the response
-            model_id: The ID of the model being tested
-            prompt: The original prompt
-            api_call_time: Time taken for the first API call
-            endpoint: The API endpoint used
-            headers: The request headers
-            payload: The request payload
-            response_times: Dictionary to track response times
-
-        Returns:
-            Tuple containing results (see test_hello_world_tool)
-        """
-        try:
-            # Find the hello_world tool call
-            hello_world_call = None
-            for call in tool_calls:
-                function = call.get("function", {})
-                if function.get("name") == "hello_world":
-                    hello_world_call = call
-                    break
-
-            if not hello_world_call:
-                return (
-                    False,
-                    False,
-                    "No hello_world tool call found",
-                    None,
-                    response_times,
-                )
-
-            # Parse arguments
-            arguments = {}
-            try:
-                arguments = json.loads(
-                    hello_world_call["function"].get("arguments", "{}")
-                )
-            except json.JSONDecodeError:
-                return (
-                    False,
-                    False,
-                    "Invalid JSON in arguments",
-                    None,
-                    response_times,
-                )
-
-            # Validate arguments
-            if "name" not in arguments:
-                arguments["name"] = (
-                    "Daniel"  # Default to Daniel as requested in prompt
-                )
-
-            if "language" not in arguments:
-                arguments["language"] = (
-                    "spanish"  # Default to Spanish as requested in prompt
-                )
-
-            if self.debug:
-                logger.info(
-                    f"✅ SUCCESS: Extracted OpenAI format function call: {json.dumps(arguments, indent=2)}"
-                )
-
-            # Execute the tool
-            tool_result = self.execute_tool_call("hello_world", arguments)
-
-            # Prepare second request using the OpenAI chat format
-            second_payload = {
-                "model_id": model_id,
-                "parameters": payload.get("parameters", {}).copy(),
-                "messages": [
-                    {
-                        "role": "system",
-                        "content": "You are a helpful assistant. You previously called the hello_world function and received its result. Respond to the user with the greeting returned by the function.",
-                    },
-                    {"role": "user", "content": prompt},
-                    {
-                        "role": "assistant",
-                        "content": message.get("content", ""),
-                        "tool_calls": tool_calls,
-                    },
-                    {
-                        "role": "tool",
-                        "content": json.dumps(tool_result),
-                        "tool_call_id": hello_world_call["id"],
-                    },
-                ],
-                "project_id": self.project_id,
-            }
-
-            # Send the second request
-            second_start_time = time.time()
-            second_response = requests.post(
-                endpoint, headers=headers, json=second_payload, timeout=60
-            )
-            response_processing_time = time.time() - second_start_time
-
-            response_times["tool_call_time"] = api_call_time
-            response_times["response_processing_time"] = (
-                response_processing_time
-            )
-            response_times["total_time"] = (
-                api_call_time + response_processing_time
-            )
-
-            if second_response.status_code == 200:
-                second_response_data = second_response.json()
-
-                # Extract content from the second response (typically in the choices[0].message.content)
-                second_content = ""
-                if (
-                    "choices" in second_response_data
-                    and len(second_response_data["choices"]) > 0
-                ):
-                    second_content = (
-                        second_response_data["choices"][0]
-                        .get("message", {})
-                        .get("content", "")
-                    )
-
-                # Check if the response contains the greeting in Spanish
-                if (
-                    "¡Hola, Daniel!" in second_content
-                    or "Hola, Daniel" in second_content
-                ):
-                    return (
-                        True,
-                        True,
-                        "Successfully handled tool result (OpenAI format)",
-                        second_response_data,
-                        response_times,
-                    )
-                else:
-                    return (
-                        True,
-                        False,
-                        "Tool called but result not properly used",
-                        second_response_data,
-                        response_times,
-                    )
-            else:
-                return (
-                    True,
-                    False,
-                    f"Tool called but failed to process result: {self.extract_error_details(second_response.text)}",
-                    None,
-                    response_times,
-                )
-
-        except Exception as e:
-            if self.debug:
-                logger.error(
-                    f"❌ ERROR: Failed to process OpenAI format tool call: {e}"
-                )
-            response_times["total_time"] = api_call_time
-            return (
-                False,
-                False,
-                f"Error processing OpenAI format tool call: {str(e)}",
-                None,
-                response_times,
-            )
-
-    def _process_code_block_function_call(
-        self,
-        code_json,
-        generated_text,
-        model_id,
-        prompt,
-        api_call_time,
-        endpoint,
-        headers,
-        payload,
-        response_times,
-    ) -> Tuple[
-        bool, bool, str, Optional[Dict[str, Any]], Dict[str, Optional[float]]
-    ]:
-        """Process function call in a code block and execute the second request.
-
-        Args:
-            code_json: The parsed JSON object from the code block
-            generated_text: The full generated text from the model
-            model_id: The ID of the model being tested
-            prompt: The original prompt
-            api_call_time: Time taken for the first API call
-            response_times: Dictionary to track response times
-
-        Returns:
-            Tuple containing results (see test_hello_world_tool)
-        """
-        try:
-            # Extract arguments
-            arguments = {}
-            if "arguments" in code_json and isinstance(
-                code_json["arguments"], dict
-            ):
-                arguments = code_json["arguments"]
-            elif "arguments" in code_json and isinstance(
-                code_json["arguments"], str
-            ):
-                try:
-                    arguments = json.loads(code_json["arguments"])
-                except json.JSONDecodeError:
-                    # Handle case where arguments might be a string representation
-                    if "name" in code_json["arguments"]:
-                        name_match = re.search(
-                            r'"name"\s*:\s*"([^"]+)"', code_json["arguments"]
+                # CRITICAL: Only accept responses with finish_reason="tool_calls"
+                # This is the definitive indicator of server-side tool calling
+                if finish_reason == "tool_calls":
+                    # Validate that tool_calls array exists and is properly structured
+                    if "tool_calls" not in message:
+                        response_times["total_time"] = (
+                            time.time() - total_start_time
                         )
-                        if name_match:
-                            arguments["name"] = name_match.group(1)
-                    else:
-                        # Arguments might be positional
-                        arguments["name"] = (
-                            "Daniel"  # Default to Daniel as requested in the prompt
+                        return (
+                            False,
+                            False,
+                            "Invalid response: finish_reason is 'tool_calls' but no tool_calls array found",
+                            {"initial_response": response_data},
+                            response_times,
                         )
 
-                    if "language" in code_json["arguments"]:
-                        lang_match = re.search(
-                            r'"language"\s*:\s*"([^"]+)"',
-                            code_json["arguments"],
+                    tool_calls = message["tool_calls"]
+
+                    if (
+                        not isinstance(tool_calls, list)
+                        or len(tool_calls) == 0
+                    ):
+                        response_times["total_time"] = (
+                            time.time() - total_start_time
                         )
-                        if lang_match:
-                            arguments["language"] = lang_match.group(1).lower()
-                        else:
-                            arguments["language"] = (
-                                "spanish"  # Default to Spanish as requested in the prompt
+                        return (
+                            False,
+                            False,
+                            f"Invalid tool_calls structure: expected non-empty array, got {type(tool_calls)}",
+                            {"initial_response": response_data},
+                            response_times,
+                        )
+
+                    # Validate the tool call structure
+                    tool_call = tool_calls[0]
+                    if (
+                        not isinstance(tool_call, dict)
+                        or "function" not in tool_call
+                    ):
+                        response_times["total_time"] = (
+                            time.time() - total_start_time
+                        )
+                        return (
+                            False,
+                            False,
+                            "Invalid tool call structure: missing 'function' field",
+                            {"initial_response": response_data},
+                            response_times,
+                        )
+
+                    function_data = tool_call.get("function", {})
+
+                    # Validate function structure
+                    if (
+                        not isinstance(function_data, dict)
+                        or "name" not in function_data
+                    ):
+                        response_times["total_time"] = (
+                            time.time() - total_start_time
+                        )
+                        return (
+                            False,
+                            False,
+                            "Invalid function structure: missing 'name' field",
+                            {"initial_response": response_data},
+                            response_times,
+                        )
+
+                    if function_data.get("name") != "hello_world":
+                        response_times["total_time"] = (
+                            time.time() - total_start_time
+                        )
+                        return (
+                            False,
+                            False,
+                            f"Model called wrong function: {function_data.get('name')} (expected: hello_world)",
+                            {"initial_response": response_data},
+                            response_times,
+                        )
+
+                    # Validate arguments structure
+                    if "arguments" not in function_data:
+                        response_times["total_time"] = (
+                            time.time() - total_start_time
+                        )
+                        return (
+                            False,
+                            False,
+                            "Invalid function structure: missing 'arguments' field",
+                            {"initial_response": response_data},
+                            response_times,
+                        )
+
+                    try:
+                        # Parse the arguments - must be valid JSON
+                        args_json = function_data.get("arguments", "{}")
+                        if not isinstance(args_json, str):
+                            response_times["total_time"] = (
+                                time.time() - total_start_time
+                            )
+                            return (
+                                False,
+                                False,
+                                f"Invalid arguments format: expected JSON string, got {type(args_json)}",
+                                {
+                                    "initial_response": response_data,
+                                    "tool_call": tool_call,
+                                },
+                                response_times,
                             )
 
-            # Validate arguments (at minimum need name)
-            if "name" not in arguments:
-                arguments["name"] = (
-                    "Daniel"  # Default to Daniel as requested in the prompt
-                )
+                        args = json.loads(args_json)
 
-            if "language" not in arguments:
-                arguments["language"] = (
-                    "spanish"  # Default to Spanish as requested in the prompt
-                )
+                        # Execute the tool using the actual tool implementation
+                        from watsonx_tool_tester.tools.hello_world import (
+                            HelloWorldTool,
+                        )
 
-            if self.debug:
-                logger.info(
-                    f"✅ SUCCESS: Extracted code block function call: {json.dumps(arguments, indent=2)}"
-                )
+                        tool = HelloWorldTool()
+                        tool_result = tool.execute(**args)
 
-            # Execute the tool and proceed with second request
-            tool_result = self.execute_tool_call("hello_world", arguments)
+                        # Phase 2: Send tool result back to model using proper conversation format
+                        start_time = time.time()
 
-            # Follow same pattern as above for second request
-            second_system_msg = "You are a helpful assistant. You previously called the hello_world function and received its result. Respond to the user with the greeting returned by the function."
-            second_payload = {
-                "model_id": model_id,
-                "parameters": payload["parameters"].copy(),
-                "input": f"<|start_of_role|>system<|end_of_role|>{second_system_msg}<|end_of_text|>\n<|start_of_role|>user<|end_of_role|>{prompt}<|end_of_text|>\n<|start_of_role|>assistant<|end_of_role|>{generated_text}<|end_of_text|>\n<|start_of_role|>tool<|end_of_role|>{json.dumps(tool_result)}<|end_of_text|>\n<|start_of_role|>assistant<|end_of_role|>",
-                "project_id": self.project_id,
-            }
+                        # Add tool result to conversation in the proper format
+                        payload["messages"].append(
+                            {
+                                "role": "assistant",
+                                "content": None,
+                                "tool_calls": tool_calls,
+                            }
+                        )
+                        payload["messages"].append(
+                            {
+                                "role": "tool",
+                                "name": "hello_world",
+                                "content": json.dumps(tool_result),
+                                "tool_call_id": tool_call.get(
+                                    "id", "call_1"
+                                ),  # Include the tool call ID
+                            }
+                        )
 
-            # Process second request and format response
-            second_start_time = time.time()
-            second_response = requests.post(
-                endpoint, headers=headers, json=second_payload, timeout=60
-            )
-            response_processing_time = time.time() - second_start_time
+                        # Remove tool parameters for follow-up request
+                        payload.pop("tools", None)
+                        payload.pop("tool_choice_option", None)
 
-            response_times["tool_call_time"] = api_call_time
-            response_times["response_processing_time"] = (
-                response_processing_time
-            )
-            response_times["total_time"] = (
-                api_call_time + response_processing_time
-            )
+                        # Get final response
+                        second_response = requests.post(
+                            endpoint, headers=headers, json=payload, timeout=60
+                        )
+                        response_processing_time = time.time() - start_time
+                        response_times["response_processing_time"] = (
+                            response_processing_time
+                        )
 
-            if second_response.status_code == 200:
-                second_response_data = second_response.json()
+                        if second_response.status_code == 200:
+                            second_data = second_response.json()
 
-                # Extract content from the second response
-                second_content = ""
-                if (
-                    "results" in second_response_data
-                    and len(second_response_data["results"]) > 0
-                ):
-                    second_content = second_response_data["results"][0].get(
-                        "generated_text", ""
-                    )
+                            # Validate second response structure
+                            if (
+                                "choices" in second_data
+                                and len(second_data["choices"]) > 0
+                            ):
+                                final_message = second_data["choices"][0].get(
+                                    "message", {}
+                                )
+                                final_content = final_message.get(
+                                    "content", ""
+                                )
 
-                # Check if the response contains the greeting in Spanish
-                if (
-                    "¡Hola, Daniel!" in second_content
-                    or "Hola, Daniel" in second_content
-                ):
-                    return (
-                        True,
-                        True,
-                        "Successfully handled tool result (code block format)",
-                        second_response_data,
-                        response_times,
-                    )
+                                # Check if model properly used the tool result
+                                # Must contain the actual greeting from the tool result
+                                expected_greeting = tool_result.get(
+                                    "greeting", ""
+                                )
+                                if (
+                                    expected_greeting
+                                    and expected_greeting in final_content
+                                ):
+                                    response_times["total_time"] = (
+                                        time.time() - total_start_time
+                                    )
+                                    return (
+                                        True,
+                                        True,
+                                        "Successfully used proper tool calling with structured response",
+                                        {
+                                            "initial_response": response_data,
+                                            "tool_call": tool_call,
+                                            "tool_result": tool_result,
+                                            "final_response": second_data,
+                                        },
+                                        response_times,
+                                    )
+                                else:
+                                    response_times["total_time"] = (
+                                        time.time() - total_start_time
+                                    )
+                                    return (
+                                        True,
+                                        False,
+                                        f"Model called tool correctly but did not use result properly. Expected '{expected_greeting}' in final response: {final_content}",
+                                        {
+                                            "initial_response": response_data,
+                                            "tool_call": tool_call,
+                                            "tool_result": tool_result,
+                                            "final_response": second_data,
+                                        },
+                                        response_times,
+                                    )
+                            else:
+                                response_times["total_time"] = (
+                                    time.time() - total_start_time
+                                )
+                                return (
+                                    True,
+                                    False,
+                                    f"Model called tool correctly but second response was malformed: {second_data}",
+                                    {
+                                        "initial_response": response_data,
+                                        "tool_call": tool_call,
+                                        "tool_result": tool_result,
+                                    },
+                                    response_times,
+                                )
+                        else:
+                            response_times["total_time"] = (
+                                time.time() - total_start_time
+                            )
+                            return (
+                                True,
+                                False,
+                                f"Model called tool correctly but second request failed: {second_response.status_code} - {second_response.text}",
+                                {
+                                    "initial_response": response_data,
+                                    "tool_call": tool_call,
+                                    "tool_result": tool_result,
+                                },
+                                response_times,
+                            )
+
+                    except json.JSONDecodeError as e:
+                        response_times["total_time"] = (
+                            time.time() - total_start_time
+                        )
+                        return (
+                            False,
+                            False,
+                            f"Model called tool but arguments were invalid JSON: {str(e)}",
+                            {
+                                "initial_response": response_data,
+                                "tool_call": tool_call,
+                            },
+                            response_times,
+                        )
+                    except Exception as e:
+                        response_times["total_time"] = (
+                            time.time() - total_start_time
+                        )
+                        return (
+                            False,
+                            False,
+                            f"Error executing tool: {str(e)}",
+                            {
+                                "initial_response": response_data,
+                                "tool_call": tool_call,
+                            },
+                            response_times,
+                        )
                 else:
+                    # Model didn't use tool calling - this is a definitive failure
+                    # No fallback to text parsing or other methods
+                    content = message.get("content", "")
+                    response_times["total_time"] = (
+                        time.time() - total_start_time
+                    )
                     return (
-                        True,
                         False,
-                        "Tool called but result not properly used",
-                        second_response_data,
+                        False,
+                        f"Model does not support tool calling. Finish reason: {finish_reason}. Response: {content}",
+                        {"initial_response": response_data},
                         response_times,
                     )
             else:
+                response_times["total_time"] = time.time() - total_start_time
                 return (
-                    True,
                     False,
-                    f"Tool called but failed to process result: {self.extract_error_details(second_response.text)}",
-                    None,
+                    False,
+                    f"Invalid response format - expected 'choices' array: {response_data}",
+                    {"initial_response": response_data},
                     response_times,
                 )
 
         except Exception as e:
-            if self.debug:
-                logger.error(
-                    f"❌ ERROR: Failed to process code block function call: {e}"
-                )
-            response_times["total_time"] = api_call_time
+            response_times["total_time"] = time.time() - total_start_time
             return (
                 False,
                 False,
-                f"Error processing code block function call: {str(e)}",
+                f"Error during tool calling test: {str(e)}",
                 None,
                 response_times,
             )
-
-    def _process_direct_function_call(
-        self,
-        match,
-        generated_text,
-        model_id,
-        prompt,
-        api_call_time,
-        endpoint,
-        headers,
-        payload,
-        response_times,
-    ) -> Tuple[
-        bool, bool, str, Optional[Dict[str, Any]], Dict[str, Optional[float]]
-    ]:
-        """Process direct function call syntax and execute the second request.
-
-        Args:
-            match: Regular expression match object containing the function call arguments
-            generated_text: The full generated text from the model
-            model_id: The ID of the model being tested
-            prompt: The original prompt
-            api_call_time: Time taken for the first API call
-            endpoint: The API endpoint used
-            headers: The request headers
-            payload: The request payload
-            response_times: Dictionary to track response times
-
-        Returns:
-            Tuple containing results (see test_hello_world_tool)
-        """
-        try:
-            arg_string = match.group(1).strip()
-
-            # Parse argument string
-            arguments = {}
-
-            # Check for key=value pattern
-            name_match = re.search(
-                r'name\s*=\s*["\']([^"\']+)["\']', arg_string
-            )
-            if name_match:
-                arguments["name"] = name_match.group(1)
-            else:
-                # Check for positional args
-                pos_args = re.findall(r'["\']([^"\']+)["\']', arg_string)
-                if pos_args:
-                    arguments["name"] = pos_args[0]
-                    if len(pos_args) > 1:
-                        arguments["language"] = pos_args[1].lower()
-
-            # Check for language parameter
-            if "language" not in arguments:
-                lang_match = re.search(
-                    r'language\s*=\s*["\']([^"\']+)["\']', arg_string
-                )
-                if lang_match:
-                    arguments["language"] = lang_match.group(1).lower()
-                else:
-                    # Default to Spanish as requested in the prompt
-                    arguments["language"] = "spanish"
-
-            # Default to Daniel if name not found
-            if "name" not in arguments:
-                arguments["name"] = "Daniel"
-
-            if self.debug:
-                logger.info(
-                    f"✅ SUCCESS: Extracted direct function call: {json.dumps(arguments, indent=2)}"
-                )
-
-            # Execute the tool and proceed with second request
-            tool_result = self.execute_tool_call("hello_world", arguments)
-
-            # Follow same pattern as above for second request
-            second_system_msg = "You are a helpful assistant. You previously called the hello_world function and received its result. Respond to the user with the greeting returned by the function."
-            second_payload = {
-                "model_id": model_id,
-                "parameters": payload["parameters"].copy(),
-                "input": f"<|start_of_role|>system<|end_of_role|>{second_system_msg}<|end_of_text|>\n<|start_of_role|>user<|end_of_role|>{prompt}<|end_of_text|>\n<|start_of_role|>assistant<|end_of_role|>{generated_text}<|end_of_text|>\n<|start_of_role|>tool<|end_of_role|>{json.dumps(tool_result)}<|end_of_text|>\n<|start_of_role|>assistant<|end_of_role|>",
-                "project_id": self.project_id,
-            }
-
-            # Process second request and format response
-            second_start_time = time.time()
-            second_response = requests.post(
-                endpoint, headers=headers, json=second_payload, timeout=60
-            )
-            response_processing_time = time.time() - second_start_time
-
-            response_times["tool_call_time"] = api_call_time
-            response_times["response_processing_time"] = (
-                response_processing_time
-            )
-            response_times["total_time"] = (
-                api_call_time + response_processing_time
-            )
-
-            if second_response.status_code == 200:
-                second_response_data = second_response.json()
-
-                # Extract content from the second response
-                second_content = ""
-                if (
-                    "results" in second_response_data
-                    and len(second_response_data["results"]) > 0
-                ):
-                    second_content = second_response_data["results"][0].get(
-                        "generated_text", ""
-                    )
-
-                # Check if the response contains the greeting in Spanish
-                if (
-                    "¡Hola, Daniel!" in second_content
-                    or "Hola, Daniel" in second_content
-                ):
-                    return (
-                        True,
-                        True,
-                        "Successfully handled tool result (direct function call)",
-                        second_response_data,
-                        response_times,
-                    )
-                else:
-                    return (
-                        True,
-                        False,
-                        "Tool called but result not properly used",
-                        second_response_data,
-                        response_times,
-                    )
-            else:
-                return (
-                    True,
-                    False,
-                    f"Tool called but failed to process result: {self.extract_error_details(second_response.text)}",
-                    None,
-                    response_times,
-                )
-
-        except Exception as e:
-            if self.debug:
-                logger.error(
-                    f"❌ ERROR: Failed to process direct function call: {e}"
-                )
-            response_times["total_time"] = api_call_time
-            return (
-                False,
-                False,
-                f"Error processing direct function call: {str(e)}",
-                None,
-                response_times,
-            )
-
-    def extract_error_details(self, response_text: str) -> str:
-        """Extract error details from an error response.
-
-        Args:
-            response_text: The error response text
-
-        Returns:
-            str: Extracted error message
-        """
-        try:
-            error_data = json.loads(response_text)
-            if "error" in error_data:
-                if isinstance(error_data["error"], dict):
-                    return error_data["error"].get("message", "Unknown error")
-                else:
-                    return str(error_data["error"])
-            elif "errors" in error_data and len(error_data["errors"]) > 0:
-                return str(
-                    error_data["errors"][0].get("message", "Unknown error")
-                )
-            return response_text
-        except Exception:
-            return response_text

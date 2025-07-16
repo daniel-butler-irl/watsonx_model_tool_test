@@ -42,9 +42,9 @@ dev = [
 ]
 
 [project.urls]
-Documentation = "https://github.com/ibm/watsonx-tool-tester#readme"
-Source = "https://github.com/ibm/watsonx-tool-tester"
-Issues = "https://github.com/ibm/watsonx-tool-tester/issues"
+Documentation = "https://github.com/daniel-butler-irl/watsonx_model_tool_test#readme"
+Source = "https://github.com/daniel-butler-irl/watsonx_model_tool_test"
+Issues = "https://github.com/daniel-butler-irl/watsonx_model_tool_test/issues"
 
 [project.scripts]
 watsonx-tool-tester = "watsonx_tool_tester.cli:cli"

@@ -8,7 +8,7 @@ and formatting tool test results.
 
 import datetime
 import json
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 import click
 from tabulate import tabulate
@@ -18,6 +18,8 @@ from watsonx_tool_tester.utils.formatting import (
     format_response_time,
     format_tool_call_success,
 )
+from watsonx_tool_tester.utils.history_manager import HistoryManager
+from watsonx_tool_tester.utils.html_generator import HTMLReportGenerator
 
 
 class ResultHandler:
@@ -75,6 +77,11 @@ class ResultHandler:
         """
         table_data = []
 
+        # Check if any results have reliability data
+        has_reliability_data = any(
+            "reliability" in result for result in results
+        )
+
         for result in results:
             model_id = result["model"]
             supports_tool_call = result["tool_call_support"]
@@ -105,15 +112,54 @@ class ResultHandler:
 
             # Truncate details to keep table width reasonable
             details = result.get("details", "")
-            if len(details) > 80:  # Truncate long details
-                details = details[:77] + "..."
+            if (
+                len(details) > 60
+            ):  # Reduced from 80 to make room for reliability column
+                details = details[:57] + "..."
 
-            # Add row to table
-            table_data.append(
+            # Build row data
+            row_data = [
+                model_id,
+                tool_call_status,
+                response_status,
+            ]
+
+            # Add reliability column right after HANDLED if we have reliability data
+            if has_reliability_data:
+                reliability_info = result.get("reliability")
+                if reliability_info:
+                    iterations = reliability_info.get("iterations", 1)
+                    is_reliable = reliability_info.get("is_reliable")
+
+                    if iterations > 1:
+                        tool_success_rate = reliability_info.get(
+                            "tool_call_success_rate", 0
+                        )
+                        response_success_rate = reliability_info.get(
+                            "response_handling_success_rate", 0
+                        )
+
+                        # Check if model supports tool calling at all
+                        if is_reliable is None:
+                            reliability_str = "NOT SUPPORTED"
+                        elif is_reliable:
+                            reliability_str = "✅ RELIABLE"
+                        else:
+                            # Show clear labels for the percentages
+                            reliability_str = f"⚠️ UNRELIABLE (Tool: {tool_success_rate:.0%}, Response: {response_success_rate:.0%})"
+                    else:
+                        # Single iteration results
+                        if not result.get("tool_call_support", False):
+                            reliability_str = "NOT SUPPORTED"
+                        else:
+                            reliability_str = "SINGLE TEST"
+                else:
+                    reliability_str = "SINGLE TEST"
+                row_data.append(reliability_str)
+
+            # Add timing columns
+            row_data.extend(
                 [
-                    model_id,
-                    tool_call_status,
-                    response_status,
                     tool_call_time_str,
                     response_time_str,
                     total_time_str,
@@ -121,16 +167,45 @@ class ResultHandler:
                 ]
             )
 
+            table_data.append(row_data)
+
         # Define table headers
         headers = [
             "MODEL",
             "TOOL SUPPORT",
             "HANDLED",  # Shortened from "TOOL RESULT HANDLED"
-            "CALL TIME",  # Shortened from "TOOL CALL TIME"
-            "RESP TIME",  # Shortened from "RESPONSE TIME"
-            "TOTAL TIME",
-            "DETAILS",
         ]
+
+        # Add reliability header right after HANDLED if we have reliability data
+        if has_reliability_data:
+            # Get iterations count for header
+            iterations = 1
+            if results:
+                first_reliability = next(
+                    (
+                        r.get("reliability")
+                        for r in results
+                        if "reliability" in r
+                    ),
+                    None,
+                )
+                if first_reliability:
+                    iterations = first_reliability.get("iterations", 1)
+
+            if iterations > 1:
+                headers.append(f"RELIABILITY ({iterations}x)")
+            else:
+                headers.append("RELIABILITY")
+
+        # Add timing and details headers
+        headers.extend(
+            [
+                "CALL TIME",  # Shortened from "TOOL CALL TIME"
+                "RESP TIME",  # Shortened from "RESPONSE TIME"
+                "TOTAL TIME",
+                "DETAILS",
+            ]
+        )
 
         # Generate table with a more compact format
         return tabulate(table_data, headers=headers, tablefmt="simple")
@@ -157,23 +232,84 @@ class ResultHandler:
             and r.get("handles_response", False)
         )
 
-        # Calculate average times, excluding None values
+        # Calculate reliability statistics
+        reliability_stats = None
+        reliability_results = [r for r in results if "reliability" in r]
+        if reliability_results:
+            reliable_count = sum(
+                1
+                for r in reliability_results
+                if r.get("reliability", {}).get("is_reliable", False)
+            )
+            # Only count models with is_reliable == False as unreliable
+            # Models with is_reliable == None are unsupported, not unreliable
+            unreliable_count = sum(
+                1
+                for r in reliability_results
+                if r.get("reliability", {}).get("is_reliable") is False
+            )
+
+            # Calculate average success rates
+            avg_tool_success_rate = (
+                sum(
+                    r.get("reliability", {}).get("tool_call_success_rate", 0)
+                    for r in reliability_results
+                )
+                / len(reliability_results)
+                if reliability_results
+                else 0
+            )
+
+            avg_response_success_rate = (
+                sum(
+                    r.get("reliability", {}).get(
+                        "response_handling_success_rate", 0
+                    )
+                    for r in reliability_results
+                )
+                / len(reliability_results)
+                if reliability_results
+                else 0
+            )
+
+            # Get test parameters
+            iterations = (
+                reliability_results[0]
+                .get("reliability", {})
+                .get("iterations", 1)
+            )
+
+            reliability_stats = {
+                "total_tested": len(reliability_results),
+                "reliable_count": reliable_count,
+                "unreliable_count": unreliable_count,
+                "avg_tool_success_rate": avg_tool_success_rate,
+                "avg_response_success_rate": avg_response_success_rate,
+                "iterations": iterations,
+            }
+
+        # Calculate average times, excluding None values and failed models
+        # Only include models that support tool calling for performance metrics
+        successful_results = [
+            r for r in results if r.get("tool_call_support", False)
+        ]
+
         tool_call_times = [
             r.get("response_times", {}).get("tool_call_time")
-            for r in results
+            for r in successful_results
             if r.get("response_times", {}).get("tool_call_time") is not None
         ]
 
         response_times = [
             r.get("response_times", {}).get("response_processing_time")
-            for r in results
+            for r in successful_results
             if r.get("response_times", {}).get("response_processing_time")
             is not None
         ]
 
         total_times = [
             r.get("response_times", {}).get("total_time")
-            for r in results
+            for r in successful_results
             if r.get("response_times", {}).get("total_time") is not None
         ]
 
@@ -190,17 +326,17 @@ class ResultHandler:
             sum(total_times) / len(total_times) if total_times else 0
         )
 
-        # Find fastest model (by total time)
+        # Find fastest model (by total time, only among successful models)
         fastest_model = None
         fastest_time = float("inf")
 
-        for result in results:
+        for result in successful_results:
             total_time = result.get("response_times", {}).get("total_time")
             if total_time is not None and total_time < fastest_time:
                 fastest_time = total_time
                 fastest_model = result["model"]
 
-        return {
+        summary = {
             "timestamp": datetime.datetime.now().isoformat(),
             "total_count": total_count,
             "supported_count": supported_count,
@@ -217,6 +353,12 @@ class ResultHandler:
                 else None
             ),
         }
+
+        # Add reliability stats if available
+        if reliability_stats:
+            summary["reliability"] = reliability_stats
+
+        return summary
 
     def print_summary(
         self, results: List[Dict[str, Any]], sort_key: str = "name"
@@ -261,6 +403,7 @@ class ResultHandler:
         )
 
         click.echo("\n=== Performance ===")
+        click.echo("(Only includes models that support tool calling)")
         click.echo(
             f"Average tool call time: {summary['avg_tool_time']:.2f} seconds"
         )
@@ -276,37 +419,65 @@ class ResultHandler:
                 f"Fastest model: {summary['fastest_model']['model']} ({summary['fastest_model']['time']:.2f} seconds)"
             )
 
-        click.echo("\n=== Tool Support Status ===")
+        # Print reliability information if available
+        if "reliability" in summary:
+            rel_stats = summary["reliability"]
+            click.echo("\n=== Reliability Assessment ===")
+            click.echo(f"Test iterations per model: {rel_stats['iterations']}")
+            click.echo("Reliability standard: 100% consistency required")
+            click.echo(
+                f"Models tested for reliability: {rel_stats['total_tested']}"
+            )
 
-        # Count models by status
-        full_support = sum(
-            1
-            for r in results
-            if r.get("tool_call_support", False)
-            and r.get("handles_response", False)
-        )
-        partial_support = sum(
-            1
-            for r in results
-            if r.get("tool_call_support", False)
-            and not r.get("handles_response", False)
-        )
-        no_support = sum(
-            1 for r in results if not r.get("tool_call_support", False)
-        )
+            if rel_stats["total_tested"] > 0:
+                reliable_percent = (
+                    rel_stats["reliable_count"] / rel_stats["total_tested"]
+                ) * 100
+                click.secho(
+                    f"✅ Reliable models: {rel_stats['reliable_count']} ({reliable_percent:.1f}%)",
+                    fg="green",
+                )
+                click.secho(
+                    f"⚠️ Unreliable models: {rel_stats['unreliable_count']} ({(rel_stats['unreliable_count'] / rel_stats['total_tested'] * 100):.1f}%)",
+                    fg="yellow",
+                )
+                click.echo(
+                    f"Average tool call success rate (across all models): {rel_stats['avg_tool_success_rate']:.1%}"
+                )
+                click.echo(
+                    "  - Tool call success: Model correctly invokes the hello_world tool with proper parameters"
+                )
+                click.echo(
+                    f"Average response handling success rate (across all models): {rel_stats['avg_response_success_rate']:.1%}"
+                )
+                click.echo(
+                    "  - Response handling success: Model correctly uses the tool's result in its final response"
+                )
 
-        # Print status counts with colors
-        click.secho(
-            f"✅ Full support (calls tool + uses result): {full_support}",
-            fg="green",
-        )
-        click.secho(
-            f"⚠️ Partial support (calls tool but ignores result): {partial_support}",
-            fg="yellow",
-        )
-        click.secho(
-            f"❌ No support (does not call tool): {no_support}", fg="red"
-        )
+                # Add model breakdown by reliability status
+                click.echo("\n=== Model Status Breakdown ===")
+
+                # Count models by reliability status
+                supported_reliable = rel_stats["reliable_count"]
+                supported_unreliable = rel_stats["unreliable_count"]
+                unsupported = (
+                    rel_stats["total_tested"]
+                    - supported_reliable
+                    - supported_unreliable
+                )
+
+                click.secho(
+                    f"✅ Supported & Reliable: {supported_reliable} models",
+                    fg="green",
+                )
+                if supported_unreliable > 0:
+                    click.secho(
+                        f"⚠️ Supported but Unreliable: {supported_unreliable} models",
+                        fg="yellow",
+                    )
+                click.secho(
+                    f"❌ Not Supported: {unsupported} models", fg="red"
+                )
 
         click.echo("\n")
 
@@ -362,3 +533,33 @@ class ResultHandler:
             },
             indent=2,
         )
+
+    def format_html_output(
+        self,
+        results: List[Dict[str, Any]],
+        config: Optional[Dict[str, Any]] = None,
+    ) -> str:
+        """Format test results as HTML.
+
+        Args:
+            results: List of test result dictionaries
+            config: Optional configuration information
+
+        Returns:
+            str: HTML string of test results
+        """
+        # Generate summary statistics
+        summary = self.summarize_results(results)
+
+        # Create HTML report generator with history manager
+        history_manager = HistoryManager()
+        html_generator = HTMLReportGenerator(history_manager=history_manager)
+
+        # Generate HTML content
+        html_content = html_generator.generate_html_report(
+            results=results,
+            summary=summary,
+            config=config,
+        )
+
+        return html_content

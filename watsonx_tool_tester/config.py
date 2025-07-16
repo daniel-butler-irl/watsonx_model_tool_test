@@ -88,6 +88,7 @@ class Config:
         debug: Whether to enable debug logging
         log_dir: Directory for storing log files
         output_file: Optional file path to save results to
+        html_output: Whether to generate HTML output format
         log_level: Log level for the application
     """
 
@@ -111,7 +112,14 @@ class Config:
     debug: bool = False
     log_dir: str = "tool_test_logs"
     output_file: Optional[str] = None
+    html_output: bool = False
     log_level: str = "INFO"
+    # Reliability testing parameters
+    test_iterations: int = (
+        5  # Number of times to test each model (default to 5 for reliability)
+    )
+    # History tracking parameters
+    save_history: bool = False  # Whether to save test results to CSV files
 
 
 def load_config_from_env() -> Config:
@@ -177,8 +185,24 @@ def load_config_from_env() -> Config:
         config.log_dir = os.environ["WATSONX_TOOL_LOG_DIR"]
     if "WATSONX_TOOL_OUTPUT" in os.environ:
         config.output_file = os.environ["WATSONX_TOOL_OUTPUT"]
+    if "WATSONX_TOOL_HTML_OUTPUT" in os.environ:
+        config.html_output = os.environ[
+            "WATSONX_TOOL_HTML_OUTPUT"
+        ].lower() in [
+            "true",
+            "yes",
+            "1",
+            "on",
+        ]
     if "LOG_LEVEL" in os.environ:
         config.log_level = os.environ["LOG_LEVEL"]
+    if "WATSONX_TOOL_ITERATIONS" in os.environ:
+        try:
+            config.test_iterations = int(os.environ["WATSONX_TOOL_ITERATIONS"])
+        except ValueError:
+            logger.warning(
+                f"Invalid WATSONX_TOOL_ITERATIONS value: {os.environ['WATSONX_TOOL_ITERATIONS']}"
+            )
 
     return config
 
@@ -230,8 +254,14 @@ def update_config_from_args(config: Config, args: Dict[str, Any]) -> Config:
         config.log_dir = args["log_dir"]
     if args.get("output"):
         config.output_file = args["output"]
+    if "html_output" in args:
+        config.html_output = args["html_output"]
     if args.get("log_level"):
         config.log_level = args["log_level"]
+    if args.get("iterations"):
+        config.test_iterations = args["iterations"]
+    if "save_history" in args:
+        config.save_history = args["save_history"]
 
     return config
 
