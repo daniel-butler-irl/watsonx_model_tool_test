@@ -384,14 +384,3 @@ The GitHub Actions workflow includes automated performance tracking that stores 
 
 **Note**: Historical tracking is primarily designed for the automated CI pipeline. Manual testing will contribute to the history but the main benefit is seen in the daily automated reports that show trends over time.
 
-<!-- TOOL_TEST_REPORT_START -->
-## 🔧 Tool Test Status
-
-📊 **[Latest Daily Report](reports/latest_report.html)** | **[90-Day Comprehensive Report](reports/latest_comprehensive.html)**
-
-- **Last Updated:** 2025-07-16 13:41:48 UTC
-- **Test Iterations:** 20 per model
-- **All Reports:** [Browse Reports Directory](reports/)
-
-*Daily reports generated at 06:00 UTC. Comprehensive report includes 90-day trend analysis and reliability assessment.*
-<!-- TOOL_TEST_REPORT_END -->

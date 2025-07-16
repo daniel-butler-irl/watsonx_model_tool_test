@@ -59,7 +59,6 @@ class HistoryManager:
                         "test_prompt",
                         "expected_result",
                         "actual_result",
-                        "model_provider",
                         "model_version",
                         "test_config",
                     ]
@@ -154,9 +153,6 @@ class HistoryManager:
 
                 # Extract model metadata
                 model_info = result.get("model_info", {})
-                model_provider = model_info.get(
-                    "provider", self._extract_provider(result["model"])
-                )
                 model_version = model_info.get("version", "")
 
                 # Extract test configuration
@@ -184,7 +180,6 @@ class HistoryManager:
                         test_prompt,
                         expected_result,
                         actual_result,
-                        model_provider,
                         model_version,
                         config_str,
                     ]
@@ -441,24 +436,6 @@ class HistoryManager:
             return model_id.split("/")[-1]
         return model_id
 
-    def _extract_provider(self, model_id: str) -> str:
-        """Extract provider from model ID."""
-        providers = {
-            "ibm": "IBM",
-            "meta": "Meta",
-            "anthropic": "Anthropic",
-            "mistralai": "Mistral AI",
-            "openai": "OpenAI",
-            "google": "Google",
-            "cohere": "Cohere",
-            "ai21": "AI21",
-        }
-
-        for key, value in providers.items():
-            if model_id.startswith(key):
-                return value
-
-        return "Unknown"
 
     def get_trackable_models(self) -> List[Dict[str, Any]]:
         """Get list of models that should be tracked (have ever worked at least partially).
@@ -481,7 +458,6 @@ class HistoryManager:
                             {
                                 "model_id": row["model_id"],
                                 "display_name": row["display_name"],
-                                "provider": row["provider"],
                                 "first_seen": row["first_seen"],
                                 "last_seen": row["last_seen"],
                                 "total_tests": int(row["total_tests"]),
@@ -515,7 +491,7 @@ class HistoryManager:
                         )
 
         return sorted(
-            trackable_models, key=lambda x: (x["provider"], x["display_name"])
+            trackable_models, key=lambda x: x["display_name"]
         )
 
     def get_model_history(
@@ -596,9 +572,6 @@ class HistoryManager:
                                     ),
                                     "actual_result": row.get(
                                         "actual_result", ""
-                                    ),
-                                    "model_provider": row.get(
-                                        "model_provider", ""
                                     ),
                                     "model_version": row.get(
                                         "model_version", ""
@@ -862,7 +835,6 @@ class HistoryManager:
                                     "details": row["details"],
                                 },
                                 "model_info": {
-                                    "provider": row.get("model_provider", ""),
                                     "version": row.get("model_version", ""),
                                     "display_name": self._extract_display_name(
                                         row["model_id"]
