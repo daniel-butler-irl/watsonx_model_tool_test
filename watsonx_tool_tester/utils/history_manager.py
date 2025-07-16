@@ -187,9 +187,9 @@ class HistoryManager:
 
                 # Extract timing info
                 times = result.get("response_times", {})
-                tool_call_time = times.get("tool_call_time", 0.0)
-                response_time = times.get("response_processing_time", 0.0)
-                total_time = times.get("total_time", 0.0)
+                tool_call_time = times.get("tool_call_time") or 0.0
+                response_time = times.get("response_processing_time") or 0.0
+                total_time = times.get("total_time") or 0.0
 
                 # Extract detailed test information
                 test_details = result.get("test_details", {})
@@ -280,11 +280,11 @@ class HistoryManager:
                     "response_handling_days": "1" if handles_response else "0",
                     "display_name": self._extract_display_name(model_id),
                     "last_error": error_message,
-                    "avg_tool_time": str(tool_time),
-                    "avg_response_time": str(response_time),
-                    "best_tool_time": str(tool_time) if tool_time > 0 else "0",
+                    "avg_tool_time": str(tool_time if tool_time is not None else 0.0),
+                    "avg_response_time": str(response_time if response_time is not None else 0.0),
+                    "best_tool_time": str(tool_time) if tool_time is not None and tool_time > 0 else "0",
                     "best_response_time": (
-                        str(response_time) if response_time > 0 else "0"
+                        str(response_time) if response_time is not None and response_time > 0 else "0"
                     ),
                     "consistency_score": "1.0" if tool_support else "0.0",
                 }
@@ -319,7 +319,7 @@ class HistoryManager:
                     registry[model_id]["last_error"] = error_message
 
                 # Update timing averages
-                if tool_time > 0:
+                if tool_time is not None and tool_time > 0:
                     old_avg = float(registry[model_id]["avg_tool_time"])
                     new_avg = (
                         old_avg * (total_tests - 1) + tool_time
@@ -330,7 +330,7 @@ class HistoryManager:
                     if old_best == 0 or tool_time < old_best:
                         registry[model_id]["best_tool_time"] = str(tool_time)
 
-                if response_time > 0:
+                if response_time is not None and response_time > 0:
                     old_avg = float(registry[model_id]["avg_response_time"])
                     new_avg = (
                         old_avg * (total_tests - 1) + response_time

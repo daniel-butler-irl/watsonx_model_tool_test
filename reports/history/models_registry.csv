@@ -43,3 +43,7 @@ mistralai/mixtral-8x7b-instruct-v01,2025-07-16T13:41:47.551593,2025-07-16,False,
 mistralai/pixtral-12b,2025-07-16T13:41:47.551593,2025-07-16,False,False,4,0,0,pixtral-12b,,0.4704064130783081,0.0,0.4579920768737793,0,0.0
 sentence-transformers/all-minilm-l12-v2,2025-07-16T13:41:47.551593,2025-07-16,False,False,4,0,0,all-minilm-l12-v2,,0.09368246793746948,0.0,0.08408904075622559,0,0.0
 sentence-transformers/all-minilm-l6-v2,2025-07-16T13:41:47.551593,2025-07-16,False,False,4,0,0,all-minilm-l6-v2,,0.1113634705543518,0.0,0.09581518173217773,0,0.0
+test-model,2025-07-16,2025-07-16,True,True,1,1,1,test-model,,0.0,0.0,0,0,1.0
+test-model-1,2025-07-16,2025-07-16,True,True,2,2,2,test-model-1,,0.0,0.0,0,0,1.0
+test-model-2,2025-07-16,2025-07-16,True,True,2,2,2,test-model-2,,1.5,0.0,1.5,0,1.0
+test-model-3,2025-07-16,2025-07-16,True,True,1,1,1,test-model-3,,1.2,0.8,1.2,0.8,1.0
