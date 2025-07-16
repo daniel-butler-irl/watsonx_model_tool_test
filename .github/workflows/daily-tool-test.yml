@@ -247,7 +247,7 @@ jobs:
 
   cleanup-old-reports:
     runs-on: ubuntu-latest
-    needs: test-models
+    needs: [test-models, deploy-to-pages]
     if: always()
     
     steps:
@@ -291,6 +291,32 @@ jobs:
             git config --local user.name "GitHub Action"
             git add reports/
             git commit -m "Clean up old test reports and historical data"
-            git push
+            
+            # Pull latest changes before pushing to avoid non-fast-forward errors
+            echo "Pulling latest changes before push..."
+            if git pull origin main --rebase; then
+              echo "Successfully pulled latest changes"
+            else
+              echo "Failed to pull latest changes, but continuing with push attempt"
+            fi
+            
+            # Try to push with retry logic
+            echo "Attempting to push changes..."
+            for i in {1..3}; do
+              if git push; then
+                echo "✅ Successfully pushed changes on attempt $i"
+                break
+              else
+                echo "❌ Push failed on attempt $i"
+                if [ $i -lt 3 ]; then
+                  echo "Retrying after pulling latest changes..."
+                  sleep 5
+                  git pull origin main --rebase || echo "Pull failed, but continuing"
+                else
+                  echo "All push attempts failed"
+                  exit 1
+                fi
+              fi
+            done
           fi
         fi
