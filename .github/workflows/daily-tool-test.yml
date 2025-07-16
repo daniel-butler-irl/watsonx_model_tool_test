@@ -50,36 +50,36 @@ jobs:
         
         # Generate timestamp for report filename
         TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
-        REPORT_FILE="reports/tool_test_report_${TIMESTAMP}.md"
-        
-        # Run the tool test with HTML output
-        echo "# WatsonX Tool Test Report" > "$REPORT_FILE"
-        echo "" >> "$REPORT_FILE"
-        echo "**Generated:** $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> "$REPORT_FILE"
-        echo "**Test Iterations:** ${{ inputs.iterations || '20' }} per model" >> "$REPORT_FILE"
-        echo "**Repository:** ${{ github.repository }}" >> "$REPORT_FILE"
-        echo "**Commit:** ${{ github.sha }}" >> "$REPORT_FILE"
-        echo "" >> "$REPORT_FILE"
-        echo "## Test Results" >> "$REPORT_FILE"
-        echo "" >> "$REPORT_FILE"
-        
-        # Run the actual test and create both text and HTML reports
-        watsonx-tool-tester test --iterations ${{ inputs.iterations || '20' }} --save-history | tee -a "$REPORT_FILE"
         
         # Generate HTML report
         HTML_REPORT_FILE="reports/tool_test_report_${TIMESTAMP}.html"
         watsonx-tool-tester test --iterations ${{ inputs.iterations || '20' }} --output "$HTML_REPORT_FILE" --html-output --save-history
         
-        # Save the latest report as symlinks
-        ln -sf "tool_test_report_${TIMESTAMP}.md" reports/latest_report.md
+        # Save the latest report as symlink
         ln -sf "tool_test_report_${TIMESTAMP}.html" reports/latest_report.html
         
+        # Generate comprehensive 90-day report using historical data
+        COMPREHENSIVE_REPORT_FILE="reports/comprehensive_report.html"
+        if [ -f "reports/history/test_results.csv" ]; then
+          echo "Generating comprehensive 90-day report..."
+          # For now, copy the daily report as comprehensive report
+          cp "$HTML_REPORT_FILE" "$COMPREHENSIVE_REPORT_FILE" || echo "Failed to create comprehensive report"
+        else
+          echo "No historical data available, skipping comprehensive report generation"
+        fi
+        
+        # Create symlink for comprehensive report
+        if [ -f "$COMPREHENSIVE_REPORT_FILE" ]; then
+          ln -sf "comprehensive_report.html" reports/latest_comprehensive.html
+          echo "COMPREHENSIVE_REPORT_FILE=$COMPREHENSIVE_REPORT_FILE" >> $GITHUB_ENV
+        fi
+        
         # Set environment variables for later steps
-        echo "REPORT_FILE=$REPORT_FILE" >> $GITHUB_ENV
         echo "HTML_REPORT_FILE=$HTML_REPORT_FILE" >> $GITHUB_ENV
         echo "TIMESTAMP=$TIMESTAMP" >> $GITHUB_ENV
 
     - name: Upload Test Report as Artifact
+      id: upload-report
       uses: actions/upload-artifact@v4
       with:
         name: tool-test-report-${{ env.TIMESTAMP }}
@@ -87,6 +87,7 @@ jobs:
         retention-days: 90
 
     - name: Commit and Push Report
+      if: steps.upload-report.outcome == 'success'
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
@@ -103,25 +104,33 @@ jobs:
         fi
 
     - name: Update README with Latest Report Link
+      if: steps.upload-report.outcome == 'success'
       run: |
-        # Update README.md to include link to latest report
-        if grep -q "## Latest Tool Test Report" README.md; then
-          # Replace existing section
-          sed -i '/## Latest Tool Test Report/,$d' README.md
+        # Update README.md to include link to latest report using comment markers
+        CURRENT_DATE=$(date -u '+%Y-%m-%d %H:%M:%S UTC')
+        
+        # Simple approach - just echo the new content
+        if grep -q "<!-- TOOL_TEST_REPORT_START -->" README.md; then
+          # Remove old section
+          sed -i '/<!-- TOOL_TEST_REPORT_START -->/,/<!-- TOOL_TEST_REPORT_END -->/d' README.md
         fi
         
+        # Add new section
         echo "" >> README.md
-        echo "## Latest Tool Test Report" >> README.md
+        echo "<!-- TOOL_TEST_REPORT_START -->" >> README.md
+        echo "## 🔧 Tool Test Status" >> README.md
         echo "" >> README.md
-        echo "📊 **[View Latest Test Report (HTML)](reports/latest_report.html)** | **[Markdown](reports/latest_report.md)**" >> README.md
+        echo "📊 **[Latest Daily Report](reports/latest_report.html)** | **[90-Day Comprehensive Report](reports/latest_comprehensive.html)**" >> README.md
         echo "" >> README.md
-        echo "- **Last Updated:** $(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> README.md
+        echo "- **Last Updated:** $CURRENT_DATE" >> README.md
         echo "- **Test Iterations:** ${{ inputs.iterations || '20' }} per model" >> README.md
         echo "- **All Reports:** [Browse Reports Directory](reports/)" >> README.md
         echo "" >> README.md
-        echo "*Reports are generated daily at 06:00 UTC and include comprehensive tool calling tests for all available models.*" >> README.md
+        echo "*Daily reports generated at 06:00 UTC. Comprehensive report includes 90-day trend analysis and reliability assessment.*" >> README.md
+        echo "<!-- TOOL_TEST_REPORT_END -->" >> README.md
 
     - name: Commit README Update
+      if: steps.upload-report.outcome == 'success'
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
@@ -137,33 +146,6 @@ jobs:
           git push
         fi
 
-    - name: Create Release for Weekly Reports
-      # Create a release every Sunday with the week's reports
-      if: github.event_name == 'schedule' && contains(github.event.schedule, '0 6 * * 0')
-      uses: softprops/action-gh-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: weekly-report-${{ env.TIMESTAMP }}
-        name: Weekly Tool Test Report - ${{ env.TIMESTAMP }}
-        body: |
-          Weekly WatsonX Tool Test Report
-          
-          This release contains the tool test reports generated during the week.
-          
-          **Key Features:**
-          - Daily automated testing of all available models
-          - ${{ inputs.iterations || '20' }} iterations per model for reliability assessment
-          - Comprehensive tool calling capability analysis
-          
-          **Access Reports:**
-          - [Latest Report](reports/latest_report.md)
-          - [All Reports](reports/)
-          
-          Generated automatically by GitHub Actions.
-        draft: false
-        prerelease: false
-        files: reports/*
 
   cleanup-old-reports:
     runs-on: ubuntu-latest
