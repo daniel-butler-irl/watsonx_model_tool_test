@@ -9,7 +9,7 @@ using CSV files stored in the repository, without requiring external services.
 import csv
 import datetime
 import os
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 
 class HistoryManager:
@@ -109,7 +109,7 @@ class HistoryManager:
                 )
 
     def record_test_results(
-        self, results: List[Dict[str, Any]], test_date: str | None = None
+        self, results: List[Dict[str, Any]], test_date: Optional[str] = None
     ) -> None:
         """Record test results to CSV history.
 
@@ -775,7 +775,7 @@ class HistoryManager:
             os.replace(temp_file, self.summary_file)
 
     def get_detailed_test_results(
-        self, model_id: str | None = None, days: int = 30
+        self, model_id: Optional[str] = None, days: int = 30
     ) -> List[Dict[str, Any]]:
         """Get detailed test results with complete information.
 
