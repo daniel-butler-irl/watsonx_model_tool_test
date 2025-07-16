@@ -1259,9 +1259,20 @@ class HTMLReportGenerator:
         for i, date in enumerate(dates):
             # Show every 5th date to avoid clutter
             if i % 5 == 0:
-                display_date = datetime.datetime.strptime(
-                    date, "%Y-%m-%d"
-                ).strftime("%m/%d")
+                # Try to parse date with fallback for different formats
+                try:
+                    display_date = datetime.datetime.strptime(
+                        date, "%Y-%m-%d"
+                    ).strftime("%m/%d")
+                except ValueError:
+                    try:
+                        # Fallback for ISO format dates
+                        display_date = datetime.datetime.fromisoformat(
+                            date
+                        ).strftime("%m/%d")
+                    except ValueError:
+                        # Use the raw date string if parsing fails
+                        display_date = date[:5]  # Show first 5 chars as fallback
                 date_headers.append(
                     f'<div class="date-header">{display_date}</div>'
                 )

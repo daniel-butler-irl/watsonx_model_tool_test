@@ -9,6 +9,7 @@ using CSV files stored in the repository, without requiring external services.
 import csv
 import datetime
 import os
+import re
 from typing import Any, Dict, List, Optional
 
 
@@ -31,6 +32,48 @@ class HistoryManager:
 
         # Initialize CSV files if they don't exist
         self._initialize_csv_files()
+
+    def _parse_datetime_safely(self, date_string: str) -> Optional[datetime.datetime]:
+        """Parse datetime string with multiple fallback formats.
+
+        Args:
+            date_string: The datetime string to parse
+
+        Returns:
+            Parsed datetime object or None if parsing fails
+        """
+        if not date_string:
+            return None
+
+        # Try different formats in order of preference
+        formats = [
+            "%Y-%m-%d",                    # Date only: 2025-07-16
+            "%Y-%m-%d %H:%M:%S",          # Date with time: 2025-07-16 16:13:44
+            "%Y-%m-%dT%H:%M:%S",          # ISO format: 2025-07-16T16:13:44
+            "%Y-%m-%dT%H:%M:%S.%f",       # ISO with microseconds: 2025-07-16T16:13:44.132759
+        ]
+
+        for fmt in formats:
+            try:
+                return datetime.datetime.strptime(date_string, fmt)
+            except ValueError:
+                continue
+
+        # Try ISO format parsing as fallback
+        try:
+            # Remove any timezone info and normalize the format
+            clean_date = re.sub(r'[+-]\d{2}:?\d{2}$', '', date_string)  # Remove timezone
+            clean_date = clean_date.replace('Z', '')  # Remove Z timezone indicator
+
+            # Try to extract just the date part if it's a full ISO string
+            if 'T' in clean_date:
+                # Try parsing as ISO format
+                return datetime.datetime.fromisoformat(clean_date)
+            else:
+                # Try parsing as date only
+                return datetime.datetime.strptime(clean_date, "%Y-%m-%d")
+        except (ValueError, AttributeError):
+            return None
 
     def _initialize_csv_files(self) -> None:
         """Initialize CSV files with headers if they don't exist."""
@@ -117,7 +160,7 @@ class HistoryManager:
             test_date: Date of the test (defaults to today)
         """
         if test_date is None:
-            test_date = datetime.datetime.now().isoformat()
+            test_date = datetime.datetime.now().strftime("%Y-%m-%d")
 
         timestamp = datetime.datetime.now().isoformat()
 
@@ -436,7 +479,6 @@ class HistoryManager:
             return model_id.split("/")[-1]
         return model_id
 
-
     def get_trackable_models(self) -> List[Dict[str, Any]]:
         """Get list of models that should be tracked (have ever worked at least partially).
 
@@ -517,9 +559,11 @@ class HistoryManager:
                 reader = csv.DictReader(f)
                 for row in reader:
                     if row["model_id"] == model_id:
-                        test_date = datetime.datetime.strptime(
-                            row["date"], "%Y-%m-%d"
-                        )
+                        # Try to parse date with fallback for different formats
+                        test_date = self._parse_datetime_safely(row["date"])
+                        if test_date is None:
+                            # Skip rows with unparseable dates
+                            continue
                         if test_date >= cutoff_date:
                             history.append(
                                 {
@@ -603,9 +647,11 @@ class HistoryManager:
             with open(self.summary_file, "r") as f:
                 reader = csv.DictReader(f)
                 for row in reader:
-                    test_date = datetime.datetime.strptime(
-                        row["date"], "%Y-%m-%d"
-                    )
+                    # Try to parse date with fallback for different formats
+                    test_date = self._parse_datetime_safely(row["date"])
+                    if test_date is None:
+                        # Skip rows with unparseable dates
+                        continue
                     if test_date >= cutoff_date:
                         history.append(
                             {
@@ -774,9 +820,11 @@ class HistoryManager:
                     if model_id and row["model_id"] != model_id:
                         continue
 
-                    test_date = datetime.datetime.strptime(
-                        row["date"], "%Y-%m-%d"
-                    )
+                    # Try to parse date with fallback for different formats
+                    test_date = self._parse_datetime_safely(row["date"])
+                    if test_date is None:
+                        # Skip rows with unparseable dates
+                        continue
                     if test_date >= cutoff_date:
                         detailed_results.append(
                             {
@@ -873,9 +921,11 @@ class HistoryManager:
             with open(self.results_file, "r") as f:
                 reader = csv.DictReader(f)
                 for row in reader:
-                    test_date = datetime.datetime.strptime(
-                        row["date"], "%Y-%m-%d"
-                    )
+                    # Try to parse date with fallback for different formats
+                    test_date = self._parse_datetime_safely(row["date"])
+                    if test_date is None:
+                        # Skip rows with unparseable dates
+                        continue
                     if test_date >= cutoff_date:
                         error_message = row.get("error_message", "")
                         if error_message:
@@ -947,9 +997,11 @@ class HistoryManager:
             with open(self.results_file, "r") as f:
                 reader = csv.DictReader(f)
                 for row in reader:
-                    test_date = datetime.datetime.strptime(
-                        row["date"], "%Y-%m-%d"
-                    )
+                    # Try to parse date with fallback for different formats
+                    test_date = self._parse_datetime_safely(row["date"])
+                    if test_date is None:
+                        # Skip rows with unparseable dates
+                        continue
                     if test_date >= cutoff_date:
                         date_key = row["date"]
                         model_id = row["model_id"]
