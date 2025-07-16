@@ -1,2 +1,2 @@
 datetime,total_models,working_models,handling_models,reliable_models,avg_tool_time,avg_response_time,avg_total_time,fastest_model,fastest_time
-2025-07-16,2,2,2,2,1.500,0.000,2.000,test-model-2,2.000
+2025-07-16,44,13,13,10,0.358,0.540,0.518,sentence-transformers/all-minilm-l12-v2,0.092
