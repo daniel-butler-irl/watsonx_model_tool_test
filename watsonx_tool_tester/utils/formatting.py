@@ -7,7 +7,7 @@ output in a user-friendly way.
 """
 
 import json
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 import click
 
@@ -186,6 +186,32 @@ def format_response_success(success: bool) -> str:
         return click.style("✅ CORRECT", fg="green")
     else:
         return click.style("❌ INCORRECT", fg="red")
+
+
+def format_reliability_status(
+    is_reliable: Optional[bool],
+    tool_success_rate: float = 0.0,
+    response_success_rate: float = 0.0,
+) -> str:
+    """Format a reliability status indicator.
+
+    Args:
+        is_reliable: Whether the model is reliable (None = not supported, True = reliable, False = unreliable)
+        tool_success_rate: Success rate for tool calling (0.0 to 1.0)
+        response_success_rate: Success rate for response handling (0.0 to 1.0)
+
+    Returns:
+        str: Formatted reliability status indicator
+    """
+    if is_reliable is None:
+        return click.style("❌ NOT SUPPORTED", fg="red")
+    elif is_reliable:
+        return click.style("✅ RELIABLE", fg="green")
+    else:
+        return click.style(
+            f"⚠️ UNRELIABLE ({tool_success_rate:.0%}/{response_success_rate:.0%})",
+            fg="yellow",
+        )
 
 
 def format_response_time(seconds: float) -> str:

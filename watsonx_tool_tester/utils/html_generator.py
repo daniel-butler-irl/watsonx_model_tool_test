@@ -122,7 +122,7 @@ class HTMLReportGenerator:
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -765,6 +765,41 @@ class HTMLReportGenerator:
             color: #333;
         }
 
+        /* Unsupported Models Section Styles */
+        .unsupported-models-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .unsupported-model-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 15px;
+            background: #f9f9f9;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            transition: background-color 0.2s ease;
+        }
+
+        .unsupported-model-item:hover {
+            background: #f5f5f5;
+        }
+
+        .unsupported-model-item .model-name {
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 0.95em;
+        }
+
+        .unsupported-model-item .model-details {
+            font-size: 0.85em;
+            color: #666;
+            font-style: italic;
+        }
+
         @media (max-width: 768px) {
             .model-row,
             .detail-row,
@@ -812,6 +847,10 @@ class HTMLReportGenerator:
             .detail-row {
                 flex-direction: column;
                 align-items: flex-start;
+            }
+
+            .unsupported-models-grid {
+                grid-template-columns: 1fr;
             }
         }
         """
@@ -934,7 +973,7 @@ class HTMLReportGenerator:
                     <div class="description">Total processing time</div>
                 </div>
             </div>
-            
+
             <div class="status-indicators">
                 <div class="status-badge status-success">
                     <span>✅</span>
@@ -954,6 +993,14 @@ class HTMLReportGenerator:
 
     def _generate_results_section(self, results: List[Dict[str, Any]]) -> str:
         """Generate the detailed results table section."""
+        # Split results into supported and unsupported models
+        supported_results = [
+            r for r in results if r.get("tool_call_support", False)
+        ]
+        unsupported_results = [
+            r for r in results if not r.get("tool_call_support", False)
+        ]
+
         # Check if we have reliability data
         has_reliability = any("reliability" in result for result in results)
 
@@ -970,6 +1017,31 @@ class HTMLReportGenerator:
             )
             reliability_header = f"<th>Reliability ({iterations}x)</th>"
 
+        # Generate main results table (supported models only)
+        main_results_html = self._generate_results_table(
+            supported_results, has_reliability, reliability_header, "supported"
+        )
+
+        # Generate unsupported models section
+        unsupported_section = ""
+        if unsupported_results:
+            unsupported_section = self._generate_unsupported_models_section(
+                unsupported_results
+            )
+
+        return f"""
+        {main_results_html}
+        {unsupported_section}
+        """
+
+    def _generate_results_table(
+        self,
+        results: List[Dict[str, Any]],
+        has_reliability: bool,
+        reliability_header: str,
+        table_type: str,
+    ) -> str:
+        """Generate a results table for the given results."""
         # Generate table rows
         rows = []
         for result in results:
@@ -981,7 +1053,24 @@ class HTMLReportGenerator:
             # Format support indicators
             tool_support_html = f'<span class="support-indicator support-{"yes" if tool_support else "no"}">{"✅ Yes" if tool_support else "❌ No"}</span>'
 
-            response_support_html = f'<span class="support-indicator support-{"yes" if handles_response else "no"}">{"✅ Yes" if handles_response else "❌ No"}</span>'
+            # Format response handling with reliability context
+            if has_reliability and "reliability" in result:
+                rel_info = result["reliability"]
+                is_reliable = rel_info.get("is_reliable")
+                response_success_rate = rel_info.get(
+                    "response_handling_success_rate", 0
+                )
+
+                # If model is unreliable, show response rate instead of binary yes/no
+                if is_reliable is False and tool_support:
+                    if response_success_rate > 0:
+                        response_support_html = f'<span class="support-indicator support-partial">⚠️ Unreliable ({response_success_rate:.0%})</span>'
+                    else:
+                        response_support_html = f'<span class="support-indicator support-no">❌ Never Handles</span>'
+                else:
+                    response_support_html = f'<span class="support-indicator support-{"yes" if handles_response else "no"}">{"✅ Yes" if handles_response else "❌ No"}</span>'
+            else:
+                response_support_html = f'<span class="support-indicator support-{"yes" if handles_response else "no"}">{"✅ Yes" if handles_response else "❌ No"}</span>'
 
             # Format reliability info
             reliability_html = ""
@@ -1045,21 +1134,26 @@ class HTMLReportGenerator:
             """
             rows.append(row)
 
-        return f"""
-        <section class="section">
-            <h2>🔍 Detailed Results</h2>
-            
+        # Determine section title and filter controls based on table type
+        section_title = (
+            "🔍 Models with Tool Support"
+            if table_type == "supported"
+            else "🔍 Detailed Results"
+        )
+        filter_controls = ""
+        if table_type == "supported":
+            filter_controls = """
             <div class="filter-controls">
                 <div class="filter-group">
                     <label for="model-filter">Filter by Model:</label>
                     <input type="text" id="model-filter" class="filter-input" placeholder="Enter model name...">
                 </div>
                 <div class="filter-group">
-                    <label for="support-filter">Tool Support:</label>
-                    <select id="support-filter" class="filter-input">
+                    <label for="reliability-filter">Reliability:</label>
+                    <select id="reliability-filter" class="filter-input">
                         <option value="">All</option>
-                        <option value="true">Supported</option>
-                        <option value="false">Not Supported</option>
+                        <option value="reliable">Reliable</option>
+                        <option value="unreliable">Unreliable</option>
                     </select>
                 </div>
                 <div class="filter-group">
@@ -1071,7 +1165,14 @@ class HTMLReportGenerator:
                     </select>
                 </div>
             </div>
-            
+            """
+
+        return f"""
+        <section class="section">
+            <h2>{section_title}</h2>
+
+            {filter_controls}
+
             <table class="results-table" id="results-table">
                 <thead>
                     <tr>
@@ -1089,6 +1190,44 @@ class HTMLReportGenerator:
                     {"".join(rows)}
                 </tbody>
             </table>
+        </section>
+        """
+
+    def _generate_unsupported_models_section(
+        self, unsupported_results: List[Dict[str, Any]]
+    ) -> str:
+        """Generate a section for models that don't support tool calling."""
+        if not unsupported_results:
+            return ""
+
+        # Create a simple list of unsupported models
+        model_items = []
+        for result in unsupported_results:
+            model_name = result.get("model", "Unknown")
+            details = result.get("details", "N/A")
+            # Truncate details for display
+            truncated_details = (
+                details[:100] + "..." if len(details) > 100 else details
+            )
+
+            model_items.append(
+                f"""
+            <div class="unsupported-model-item">
+                <span class="model-name">{model_name}</span>
+                <span class="model-details">{truncated_details}</span>
+            </div>
+            """
+            )
+
+        return f"""
+        <section class="section">
+            <h2>❌ Models Without Tool Support ({len(unsupported_results)} models)</h2>
+            <p style="color: #666; margin-bottom: 20px;">
+                These models do not support tool calling and are listed here for reference.
+            </p>
+            <div class="unsupported-models-grid">
+                {"".join(model_items)}
+            </div>
         </section>
         """
 
@@ -1147,7 +1286,7 @@ class HTMLReportGenerator:
         return f"""
         <section class="section">
             <h2>📈 Performance Analytics</h2>
-            
+
             <div class="chart-container">
                 <div class="chart-title">Model Support Categories</div>
                 <div class="performance-chart">
@@ -1165,7 +1304,7 @@ class HTMLReportGenerator:
                     </div>
                 </div>
             </div>
-            
+
             <div class="chart-container">
                 <div class="chart-title">Average Response Times</div>
                 <div class="performance-chart">
@@ -1183,7 +1322,7 @@ class HTMLReportGenerator:
                     </div>
                 </div>
             </div>
-            
+
             {reliability_chart}
         </section>
         """
@@ -1272,7 +1411,9 @@ class HTMLReportGenerator:
                         ).strftime("%m/%d")
                     except ValueError:
                         # Use the raw date string if parsing fails
-                        display_date = date[:5]  # Show first 5 chars as fallback
+                        display_date = date[
+                            :5
+                        ]  # Show first 5 chars as fallback
                 date_headers.append(
                     f'<div class="date-header">{display_date}</div>'
                 )
@@ -1481,22 +1622,22 @@ class HTMLReportGenerator:
             const supportFilter = document.getElementById('support-filter');
             const handlingFilter = document.getElementById('handling-filter');
             const table = document.getElementById('results-table');
-            
+
             if (!table) return;
-            
+
             function filterTable() {
                 const modelValue = modelFilter ? modelFilter.value.toLowerCase() : '';
                 const supportValue = supportFilter ? supportFilter.value : '';
                 const handlingValue = handlingFilter ? handlingFilter.value : '';
-                
+
                 const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
-                
+
                 for (let row of rows) {
                     const modelText = row.cells[0].textContent.toLowerCase();
                     const supportMatch = !supportValue || row.dataset.support === supportValue;
                     const handlingMatch = !handlingValue || row.dataset.handling === handlingValue;
                     const modelMatch = !modelValue || modelText.includes(modelValue);
-                    
+
                     if (modelMatch && supportMatch && handlingMatch) {
                         row.style.display = '';
                     } else {
@@ -1504,21 +1645,21 @@ class HTMLReportGenerator:
                     }
                 }
             }
-            
+
             if (modelFilter) modelFilter.addEventListener('input', filterTable);
             if (supportFilter) supportFilter.addEventListener('change', filterTable);
             if (handlingFilter) handlingFilter.addEventListener('change', filterTable);
         }
-        
+
         // Collapsible sections
         function initializeCollapsibles() {
             const headers = document.querySelectorAll('.collapsible-header');
-            
+
             headers.forEach(header => {
                 header.addEventListener('click', function() {
                     const content = this.nextElementSibling;
                     const icon = this.querySelector('.expand-icon');
-                    
+
                     if (content.classList.contains('active')) {
                         content.classList.remove('active');
                         if (icon) icon.classList.remove('rotated');
@@ -1529,12 +1670,12 @@ class HTMLReportGenerator:
                 });
             });
         }
-        
+
         // Toggle details in history section
         function toggleDetails(element) {
             const row = element.closest('.detail-row');
             const expandedContent = row.querySelector('.detail-expanded');
-            
+
             if (expandedContent.style.display === 'none') {
                 expandedContent.style.display = 'block';
                 element.textContent = '▲';
@@ -1543,58 +1684,58 @@ class HTMLReportGenerator:
                 element.textContent = '▼';
             }
         }
-        
+
         // Status cell tooltips and interactions
         function initializeStatusCells() {
             const statusCells = document.querySelectorAll('.status-cell');
-            
+
             statusCells.forEach(cell => {
                 cell.addEventListener('mouseenter', function() {
                     // Could add enhanced tooltip functionality here
                 });
             });
         }
-        
+
         // Sort table functionality
         function initializeTableSorting() {
             const table = document.getElementById('results-table');
             if (!table) return;
-            
+
             const headers = table.querySelectorAll('th');
             headers.forEach((header, index) => {
                 header.style.cursor = 'pointer';
                 header.addEventListener('click', () => sortTable(index));
             });
         }
-        
+
         function sortTable(columnIndex) {
             const table = document.getElementById('results-table');
             const tbody = table.getElementsByTagName('tbody')[0];
             const rows = Array.from(tbody.getElementsByTagName('tr'));
-            
+
             // Determine sort direction
             const isAsc = table.dataset.sortDirection !== 'asc';
             table.dataset.sortDirection = isAsc ? 'asc' : 'desc';
-            
+
             rows.sort((a, b) => {
                 const aVal = a.cells[columnIndex].textContent.trim();
                 const bVal = b.cells[columnIndex].textContent.trim();
-                
+
                 // Handle numeric columns (timing columns)
                 if (columnIndex >= 4 && columnIndex <= 6) {
                     const aNum = parseFloat(aVal.replace('s', '')) || 0;
                     const bNum = parseFloat(bVal.replace('s', '')) || 0;
                     return isAsc ? aNum - bNum : bNum - aNum;
                 }
-                
+
                 // Handle text columns
                 return isAsc ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
             });
-            
+
             // Rebuild table
             rows.forEach(row => tbody.appendChild(row));
         }
-        
+
         // Initialize all functionality when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
             initializeFilters();
@@ -1602,7 +1743,7 @@ class HTMLReportGenerator:
             initializeStatusCells();
             initializeTableSorting();
         });
-        
+
         // Make toggleDetails globally available for inline onclick handlers
         window.toggleDetails = toggleDetails;
         """

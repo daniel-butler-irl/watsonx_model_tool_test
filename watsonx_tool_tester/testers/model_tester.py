@@ -361,15 +361,14 @@ class ModelTester:
             response_handling_successes / iterations if iterations > 0 else 0
         )
 
-        # Determine overall support (majority vote)
-        overall_tool_call_support = tool_call_successes > (iterations / 2)
-        overall_handles_response = response_handling_successes > (
-            iterations / 2
-        )
+        # Determine overall support - ANY successful tool calls indicate support
+        # This allows us to properly categorize models that work sometimes vs never
+        overall_tool_call_support = tool_call_successes > 0
+        overall_handles_response = response_handling_successes > 0
 
-        # Only calculate reliability for models that have some tool call support
-        # Models with no tool call support are "NOT SUPPORTED", not "UNRELIABLE"
+        # Calculate reliability based on consistency
         if overall_tool_call_support:
+            # Models with some tool call support can be reliable or unreliable
             is_reliable = (
                 tool_call_success_rate == 1.0
                 and response_handling_success_rate == 1.0

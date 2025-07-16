@@ -33,7 +33,9 @@ class HistoryManager:
         # Initialize CSV files if they don't exist
         self._initialize_csv_files()
 
-    def _parse_datetime_safely(self, date_string: str) -> Optional[datetime.datetime]:
+    def _parse_datetime_safely(
+        self, date_string: str
+    ) -> Optional[datetime.datetime]:
         """Parse datetime string with multiple fallback formats.
 
         Args:
@@ -47,10 +49,10 @@ class HistoryManager:
 
         # Try different formats in order of preference
         formats = [
-            "%Y-%m-%d",                    # Date only: 2025-07-16
-            "%Y-%m-%d %H:%M:%S",          # Date with time: 2025-07-16 16:13:44
-            "%Y-%m-%dT%H:%M:%S",          # ISO format: 2025-07-16T16:13:44
-            "%Y-%m-%dT%H:%M:%S.%f",       # ISO with microseconds: 2025-07-16T16:13:44.132759
+            "%Y-%m-%d",  # Date only: 2025-07-16
+            "%Y-%m-%d %H:%M:%S",  # Date with time: 2025-07-16 16:13:44
+            "%Y-%m-%dT%H:%M:%S",  # ISO format: 2025-07-16T16:13:44
+            "%Y-%m-%dT%H:%M:%S.%f",  # ISO with microseconds: 2025-07-16T16:13:44.132759
         ]
 
         for fmt in formats:
@@ -62,11 +64,15 @@ class HistoryManager:
         # Try ISO format parsing as fallback
         try:
             # Remove any timezone info and normalize the format
-            clean_date = re.sub(r'[+-]\d{2}:?\d{2}$', '', date_string)  # Remove timezone
-            clean_date = clean_date.replace('Z', '')  # Remove Z timezone indicator
+            clean_date = re.sub(
+                r"[+-]\d{2}:?\d{2}$", "", date_string
+            )  # Remove timezone
+            clean_date = clean_date.replace(
+                "Z", ""
+            )  # Remove Z timezone indicator
 
             # Try to extract just the date part if it's a full ISO string
-            if 'T' in clean_date:
+            if "T" in clean_date:
                 # Try parsing as ISO format
                 return datetime.datetime.fromisoformat(clean_date)
             else:
@@ -532,9 +538,7 @@ class HistoryManager:
                             }
                         )
 
-        return sorted(
-            trackable_models, key=lambda x: x["display_name"]
-        )
+        return sorted(trackable_models, key=lambda x: x["display_name"])
 
     def get_model_history(
         self, model_id: str, days: int = 30

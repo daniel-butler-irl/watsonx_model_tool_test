@@ -89,7 +89,36 @@ class ResultHandler:
 
             # Format tool call support and response handling status
             tool_call_status = format_tool_call_success(supports_tool_call)
-            response_status = format_response_success(handles_response)
+
+            # For unreliable models, show response handling with reliability context
+            if has_reliability_data and "reliability" in result:
+                reliability_info = result.get("reliability")
+                is_reliable = (
+                    reliability_info.get("is_reliable")
+                    if reliability_info
+                    else None
+                )
+                response_success_rate = (
+                    reliability_info.get("response_handling_success_rate", 0)
+                    if reliability_info
+                    else 0
+                )
+
+                # If model is unreliable, show response rate instead of binary correct/incorrect
+                if is_reliable is False and supports_tool_call:
+                    if response_success_rate > 0:
+                        response_status = click.style(
+                            f"⚠️ UNRELIABLE ({response_success_rate:.0%})",
+                            fg="yellow",
+                        )
+                    else:
+                        response_status = click.style(
+                            "❌ NEVER HANDLES", fg="red"
+                        )
+                else:
+                    response_status = format_response_success(handles_response)
+            else:
+                response_status = format_response_success(handles_response)
 
             # Get timing information
             times = result.get("response_times", {})
