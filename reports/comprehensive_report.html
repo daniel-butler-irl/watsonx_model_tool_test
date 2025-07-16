@@ -1,0 +1,1686 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WatsonX Tool Test Report</title>
+    <style>
+        
+        :root {
+            --primary-color: #0f62fe;
+            --success-color: #24a148;
+            --warning-color: #f1c21b;
+            --error-color: #da1e28;
+            --background-color: #f4f4f4;
+            --card-background: #ffffff;
+            --text-color: #161616;
+            --border-color: #e0e0e0;
+            --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --border-radius: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), #0043ce);
+            color: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .meta-info {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .timestamp {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px 10px;
+            border-radius: 15px;
+        }
+
+        .config-info {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .config-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px 10px;
+            border-radius: 15px;
+        }
+
+        .section {
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .section h2 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.2s ease;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .summary-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .summary-card .value {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .summary-card .description {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .status-indicators {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 0.9em;
+        }
+
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .results-table th,
+        .results-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .results-table th {
+            background: var(--background-color);
+            font-weight: 600;
+            color: var(--primary-color);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .results-table tr:hover {
+            background: rgba(15, 98, 254, 0.05);
+        }
+
+        .model-name {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .support-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+
+        .support-yes {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .support-no {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .support-partial {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .timing-info {
+            font-family: monospace;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .details-cell {
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .details-cell:hover {
+            overflow: visible;
+            white-space: normal;
+            word-wrap: break-word;
+        }
+
+        .reliability-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+
+        .reliability-perfect {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .reliability-partial {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .reliability-none {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .chart-container {
+            background: var(--card-background);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .chart-title {
+            color: var(--primary-color);
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .performance-chart {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .performance-item {
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+            padding: 15px;
+            background: var(--background-color);
+            border-radius: var(--border-radius);
+        }
+
+        .performance-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .performance-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-group label {
+            font-weight: 500;
+            color: var(--text-color);
+        }
+
+        .filter-input {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-size: 0.9em;
+        }
+
+        .filter-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(15, 98, 254, 0.1);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            border-top: 1px solid var(--border-color);
+            margin-top: 40px;
+        }
+
+        .footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .collapsible {
+            background: var(--background-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .collapsible-header {
+            background: var(--card-background);
+            padding: 15px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+            transition: background 0.2s ease;
+        }
+
+        .collapsible-header:hover {
+            background: rgba(15, 98, 254, 0.05);
+        }
+
+        .collapsible-content {
+            padding: 15px;
+            display: none;
+        }
+
+        .collapsible-content.active {
+            display: block;
+        }
+
+        .expand-icon {
+            transition: transform 0.2s ease;
+        }
+
+        .expand-icon.rotated {
+            transform: rotate(180deg);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .section {
+                padding: 20px;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .results-table {
+                font-size: 0.9em;
+            }
+
+            .filter-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .performance-chart {
+                flex-direction: column;
+            }
+        }
+
+        /* History Section Styles */
+        .history-section {
+            background: var(--card-background);
+            border-radius: var(--border-radius);
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .history-legend {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9em;
+        }
+
+        .history-chart {
+            background: #fafafa;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        .chart-header {
+            display: flex;
+            background: #f0f0f0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .model-header {
+            width: 200px;
+            padding: 12px;
+            font-weight: 600;
+            border-right: 1px solid var(--border-color);
+        }
+
+        .timeline-header {
+            display: flex;
+            flex: 1;
+        }
+
+        .date-header {
+            width: 20px;
+            padding: 12px 4px;
+            text-align: center;
+            font-size: 0.8em;
+            color: #666;
+        }
+
+        .chart-body {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .model-row {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .model-row:last-child {
+            border-bottom: none;
+        }
+
+        .model-info {
+            width: 200px;
+            padding: 12px;
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .model-name {
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+
+        .status-timeline {
+            display: flex;
+            flex: 1;
+            align-items: center;
+            padding: 8px 0;
+        }
+
+        .status-cell {
+            width: 20px;
+            height: 20px;
+            margin: 0 2px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .status-working {
+            background-color: var(--success-color);
+        }
+
+        .status-partial {
+            background-color: var(--warning-color);
+        }
+
+        .status-broken {
+            background-color: var(--error-color);
+        }
+
+        .status-untested {
+            background-color: #e0e0e0;
+        }
+
+        .status-cell:hover {
+            transform: scale(1.2);
+            transition: transform 0.2s ease;
+        }
+
+        /* Detailed History Section Styles */
+        .detailed-history {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .error-analysis,
+        .performance-trends,
+        .detailed-results {
+            margin-bottom: 30px;
+        }
+
+        .error-item {
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: #fff3f3;
+        }
+
+        .error-count {
+            font-weight: bold;
+            color: var(--error-color);
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .error-message {
+            flex: 1;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .trends-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .trends-header {
+            background: var(--background-color);
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .trend-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .trend-date {
+            width: 100px;
+            color: #666;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+        }
+
+        .detail-row:hover {
+            background: rgba(15, 98, 254, 0.05);
+        }
+
+        .detail-status {
+            text-align: center;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+
+        .detail-status.working {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .detail-status.partial {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .detail-status.broken {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .detail-expand {
+            width: 30px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .detail-expanded {
+            padding: 10px;
+            border-top: 1px solid var(--border-color);
+            margin-top: 5px;
+            display: none;
+        }
+
+        .expanded-content {
+            font-size: 0.9em;
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .model-row,
+            .detail-row,
+            .trend-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .model-info,
+            .detail-info {
+                width: 100%;
+                padding: 10px 0;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+            }
+
+            .status-timeline {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .status-cell {
+                width: 100%;
+                height: auto;
+                padding: 8px;
+                margin: 4px 0;
+                border-radius: 10px;
+            }
+
+            .error-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .stat-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .trend-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .detail-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>WatsonX Tool Test Report</h1>
+            <p class="subtitle">Comprehensive analysis of AI model tool calling capabilities</p>
+            <div class="meta-info">
+                <span class="timestamp">Generated: 2025-07-16 16:13:44 UTC</span>
+                <div class="config-info"><span class="config-item">Iterations: 2</span><span class="config-item">Client: watsonx</span><span class="config-item">Models Tested: 44</span></div>
+            </div>
+        </header>
+
+        <main>
+            
+        <section class="section">
+            <h2>📊 Summary Statistics</h2>
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <h3>Total Models</h3>
+                    <div class="value">44</div>
+                    <div class="description">Models tested</div>
+                </div>
+                <div class="summary-card">
+                    <h3>Tool Support</h3>
+                    <div class="value" style="color: var(--success-color);">12</div>
+                    <div class="description">Models with tool calling (27.3%)</div>
+                </div>
+                <div class="summary-card">
+                    <h3>Response Handling</h3>
+                    <div class="value" style="color: var(--success-color);">9</div>
+                    <div class="description">Models using tool results (75.0%)</div>
+                </div>
+                
+            <div class="summary-card">
+                <h3>Reliability</h3>
+                <div class="value" style="color: var(--success-color);">9/44</div>
+                <div class="description">Models with 100% consistency (20.5%)</div>
+            </div>
+            
+                
+            <div class="summary-card">
+                <h3>Fastest Model</h3>
+                <div class="value" style="color: var(--primary-color);">0.78s</div>
+                <div class="description">ibm/granite-3-2b-instruct</div>
+            </div>
+            
+                <div class="summary-card">
+                    <h3>Average Response Time</h3>
+                    <div class="value" style="color: var(--primary-color);">1.55s</div>
+                    <div class="description">Total processing time</div>
+                </div>
+            </div>
+            
+            <div class="status-indicators">
+                <div class="status-badge status-success">
+                    <span>✅</span>
+                    <span>Full Support: 0</span>
+                </div>
+                <div class="status-badge status-warning">
+                    <span>⚠️</span>
+                    <span>Partial Support: 0</span>
+                </div>
+                <div class="status-badge status-error">
+                    <span>❌</span>
+                    <span>No Support: 32</span>
+                </div>
+            </div>
+        </section>
+        
+            
+        <section class="history-section">
+            <h2>Model Performance History (Last 30 Days)</h2>
+            <div class="history-legend">
+                <div class="legend-item">
+                    <div class="status-cell status-working"></div>
+                    <span>Working (Full Support)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="status-cell status-partial"></div>
+                    <span>Partial (Tool Calls Only)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="status-cell status-broken"></div>
+                    <span>Broken (No Support)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="status-cell status-untested"></div>
+                    <span>Not Tested</span>
+                </div>
+            </div>
+            <div class="history-chart">
+                <div class="chart-header">
+                    <div class="model-header">Model</div>
+                    <div class="timeline-header">
+                        <div class="date-header">06/17</div><div class="date-header"></div><div class="date-header"></div><div class="date-header"></div><div class="date-header"></div><div class="date-header">06/22</div><div class="date-header"></div><div class="date-header"></div><div class="date-header"></div><div class="date-header"></div><div class="date-header">06/27</div><div class="date-header"></div><div class="date-header"></div><div class="date-header"></div><div class="date-header"></div><div class="date-header">07/02</div><div class="date-header"></div><div class="date-header"></div><div class="date-header"></div><div class="date-header"></div><div class="date-header">07/07</div><div class="date-header"></div><div class="date-header"></div><div class="date-header"></div><div class="date-header"></div><div class="date-header">07/12</div><div class="date-header"></div><div class="date-header"></div><div class="date-header"></div><div class="date-header"></div>
+                    </div>
+                </div>
+                <div class="chart-body">
+                    
+                <div class="model-row">
+                    <div class="model-info">
+                        <span class="model-name">granite-3-2-8b-instruct</span>
+                    </div>
+                    <div class="status-timeline">
+                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-untested" title="2025-07-16: untested"></div>
+                    </div>
+                </div>
+            
+                <div class="model-row">
+                    <div class="model-info">
+                        <span class="model-name">granite-3-2b-instruct</span>
+                    </div>
+                    <div class="status-timeline">
+                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-untested" title="2025-07-16: untested"></div>
+                    </div>
+                </div>
+            
+                <div class="model-row">
+                    <div class="model-info">
+                        <span class="model-name">granite-3-8b-instruct</span>
+                    </div>
+                    <div class="status-timeline">
+                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-untested" title="2025-07-16: untested"></div>
+                    </div>
+                </div>
+            
+                <div class="model-row">
+                    <div class="model-info">
+                        <span class="model-name">llama-3-2-11b-vision-instruct</span>
+                    </div>
+                    <div class="status-timeline">
+                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-untested" title="2025-07-16: untested"></div>
+                    </div>
+                </div>
+            
+                <div class="model-row">
+                    <div class="model-info">
+                        <span class="model-name">llama-3-2-3b-instruct</span>
+                    </div>
+                    <div class="status-timeline">
+                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-untested" title="2025-07-16: untested"></div>
+                    </div>
+                </div>
+            
+                <div class="model-row">
+                    <div class="model-info">
+                        <span class="model-name">llama-3-2-90b-vision-instruct</span>
+                    </div>
+                    <div class="status-timeline">
+                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-untested" title="2025-07-16: untested"></div>
+                    </div>
+                </div>
+            
+                <div class="model-row">
+                    <div class="model-info">
+                        <span class="model-name">llama-3-3-70b-instruct</span>
+                    </div>
+                    <div class="status-timeline">
+                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-untested" title="2025-07-16: untested"></div>
+                    </div>
+                </div>
+            
+                <div class="model-row">
+                    <div class="model-info">
+                        <span class="model-name">llama-3-405b-instruct</span>
+                    </div>
+                    <div class="status-timeline">
+                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-untested" title="2025-07-16: untested"></div>
+                    </div>
+                </div>
+            
+                <div class="model-row">
+                    <div class="model-info">
+                        <span class="model-name">llama-4-maverick-17b-128e-instruct-fp8</span>
+                    </div>
+                    <div class="status-timeline">
+                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-untested" title="2025-07-16: untested"></div>
+                    </div>
+                </div>
+            
+                <div class="model-row">
+                    <div class="model-info">
+                        <span class="model-name">mistral-large</span>
+                    </div>
+                    <div class="status-timeline">
+                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-untested" title="2025-07-16: untested"></div>
+                    </div>
+                </div>
+            
+                <div class="model-row">
+                    <div class="model-info">
+                        <span class="model-name">mistral-medium-2505</span>
+                    </div>
+                    <div class="status-timeline">
+                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-untested" title="2025-07-16: untested"></div>
+                    </div>
+                </div>
+            
+                <div class="model-row">
+                    <div class="model-info">
+                        <span class="model-name">mistral-small-3-1-24b-instruct-2503</span>
+                    </div>
+                    <div class="status-timeline">
+                        <div class="status-cell status-untested" title="2025-06-17: untested"></div><div class="status-cell status-untested" title="2025-06-18: untested"></div><div class="status-cell status-untested" title="2025-06-19: untested"></div><div class="status-cell status-untested" title="2025-06-20: untested"></div><div class="status-cell status-untested" title="2025-06-21: untested"></div><div class="status-cell status-untested" title="2025-06-22: untested"></div><div class="status-cell status-untested" title="2025-06-23: untested"></div><div class="status-cell status-untested" title="2025-06-24: untested"></div><div class="status-cell status-untested" title="2025-06-25: untested"></div><div class="status-cell status-untested" title="2025-06-26: untested"></div><div class="status-cell status-untested" title="2025-06-27: untested"></div><div class="status-cell status-untested" title="2025-06-28: untested"></div><div class="status-cell status-untested" title="2025-06-29: untested"></div><div class="status-cell status-untested" title="2025-06-30: untested"></div><div class="status-cell status-untested" title="2025-07-01: untested"></div><div class="status-cell status-untested" title="2025-07-02: untested"></div><div class="status-cell status-untested" title="2025-07-03: untested"></div><div class="status-cell status-untested" title="2025-07-04: untested"></div><div class="status-cell status-untested" title="2025-07-05: untested"></div><div class="status-cell status-untested" title="2025-07-06: untested"></div><div class="status-cell status-untested" title="2025-07-07: untested"></div><div class="status-cell status-untested" title="2025-07-08: untested"></div><div class="status-cell status-untested" title="2025-07-09: untested"></div><div class="status-cell status-untested" title="2025-07-10: untested"></div><div class="status-cell status-untested" title="2025-07-11: untested"></div><div class="status-cell status-untested" title="2025-07-12: untested"></div><div class="status-cell status-untested" title="2025-07-13: untested"></div><div class="status-cell status-untested" title="2025-07-14: untested"></div><div class="status-cell status-untested" title="2025-07-15: untested"></div><div class="status-cell status-untested" title="2025-07-16: untested"></div>
+                    </div>
+                </div>
+            
+                </div>
+            </div>
+            
+        <div class="detailed-history">
+            
+            
+            
+        </div>
+        
+        </section>
+        
+            
+        <section class="section">
+            <h2>🔍 Detailed Results</h2>
+            
+            <div class="filter-controls">
+                <div class="filter-group">
+                    <label for="model-filter">Filter by Model:</label>
+                    <input type="text" id="model-filter" class="filter-input" placeholder="Enter model name...">
+                </div>
+                <div class="filter-group">
+                    <label for="support-filter">Tool Support:</label>
+                    <select id="support-filter" class="filter-input">
+                        <option value="">All</option>
+                        <option value="true">Supported</option>
+                        <option value="false">Not Supported</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="handling-filter">Response Handling:</label>
+                    <select id="handling-filter" class="filter-input">
+                        <option value="">All</option>
+                        <option value="true">Correct</option>
+                        <option value="false">Incorrect</option>
+                    </select>
+                </div>
+            </div>
+            
+            <table class="results-table" id="results-table">
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>Tool Support</th>
+                        <th>Response Handling</th>
+                        <th>Reliability (1x)</th>
+                        <th>Call Time</th>
+                        <th>Response Time</th>
+                        <th>Total Time</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+            <tr data-model="cross-encoder/ms-marco-minilm-l-12-v2" data-support="False" data-handling="False">
+                <td class="model-name">cross-encoder/ms-marco-minilm-l-12-v2</td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
+                <td><span class="timing-info">1.05s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">1.05s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'cross-encoder/ms-marco-minilm-l-12-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '9ef109b717438866e32e130d025bffe6', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'cross-encoder/ms-marco-minilm-l-12-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '9ef109b717438866e32e130d025bffe6', 'status_code': 400}</span></td>
+            </tr>
+            
+            <tr data-model="google/flan-t5-xl" data-support="False" data-handling="False">
+                <td class="model-name">google/flan-t5-xl</td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
+                <td><span class="timing-info">0.22s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.22s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-t5-xl' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '3bf9c554338a196ab83fff0c64f803ae', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-t5-xl' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '3bf9c554338a196ab83fff0c64f803ae', 'status_code': 400}</span></td>
+            </tr>
+            
+            <tr data-model="google/flan-t5-xxl" data-support="False" data-handling="False">
+                <td class="model-name">google/flan-t5-xxl</td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
+                <td><span class="timing-info">0.24s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.24s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-t5-xxl' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '489932d8d8519ee8da94e1f261e7bb51', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-t5-xxl' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '489932d8d8519ee8da94e1f261e7bb51', 'status_code': 400}</span></td>
+            </tr>
+            
+            <tr data-model="google/flan-ul2" data-support="False" data-handling="False">
+                <td class="model-name">google/flan-ul2</td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
+                <td><span class="timing-info">0.25s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.25s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-ul2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '10eb51a9d52b1cf1eb415d25e1dab4d8', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-ul2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '10eb51a9d52b1cf1eb415d25e1dab4d8', 'status_code': 400}</span></td>
+            </tr>
+            
+            <tr data-model="ibm/granite-13b-instruct-v2" data-support="False" data-handling="False">
+                <td class="model-name">ibm/granite-13b-instruct-v2</td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
+                <td><span class="timing-info">0.12s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.12s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-13b-instruct-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '87d1a5acefc65b369ec66745d03ce36b', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-13b-instruct-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '87d1a5acefc65b369ec66745d03ce36b', 'status_code': 400}</span></td>
+            </tr>
+            
+            <tr data-model="ibm/granite-20b-code-instruct" data-support="False" data-handling="False">
+                <td class="model-name">ibm/granite-20b-code-instruct</td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
+                <td><span class="timing-info">0.38s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.38s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-20b-code-instruct\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '278fe25997eb610015d20f8900f61bd9', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-20b-code-instruct\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '278fe25997eb610015d20f8900f61bd9', 'status_code': 400}</span></td>
+            </tr>
+            
+            <tr data-model="ibm/granite-3-1-8b-base" data-support="False" data-handling="False">
+                <td class="model-name">ibm/granite-3-1-8b-base</td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
+                <td><span class="timing-info">0.12s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.12s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-3-1-8b-base' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '61b55f08bacb73bec65db262539edf28', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-3-1-8b-base' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '61b55f08bacb73bec65db262539edf28', 'status_code': 400}</span></td>
+            </tr>
+            
+            <tr data-model="ibm/granite-3-2-8b-instruct" data-support="True" data-handling="True">
+                <td class="model-name">ibm/granite-3-2-8b-instruct</td>
+                <td><span class="support-indicator support-yes">✅ Yes</span></td>
+                <td><span class="support-indicator support-yes">✅ Yes</span></td>
+                <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
+                <td><span class="timing-info">0.72s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">1.11s</span></td>
+                <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
+            </tr>
+            
+            <tr data-model="ibm/granite-3-2b-instruct" data-support="True" data-handling="False">
+                <td class="model-name">ibm/granite-3-2b-instruct</td>
+                <td><span class="support-indicator support-yes">✅ Yes</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-partial">⚠️ 100%/50%</span></td>
+                <td><span class="timing-info">0.49s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.78s</span></td>
+                <td><span class="details-cell" title="Inconsistent results across 2 iterations">Inconsistent results across 2 iterations</span></td>
+            </tr>
+            
+            <tr data-model="ibm/granite-3-3-8b-instruct" data-support="False" data-handling="False">
+                <td class="model-name">ibm/granite-3-3-8b-instruct</td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
+                <td><span class="timing-info">0.48s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.62s</span></td>
+                <td><span class="details-cell" title="Tool calling not supported">Tool calling not supported</span></td>
+            </tr>
+            
+            <tr data-model="ibm/granite-3-8b-instruct" data-support="True" data-handling="False">
+                <td class="model-name">ibm/granite-3-8b-instruct</td>
+                <td><span class="support-indicator support-yes">✅ Yes</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-partial">⚠️ 100%/50%</span></td>
+                <td><span class="timing-info">0.43s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">1.18s</span></td>
+                <td><span class="details-cell" title="Inconsistent results across 2 iterations">Inconsistent results across 2 iterations</span></td>
+            </tr>
+            
+            <tr data-model="ibm/granite-34b-code-instruct" data-support="False" data-handling="False">
+                <td class="model-name">ibm/granite-34b-code-instruct</td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
+                <td><span class="timing-info">0.23s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.23s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-34b-code-instruct\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '6cdc6cab910bafad8fb14e7d07f1e4f0', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-34b-code-instruct\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '6cdc6cab910bafad8fb14e7d07f1e4f0', 'status_code': 400}</span></td>
+            </tr>
+            
+            <tr data-model="ibm/granite-3b-code-instruct" data-support="False" data-handling="False">
+                <td class="model-name">ibm/granite-3b-code-instruct</td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
+                <td><span class="timing-info">0.11s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.11s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-3b-code-instruct' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '5dd43b1e0270adb1fde17a0759cca96a', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-3b-code-instruct' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '5dd43b1e0270adb1fde17a0759cca96a', 'status_code': 400}</span></td>
+            </tr>
+            
+            <tr data-model="ibm/granite-8b-code-instruct" data-support="False" data-handling="False">
+                <td class="model-name">ibm/granite-8b-code-instruct</td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
+                <td><span class="timing-info">0.22s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.22s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-8b-code-instruct' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '8a8e08c99f603a5025b7681c467e7705', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-8b-code-instruct' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '8a8e08c99f603a5025b7681c467e7705', 'status_code': 400}</span></td>
+            </tr>
+            
+            <tr data-model="ibm/granite-embedding-107m-multilingual" data-support="False" data-handling="False">
+                <td class="model-name">ibm/granite-embedding-107m-multilingual</td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
+                <td><span class="timing-info">0.10s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.10s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-embedding-107m-multilingual' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '00aeac36dbe2a9c389b92febbdb51917', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-embedding-107m-multilingual' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '00aeac36dbe2a9c389b92febbdb51917', 'status_code': 400}</span></td>
+            </tr>
+            
+            <tr data-model="ibm/granite-embedding-278m-multilingual" data-support="False" data-handling="False">
+                <td class="model-name">ibm/granite-embedding-278m-multilingual</td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
+                <td><span class="timing-info">0.13s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.13s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-embedding-278m-multilingual' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '100b75846d45070b6bf6e646db0f7795', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-embedding-278m-multilingual' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '100b75846d45070b6bf6e646db0f7795', 'status_code': 400}</span></td>
+            </tr>
+            
+            <tr data-model="ibm/granite-guardian-3-2b" data-support="False" data-handling="False">
+                <td class="model-name">ibm/granite-guardian-3-2b</td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
+                <td><span class="timing-info">0.22s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.22s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-guardian-3-2b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '7067299c4b72f90d1bcb96cc2fc59628', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-guardian-3-2b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '7067299c4b72f90d1bcb96cc2fc59628', 'status_code': 400}</span></td>
+            </tr>
+            
+            <tr data-model="ibm/granite-guardian-3-8b" data-support="False" data-handling="False">
+                <td class="model-name">ibm/granite-guardian-3-8b</td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
+                <td><span class="timing-info">0.14s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.14s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-guardian-3-8b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '154844751604ca4299b51522c66fe7cb', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-guardian-3-8b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '154844751604ca4299b51522c66fe7cb', 'status_code': 400}</span></td>
+            </tr>
+            
+            <tr data-model="ibm/granite-ttm-1024-96-r2" data-support="False" data-handling="False">
+                <td class="model-name">ibm/granite-ttm-1024-96-r2</td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
+                <td><span class="timing-info">0.11s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.11s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-1024-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '75fd5f6f5d9aa63e4014c272282c7c46', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-1024-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '75fd5f6f5d9aa63e4014c272282c7c46', 'status_code': 400}</span></td>
+            </tr>
+            
+            <tr data-model="ibm/granite-ttm-1536-96-r2" data-support="False" data-handling="False">
+                <td class="model-name">ibm/granite-ttm-1536-96-r2</td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
+                <td><span class="timing-info">0.14s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.14s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-1536-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'db2236a1032347d601d058061cfcb527', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-1536-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'db2236a1032347d601d058061cfcb527', 'status_code': 400}</span></td>
+            </tr>
+            
+            <tr data-model="ibm/granite-ttm-512-96-r2" data-support="False" data-handling="False">
+                <td class="model-name">ibm/granite-ttm-512-96-r2</td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
+                <td><span class="timing-info">0.11s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.11s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-512-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'af58f43fa467cf36e1da78dcbb3b5774', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-512-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'af58f43fa467cf36e1da78dcbb3b5774', 'status_code': 400}</span></td>
+            </tr>
+            
+            <tr data-model="ibm/granite-vision-3-2-2b" data-support="False" data-handling="False">
+                <td class="model-name">ibm/granite-vision-3-2-2b</td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
+                <td><span class="timing-info">0.21s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.21s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-vision-3-2-2b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'caa379e74a1e65881e4a672e0b519705', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-vision-3-2-2b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'caa379e74a1e65881e4a672e0b519705', 'status_code': 400}</span></td>
+            </tr>
+            
+            <tr data-model="ibm/slate-125m-english-rtrvr" data-support="False" data-handling="False">
+                <td class="model-name">ibm/slate-125m-english-rtrvr</td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
+                <td><span class="timing-info">0.08s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.08s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-125m-english-rtrvr' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'cfc1db6372ee1278f26a34e3612541d7', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-125m-english-rtrvr' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'cfc1db6372ee1278f26a34e3612541d7', 'status_code': 400}</span></td>
+            </tr>
+            
+            <tr data-model="ibm/slate-125m-english-rtrvr-v2" data-support="False" data-handling="False">
+                <td class="model-name">ibm/slate-125m-english-rtrvr-v2</td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
+                <td><span class="timing-info">0.14s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.14s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-125m-english-rtrvr-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '14906905cb58ec3728b190e7cd751047', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-125m-english-rtrvr-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '14906905cb58ec3728b190e7cd751047', 'status_code': 400}</span></td>
+            </tr>
+            
+            <tr data-model="ibm/slate-30m-english-rtrvr" data-support="False" data-handling="False">
+                <td class="model-name">ibm/slate-30m-english-rtrvr</td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
+                <td><span class="timing-info">0.09s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.09s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-30m-english-rtrvr' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '19a1d63715b9ce845d00f583e160e8e8', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-30m-english-rtrvr' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '19a1d63715b9ce845d00f583e160e8e8', 'status_code': 400}</span></td>
+            </tr>
+            
+            <tr data-model="ibm/slate-30m-english-rtrvr-v2" data-support="False" data-handling="False">
+                <td class="model-name">ibm/slate-30m-english-rtrvr-v2</td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
+                <td><span class="timing-info">0.15s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.15s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-30m-english-rtrvr-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'bf1bccb62b40ca424bafbaccf78018de', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-30m-english-rtrvr-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'bf1bccb62b40ca424bafbaccf78018de', 'status_code': 400}</span></td>
+            </tr>
+            
+            <tr data-model="intfloat/multilingual-e5-large" data-support="False" data-handling="False">
+                <td class="model-name">intfloat/multilingual-e5-large</td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
+                <td><span class="timing-info">0.09s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.09s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'intfloat/multilingual-e5-large' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'ce4f0cacc60cf1ea484d17558c1df2d5', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'intfloat/multilingual-e5-large' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'ce4f0cacc60cf1ea484d17558c1df2d5', 'status_code': 400}</span></td>
+            </tr>
+            
+            <tr data-model="meta-llama/llama-2-13b-chat" data-support="False" data-handling="False">
+                <td class="model-name">meta-llama/llama-2-13b-chat</td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
+                <td><span class="timing-info">0.08s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.08s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'meta-llama/llama-2-13b-chat' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '5007fdbca444728832297ce3ff080821', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'meta-llama/llama-2-13b-chat' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '5007fdbca444728832297ce3ff080821', 'status_code': 400}</span></td>
+            </tr>
+            
+            <tr data-model="meta-llama/llama-3-1-8b" data-support="False" data-handling="False">
+                <td class="model-name">meta-llama/llama-3-1-8b</td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
+                <td><span class="timing-info">0.24s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.24s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'meta-llama/llama-3-1-8b' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'b0524414183c59b868bd8572ea2eea62', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'meta-llama/llama-3-1-8b' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'b0524414183c59b868bd8572ea2eea62', 'status_code': 400}</span></td>
+            </tr>
+            
+            <tr data-model="meta-llama/llama-3-2-11b-vision-instruct" data-support="True" data-handling="True">
+                <td class="model-name">meta-llama/llama-3-2-11b-vision-instruct</td>
+                <td><span class="support-indicator support-yes">✅ Yes</span></td>
+                <td><span class="support-indicator support-yes">✅ Yes</span></td>
+                <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
+                <td><span class="timing-info">0.72s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">1.11s</span></td>
+                <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
+            </tr>
+            
+            <tr data-model="meta-llama/llama-3-2-1b-instruct" data-support="False" data-handling="False">
+                <td class="model-name">meta-llama/llama-3-2-1b-instruct</td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
+                <td><span class="timing-info">0.40s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.40s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling. Finish reason: stop. Response: <|python_tag|>{"type": "function", "function": "hello_world", "parameters": {"properties": {"language": "spanish", "name": "Daniel"}}}">Model does not support tool calling. Finish reason: stop. Response: <|python_tag|>{"type": "function", "function": "hello_world", "parameters": {"properties": {"language": "spanish", "name": "Daniel"}}}</span></td>
+            </tr>
+            
+            <tr data-model="meta-llama/llama-3-2-3b-instruct" data-support="True" data-handling="False">
+                <td class="model-name">meta-llama/llama-3-2-3b-instruct</td>
+                <td><span class="support-indicator support-yes">✅ Yes</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-partial">⚠️ 100%/0%</span></td>
+                <td><span class="timing-info">0.48s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">1.30s</span></td>
+                <td><span class="details-cell" title="Inconsistent results across 2 iterations">Inconsistent results across 2 iterations</span></td>
+            </tr>
+            
+            <tr data-model="meta-llama/llama-3-2-90b-vision-instruct" data-support="True" data-handling="True">
+                <td class="model-name">meta-llama/llama-3-2-90b-vision-instruct</td>
+                <td><span class="support-indicator support-yes">✅ Yes</span></td>
+                <td><span class="support-indicator support-yes">✅ Yes</span></td>
+                <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
+                <td><span class="timing-info">4.86s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">6.02s</span></td>
+                <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
+            </tr>
+            
+            <tr data-model="meta-llama/llama-3-3-70b-instruct" data-support="True" data-handling="True">
+                <td class="model-name">meta-llama/llama-3-3-70b-instruct</td>
+                <td><span class="support-indicator support-yes">✅ Yes</span></td>
+                <td><span class="support-indicator support-yes">✅ Yes</span></td>
+                <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
+                <td><span class="timing-info">0.89s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">1.83s</span></td>
+                <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
+            </tr>
+            
+            <tr data-model="meta-llama/llama-3-405b-instruct" data-support="True" data-handling="True">
+                <td class="model-name">meta-llama/llama-3-405b-instruct</td>
+                <td><span class="support-indicator support-yes">✅ Yes</span></td>
+                <td><span class="support-indicator support-yes">✅ Yes</span></td>
+                <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
+                <td><span class="timing-info">1.17s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">1.57s</span></td>
+                <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
+            </tr>
+            
+            <tr data-model="meta-llama/llama-4-maverick-17b-128e-instruct-fp8" data-support="True" data-handling="True">
+                <td class="model-name">meta-llama/llama-4-maverick-17b-128e-instruct-fp8</td>
+                <td><span class="support-indicator support-yes">✅ Yes</span></td>
+                <td><span class="support-indicator support-yes">✅ Yes</span></td>
+                <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
+                <td><span class="timing-info">0.45s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.86s</span></td>
+                <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
+            </tr>
+            
+            <tr data-model="meta-llama/llama-guard-3-11b-vision" data-support="False" data-handling="False">
+                <td class="model-name">meta-llama/llama-guard-3-11b-vision</td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
+                <td><span class="timing-info">0.18s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.18s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'meta-llama/llama-guard-3-11b-vision\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'a33b9751911e50088382028c2c04db6d', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'meta-llama/llama-guard-3-11b-vision\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'a33b9751911e50088382028c2c04db6d', 'status_code': 400}</span></td>
+            </tr>
+            
+            <tr data-model="mistralai/mistral-large" data-support="True" data-handling="True">
+                <td class="model-name">mistralai/mistral-large</td>
+                <td><span class="support-indicator support-yes">✅ Yes</span></td>
+                <td><span class="support-indicator support-yes">✅ Yes</span></td>
+                <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
+                <td><span class="timing-info">0.77s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">1.18s</span></td>
+                <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
+            </tr>
+            
+            <tr data-model="mistralai/mistral-medium-2505" data-support="True" data-handling="True">
+                <td class="model-name">mistralai/mistral-medium-2505</td>
+                <td><span class="support-indicator support-yes">✅ Yes</span></td>
+                <td><span class="support-indicator support-yes">✅ Yes</span></td>
+                <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
+                <td><span class="timing-info">0.53s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.83s</span></td>
+                <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
+            </tr>
+            
+            <tr data-model="mistralai/mistral-small-3-1-24b-instruct-2503" data-support="True" data-handling="True">
+                <td class="model-name">mistralai/mistral-small-3-1-24b-instruct-2503</td>
+                <td><span class="support-indicator support-yes">✅ Yes</span></td>
+                <td><span class="support-indicator support-yes">✅ Yes</span></td>
+                <td><span class="reliability-badge reliability-perfect">✅ 100%/100%</span></td>
+                <td><span class="timing-info">0.45s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.78s</span></td>
+                <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
+            </tr>
+            
+            <tr data-model="mistralai/mixtral-8x7b-instruct-v01" data-support="False" data-handling="False">
+                <td class="model-name">mistralai/mixtral-8x7b-instruct-v01</td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
+                <td><span class="timing-info">0.16s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.16s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'mistralai/mixtral-8x7b-instruct-v01\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '96e6a81e27ace29a907c22854ad3e634', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'mistralai/mixtral-8x7b-instruct-v01\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '96e6a81e27ace29a907c22854ad3e634', 'status_code': 400}</span></td>
+            </tr>
+            
+            <tr data-model="mistralai/pixtral-12b" data-support="False" data-handling="False">
+                <td class="model-name">mistralai/pixtral-12b</td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
+                <td><span class="timing-info">0.46s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.46s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling. Finish reason: stop. Response: [TOOL_CALLS][{"name": "hello_world", "arguments": {"language": "spanish", "name": "Daniel"}}]">Model does not support tool calling. Finish reason: stop. Response: [TOOL_CALLS][{"name": "hello_world", "arguments": {"language": "spanish", "name": "Daniel"}}]</span></td>
+            </tr>
+            
+            <tr data-model="sentence-transformers/all-minilm-l12-v2" data-support="False" data-handling="False">
+                <td class="model-name">sentence-transformers/all-minilm-l12-v2</td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
+                <td><span class="timing-info">0.09s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.09s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'sentence-transformers/all-minilm-l12-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '8634fcab898aa7975aaf5d90e9777f67', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'sentence-transformers/all-minilm-l12-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '8634fcab898aa7975aaf5d90e9777f67', 'status_code': 400}</span></td>
+            </tr>
+            
+            <tr data-model="sentence-transformers/all-minilm-l6-v2" data-support="False" data-handling="False">
+                <td class="model-name">sentence-transformers/all-minilm-l6-v2</td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="support-indicator support-no">❌ No</span></td>
+                <td><span class="reliability-badge reliability-none">NOT SUPPORTED</span></td>
+                <td><span class="timing-info">0.10s</span></td>
+                <td>N/A</td>
+                <td><span class="timing-info">0.10s</span></td>
+                <td><span class="details-cell" title="Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'sentence-transformers/all-minilm-l6-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '02e5b7d900e7a6a1b27b251065c9fd15', 'status_code': 400}">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'sentence-transformers/all-minilm-l6-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '02e5b7d900e7a6a1b27b251065c9fd15', 'status_code': 400}</span></td>
+            </tr>
+            
+                </tbody>
+            </table>
+        </section>
+        
+            
+        <section class="section">
+            <h2>📈 Performance Analytics</h2>
+            
+            <div class="chart-container">
+                <div class="chart-title">Model Support Categories</div>
+                <div class="performance-chart">
+                    <div class="performance-item">
+                        <div class="performance-value" style="color: var(--success-color);">9</div>
+                        <div class="performance-label">Full Support</div>
+                    </div>
+                    <div class="performance-item">
+                        <div class="performance-value" style="color: var(--warning-color);">3</div>
+                        <div class="performance-label">Partial Support</div>
+                    </div>
+                    <div class="performance-item">
+                        <div class="performance-value" style="color: var(--error-color);">32</div>
+                        <div class="performance-label">No Support</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chart-container">
+                <div class="chart-title">Average Response Times</div>
+                <div class="performance-chart">
+                    <div class="performance-item">
+                        <div class="performance-value">1.00s</div>
+                        <div class="performance-label">Tool Call Time</div>
+                    </div>
+                    <div class="performance-item">
+                        <div class="performance-value">0.00s</div>
+                        <div class="performance-label">Response Processing</div>
+                    </div>
+                    <div class="performance-item">
+                        <div class="performance-value">1.55s</div>
+                        <div class="performance-label">Total Time</div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="chart-container">
+                <div class="chart-title">Reliability Assessment</div>
+                <div class="performance-chart">
+                    <div class="performance-item">
+                        <div class="performance-value" style="color: var(--success-color);">9</div>
+                        <div class="performance-label">Reliable Models</div>
+                    </div>
+                    <div class="performance-item">
+                        <div class="performance-value" style="color: var(--warning-color);">3</div>
+                        <div class="performance-label">Unreliable Models</div>
+                    </div>
+                    <div class="performance-item">
+                        <div class="performance-value" style="color: var(--primary-color);">28.4%</div>
+                        <div class="performance-label">Avg Tool Success Rate</div>
+                    </div>
+                    <div class="performance-item">
+                        <div class="performance-value" style="color: var(--primary-color);">23.9%</div>
+                        <div class="performance-label">Avg Response Success Rate</div>
+                    </div>
+                </div>
+            </div>
+            
+        </section>
+        
+        </main>
+
+        <footer class="footer">
+            <p>Generated by WatsonX Tool Tester | <a href="https://github.com/daniel-butler-irl/watsonx_model_tool_test">GitHub Repository</a></p>
+        </footer>
+    </div>
+
+    <script>
+        
+        // Filter functionality
+        function initializeFilters() {
+            const modelFilter = document.getElementById('model-filter');
+            const supportFilter = document.getElementById('support-filter');
+            const handlingFilter = document.getElementById('handling-filter');
+            const table = document.getElementById('results-table');
+            
+            if (!table) return;
+            
+            function filterTable() {
+                const modelValue = modelFilter ? modelFilter.value.toLowerCase() : '';
+                const supportValue = supportFilter ? supportFilter.value : '';
+                const handlingValue = handlingFilter ? handlingFilter.value : '';
+                
+                const rows = table.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+                
+                for (let row of rows) {
+                    const modelText = row.cells[0].textContent.toLowerCase();
+                    const supportMatch = !supportValue || row.dataset.support === supportValue;
+                    const handlingMatch = !handlingValue || row.dataset.handling === handlingValue;
+                    const modelMatch = !modelValue || modelText.includes(modelValue);
+                    
+                    if (modelMatch && supportMatch && handlingMatch) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                }
+            }
+            
+            if (modelFilter) modelFilter.addEventListener('input', filterTable);
+            if (supportFilter) supportFilter.addEventListener('change', filterTable);
+            if (handlingFilter) handlingFilter.addEventListener('change', filterTable);
+        }
+        
+        // Collapsible sections
+        function initializeCollapsibles() {
+            const headers = document.querySelectorAll('.collapsible-header');
+            
+            headers.forEach(header => {
+                header.addEventListener('click', function() {
+                    const content = this.nextElementSibling;
+                    const icon = this.querySelector('.expand-icon');
+                    
+                    if (content.classList.contains('active')) {
+                        content.classList.remove('active');
+                        if (icon) icon.classList.remove('rotated');
+                    } else {
+                        content.classList.add('active');
+                        if (icon) icon.classList.add('rotated');
+                    }
+                });
+            });
+        }
+        
+        // Toggle details in history section
+        function toggleDetails(element) {
+            const row = element.closest('.detail-row');
+            const expandedContent = row.querySelector('.detail-expanded');
+            
+            if (expandedContent.style.display === 'none') {
+                expandedContent.style.display = 'block';
+                element.textContent = '▲';
+            } else {
+                expandedContent.style.display = 'none';
+                element.textContent = '▼';
+            }
+        }
+        
+        // Status cell tooltips and interactions
+        function initializeStatusCells() {
+            const statusCells = document.querySelectorAll('.status-cell');
+            
+            statusCells.forEach(cell => {
+                cell.addEventListener('mouseenter', function() {
+                    // Could add enhanced tooltip functionality here
+                });
+            });
+        }
+        
+        // Sort table functionality
+        function initializeTableSorting() {
+            const table = document.getElementById('results-table');
+            if (!table) return;
+            
+            const headers = table.querySelectorAll('th');
+            headers.forEach((header, index) => {
+                header.style.cursor = 'pointer';
+                header.addEventListener('click', () => sortTable(index));
+            });
+        }
+        
+        function sortTable(columnIndex) {
+            const table = document.getElementById('results-table');
+            const tbody = table.getElementsByTagName('tbody')[0];
+            const rows = Array.from(tbody.getElementsByTagName('tr'));
+            
+            // Determine sort direction
+            const isAsc = table.dataset.sortDirection !== 'asc';
+            table.dataset.sortDirection = isAsc ? 'asc' : 'desc';
+            
+            rows.sort((a, b) => {
+                const aVal = a.cells[columnIndex].textContent.trim();
+                const bVal = b.cells[columnIndex].textContent.trim();
+                
+                // Handle numeric columns (timing columns)
+                if (columnIndex >= 4 && columnIndex <= 6) {
+                    const aNum = parseFloat(aVal.replace('s', '')) || 0;
+                    const bNum = parseFloat(bVal.replace('s', '')) || 0;
+                    return isAsc ? aNum - bNum : bNum - aNum;
+                }
+                
+                // Handle text columns
+                return isAsc ? aVal.localeCompare(bVal) : bVal.localeCompare(aVal);
+            });
+            
+            // Rebuild table
+            rows.forEach(row => tbody.appendChild(row));
+        }
+        
+        // Initialize all functionality when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeFilters();
+            initializeCollapsibles();
+            initializeStatusCells();
+            initializeTableSorting();
+        });
+        
+        // Make toggleDetails globally available for inline onclick handlers
+        window.toggleDetails = toggleDetails;
+        
+    </script>
+</body>
+</html>
