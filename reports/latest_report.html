@@ -182,6 +182,16 @@
             padding: 12px;
             text-align: left;
             border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
+        }
+
+        .results-table th:nth-child(2),
+        .results-table th:nth-child(3),
+        .results-table th:nth-child(4),
+        .results-table td:nth-child(2),
+        .results-table td:nth-child(3),
+        .results-table td:nth-child(4) {
+            text-align: center;
         }
 
         .results-table th {
@@ -774,7 +784,7 @@
             <h1>WatsonX Tool Test Report</h1>
             <p class="subtitle">Comprehensive analysis of AI model tool calling capabilities</p>
             <div class="meta-info">
-                <span class="timestamp">Generated: 2025-07-17 08:55:31 UTC</span>
+                <span class="timestamp">Generated: 2025-07-17 10:23:44 UTC</span>
                 <div class="config-info"><span class="config-item">Iterations: 20</span><span class="config-item">Client: watsonx</span><span class="config-item">Models Tested: 41</span></div>
             </div>
         </header>
@@ -802,20 +812,20 @@
                 
             <div class="summary-card">
                 <h3>Reliability</h3>
-                <div class="value" style="color: var(--success-color);">7/41</div>
-                <div class="description">Models with 100% consistency (17.1%)</div>
+                <div class="value" style="color: var(--success-color);">5/13</div>
+                <div class="description">Models with 100% consistency (38.5%)</div>
             </div>
             
                 
             <div class="summary-card">
                 <h3>Fastest Model</h3>
-                <div class="value" style="color: var(--primary-color);">0.72s</div>
-                <div class="description">mistralai/mistral-small-3-1-24b-instruct-2503</div>
+                <div class="value" style="color: var(--primary-color);">0.58s</div>
+                <div class="description">ibm/granite-3-3-8b-instruct</div>
             </div>
             
                 <div class="summary-card">
                     <h3>Average Response Time</h3>
-                    <div class="value" style="color: var(--primary-color);">1.71s</div>
+                    <div class="value" style="color: var(--primary-color);">1.18s</div>
                     <div class="description">Total processing time</div>
                 </div>
             </div>
@@ -823,7 +833,7 @@
             <div class="status-indicators">
                 <div class="status-badge status-success">
                     <span>✅</span>
-                    <span>Full Support: 0</span>
+                    <span>Full Support: 13</span>
                 </div>
                 <div class="status-badge status-warning">
                     <span>⚠️</span>
@@ -1037,9 +1047,9 @@
                     
                     <div class="trend-row">
                         <div class="trend-date">2025-07-17</div>
-                        <div class="trend-metric">0.339s</div>
-                        <div class="trend-metric">0.159s</div>
-                        <div class="trend-metric">29.4%</div>
+                        <div class="trend-metric">0.337s</div>
+                        <div class="trend-metric">0.162s</div>
+                        <div class="trend-metric">29.8%</div>
                     </div>
                 
                     <div class="trend-row">
@@ -1054,382 +1064,6 @@
                         <div class="trend-metric">0.380s</div>
                         <div class="trend-metric">0.088s</div>
                         <div class="trend-metric">30.4%</div>
-                    </div>
-                
-                </div>
-            </div>
-            
-            
-            <div class="detailed-results">
-                <h3>Recent Test Details</h3>
-                <div class="details-table">
-                    <div class="details-header">
-                        <div class="detail-date">Date</div>
-                        <div class="detail-model">Model</div>
-                        <div class="detail-status">Status</div>
-                        <div class="detail-time">Time</div>
-                        <div class="detail-success">Success</div>
-                        <div class="detail-expand"></div>
-                    </div>
-                    
-                    <div class="detail-row" data-model="ibm/slate-30m-english-rtrvr">
-                        <div class="detail-date">2025-07-17</div>
-                        <div class="detail-model">slate-30m-english-rtrvr</div>
-                        <div class="detail-status status-broken">Broken</div>
-                        <div class="detail-time">0.219s</div>
-                        <div class="detail-success">0.0%</div>
-                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
-                        <div class="detail-expanded" style="display: none;">
-                            <div class="expanded-content">
-                                <h5>Test Details</h5>
-                                <p><strong>Error:</strong> None</p>
-                                <p><strong>Expected:</strong> </p>
-                                <p><strong>Actual:</strong> </p>
-                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-30m-english-rtrvr' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '0ae63976175e3bc9dcbacf11fad5dd05', 'status_code': 400}</p>
-                            </div>
-                        </div>
-                    </div>
-                
-                    <div class="detail-row" data-model="ibm/slate-30m-english-rtrvr-v2">
-                        <div class="detail-date">2025-07-17</div>
-                        <div class="detail-model">slate-30m-english-rtrvr-v2</div>
-                        <div class="detail-status status-broken">Broken</div>
-                        <div class="detail-time">0.102s</div>
-                        <div class="detail-success">0.0%</div>
-                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
-                        <div class="detail-expanded" style="display: none;">
-                            <div class="expanded-content">
-                                <h5>Test Details</h5>
-                                <p><strong>Error:</strong> None</p>
-                                <p><strong>Expected:</strong> </p>
-                                <p><strong>Actual:</strong> </p>
-                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-30m-english-rtrvr-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'bb0214b42afeaf64b486f75d511b61a5', 'status_code': 400}</p>
-                            </div>
-                        </div>
-                    </div>
-                
-                    <div class="detail-row" data-model="intfloat/multilingual-e5-large">
-                        <div class="detail-date">2025-07-17</div>
-                        <div class="detail-model">multilingual-e5-large</div>
-                        <div class="detail-status status-broken">Broken</div>
-                        <div class="detail-time">0.104s</div>
-                        <div class="detail-success">0.0%</div>
-                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
-                        <div class="detail-expanded" style="display: none;">
-                            <div class="expanded-content">
-                                <h5>Test Details</h5>
-                                <p><strong>Error:</strong> None</p>
-                                <p><strong>Expected:</strong> </p>
-                                <p><strong>Actual:</strong> </p>
-                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'intfloat/multilingual-e5-large' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '4e486d4541abedf19ece0a4339780c4c', 'status_code': 400}</p>
-                            </div>
-                        </div>
-                    </div>
-                
-                    <div class="detail-row" data-model="meta-llama/llama-2-13b-chat">
-                        <div class="detail-date">2025-07-17</div>
-                        <div class="detail-model">llama-2-13b-chat</div>
-                        <div class="detail-status status-broken">Broken</div>
-                        <div class="detail-time">0.117s</div>
-                        <div class="detail-success">0.0%</div>
-                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
-                        <div class="detail-expanded" style="display: none;">
-                            <div class="expanded-content">
-                                <h5>Test Details</h5>
-                                <p><strong>Error:</strong> None</p>
-                                <p><strong>Expected:</strong> </p>
-                                <p><strong>Actual:</strong> </p>
-                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'meta-llama/llama-2-13b-chat' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '8a78f6a8d5e9bde1541b2356cd6121c9', 'status_code': 400}</p>
-                            </div>
-                        </div>
-                    </div>
-                
-                    <div class="detail-row" data-model="meta-llama/llama-3-1-8b">
-                        <div class="detail-date">2025-07-17</div>
-                        <div class="detail-model">llama-3-1-8b</div>
-                        <div class="detail-status status-broken">Broken</div>
-                        <div class="detail-time">0.201s</div>
-                        <div class="detail-success">0.0%</div>
-                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
-                        <div class="detail-expanded" style="display: none;">
-                            <div class="expanded-content">
-                                <h5>Test Details</h5>
-                                <p><strong>Error:</strong> None</p>
-                                <p><strong>Expected:</strong> </p>
-                                <p><strong>Actual:</strong> </p>
-                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'meta-llama/llama-3-1-8b' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'c1b03b86500948f7691e3f23d6f7005f', 'status_code': 400}</p>
-                            </div>
-                        </div>
-                    </div>
-                
-                    <div class="detail-row" data-model="meta-llama/llama-3-2-11b-vision-instruct">
-                        <div class="detail-date">2025-07-17</div>
-                        <div class="detail-model">llama-3-2-11b-vision-instruct</div>
-                        <div class="detail-status status-working">Working</div>
-                        <div class="detail-time">0.993s</div>
-                        <div class="detail-success">100.0%</div>
-                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
-                        <div class="detail-expanded" style="display: none;">
-                            <div class="expanded-content">
-                                <h5>Test Details</h5>
-                                <p><strong>Error:</strong> None</p>
-                                <p><strong>Expected:</strong> </p>
-                                <p><strong>Actual:</strong> </p>
-                                <p><strong>Details:</strong> Consistent success across all iterations</p>
-                            </div>
-                        </div>
-                    </div>
-                
-                    <div class="detail-row" data-model="meta-llama/llama-3-2-1b-instruct">
-                        <div class="detail-date">2025-07-17</div>
-                        <div class="detail-model">llama-3-2-1b-instruct</div>
-                        <div class="detail-status status-broken">Broken</div>
-                        <div class="detail-time">0.365s</div>
-                        <div class="detail-success">0.0%</div>
-                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
-                        <div class="detail-expanded" style="display: none;">
-                            <div class="expanded-content">
-                                <h5>Test Details</h5>
-                                <p><strong>Error:</strong> None</p>
-                                <p><strong>Expected:</strong> </p>
-                                <p><strong>Actual:</strong> </p>
-                                <p><strong>Details:</strong> Model does not support tool calling. Finish reason: stop. Response: <|python_tag|>{"type": "function", "function": "hello_world", "parameters": {"properties": {"language": "spanish", "name": "Daniel"}}}</p>
-                            </div>
-                        </div>
-                    </div>
-                
-                    <div class="detail-row" data-model="meta-llama/llama-3-2-3b-instruct">
-                        <div class="detail-date">2025-07-17</div>
-                        <div class="detail-model">llama-3-2-3b-instruct</div>
-                        <div class="detail-status status-working">Working</div>
-                        <div class="detail-time">1.828s</div>
-                        <div class="detail-success">100.0%</div>
-                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
-                        <div class="detail-expanded" style="display: none;">
-                            <div class="expanded-content">
-                                <h5>Test Details</h5>
-                                <p><strong>Error:</strong> None</p>
-                                <p><strong>Expected:</strong> </p>
-                                <p><strong>Actual:</strong> </p>
-                                <p><strong>Details:</strong> Inconsistent results across 20 iterations</p>
-                            </div>
-                        </div>
-                    </div>
-                
-                    <div class="detail-row" data-model="meta-llama/llama-3-2-90b-vision-instruct">
-                        <div class="detail-date">2025-07-17</div>
-                        <div class="detail-model">llama-3-2-90b-vision-instruct</div>
-                        <div class="detail-status status-working">Working</div>
-                        <div class="detail-time">2.748s</div>
-                        <div class="detail-success">100.0%</div>
-                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
-                        <div class="detail-expanded" style="display: none;">
-                            <div class="expanded-content">
-                                <h5>Test Details</h5>
-                                <p><strong>Error:</strong> None</p>
-                                <p><strong>Expected:</strong> </p>
-                                <p><strong>Actual:</strong> </p>
-                                <p><strong>Details:</strong> Consistent success across all iterations</p>
-                            </div>
-                        </div>
-                    </div>
-                
-                    <div class="detail-row" data-model="meta-llama/llama-3-3-70b-instruct">
-                        <div class="detail-date">2025-07-17</div>
-                        <div class="detail-model">llama-3-3-70b-instruct</div>
-                        <div class="detail-status status-working">Working</div>
-                        <div class="detail-time">1.963s</div>
-                        <div class="detail-success">100.0%</div>
-                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
-                        <div class="detail-expanded" style="display: none;">
-                            <div class="expanded-content">
-                                <h5>Test Details</h5>
-                                <p><strong>Error:</strong> None</p>
-                                <p><strong>Expected:</strong> </p>
-                                <p><strong>Actual:</strong> </p>
-                                <p><strong>Details:</strong> Consistent success across all iterations</p>
-                            </div>
-                        </div>
-                    </div>
-                
-                    <div class="detail-row" data-model="meta-llama/llama-3-405b-instruct">
-                        <div class="detail-date">2025-07-17</div>
-                        <div class="detail-model">llama-3-405b-instruct</div>
-                        <div class="detail-status status-working">Working</div>
-                        <div class="detail-time">1.400s</div>
-                        <div class="detail-success">95.0%</div>
-                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
-                        <div class="detail-expanded" style="display: none;">
-                            <div class="expanded-content">
-                                <h5>Test Details</h5>
-                                <p><strong>Error:</strong> None</p>
-                                <p><strong>Expected:</strong> </p>
-                                <p><strong>Actual:</strong> </p>
-                                <p><strong>Details:</strong> Inconsistent results across 20 iterations</p>
-                            </div>
-                        </div>
-                    </div>
-                
-                    <div class="detail-row" data-model="meta-llama/llama-4-maverick-17b-128e-instruct-fp8">
-                        <div class="detail-date">2025-07-17</div>
-                        <div class="detail-model">llama-4-maverick-17b-128e-instruct-fp8</div>
-                        <div class="detail-status status-working">Working</div>
-                        <div class="detail-time">6.844s</div>
-                        <div class="detail-success">90.0%</div>
-                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
-                        <div class="detail-expanded" style="display: none;">
-                            <div class="expanded-content">
-                                <h5>Test Details</h5>
-                                <p><strong>Error:</strong> None</p>
-                                <p><strong>Expected:</strong> </p>
-                                <p><strong>Actual:</strong> </p>
-                                <p><strong>Details:</strong> Inconsistent results across 20 iterations</p>
-                            </div>
-                        </div>
-                    </div>
-                
-                    <div class="detail-row" data-model="meta-llama/llama-guard-3-11b-vision">
-                        <div class="detail-date">2025-07-17</div>
-                        <div class="detail-model">llama-guard-3-11b-vision</div>
-                        <div class="detail-status status-broken">Broken</div>
-                        <div class="detail-time">0.345s</div>
-                        <div class="detail-success">0.0%</div>
-                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
-                        <div class="detail-expanded" style="display: none;">
-                            <div class="expanded-content">
-                                <h5>Test Details</h5>
-                                <p><strong>Error:</strong> None</p>
-                                <p><strong>Expected:</strong> </p>
-                                <p><strong>Actual:</strong> </p>
-                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'meta-llama/llama-guard-3-11b-vision\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '128c35bfbed8d69ece5013ddfef1c90b', 'status_code': 400}</p>
-                            </div>
-                        </div>
-                    </div>
-                
-                    <div class="detail-row" data-model="mistralai/mistral-large">
-                        <div class="detail-date">2025-07-17</div>
-                        <div class="detail-model">mistral-large</div>
-                        <div class="detail-status status-working">Working</div>
-                        <div class="detail-time">1.188s</div>
-                        <div class="detail-success">95.0%</div>
-                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
-                        <div class="detail-expanded" style="display: none;">
-                            <div class="expanded-content">
-                                <h5>Test Details</h5>
-                                <p><strong>Error:</strong> None</p>
-                                <p><strong>Expected:</strong> </p>
-                                <p><strong>Actual:</strong> </p>
-                                <p><strong>Details:</strong> Inconsistent results across 20 iterations</p>
-                            </div>
-                        </div>
-                    </div>
-                
-                    <div class="detail-row" data-model="mistralai/mistral-medium-2505">
-                        <div class="detail-date">2025-07-17</div>
-                        <div class="detail-model">mistral-medium-2505</div>
-                        <div class="detail-status status-working">Working</div>
-                        <div class="detail-time">0.885s</div>
-                        <div class="detail-success">100.0%</div>
-                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
-                        <div class="detail-expanded" style="display: none;">
-                            <div class="expanded-content">
-                                <h5>Test Details</h5>
-                                <p><strong>Error:</strong> None</p>
-                                <p><strong>Expected:</strong> </p>
-                                <p><strong>Actual:</strong> </p>
-                                <p><strong>Details:</strong> Consistent success across all iterations</p>
-                            </div>
-                        </div>
-                    </div>
-                
-                    <div class="detail-row" data-model="mistralai/mistral-small-3-1-24b-instruct-2503">
-                        <div class="detail-date">2025-07-17</div>
-                        <div class="detail-model">mistral-small-3-1-24b-instruct-2503</div>
-                        <div class="detail-status status-working">Working</div>
-                        <div class="detail-time">0.729s</div>
-                        <div class="detail-success">100.0%</div>
-                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
-                        <div class="detail-expanded" style="display: none;">
-                            <div class="expanded-content">
-                                <h5>Test Details</h5>
-                                <p><strong>Error:</strong> None</p>
-                                <p><strong>Expected:</strong> </p>
-                                <p><strong>Actual:</strong> </p>
-                                <p><strong>Details:</strong> Consistent success across all iterations</p>
-                            </div>
-                        </div>
-                    </div>
-                
-                    <div class="detail-row" data-model="mistralai/mixtral-8x7b-instruct-v01">
-                        <div class="detail-date">2025-07-17</div>
-                        <div class="detail-model">mixtral-8x7b-instruct-v01</div>
-                        <div class="detail-status status-broken">Broken</div>
-                        <div class="detail-time">0.303s</div>
-                        <div class="detail-success">0.0%</div>
-                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
-                        <div class="detail-expanded" style="display: none;">
-                            <div class="expanded-content">
-                                <h5>Test Details</h5>
-                                <p><strong>Error:</strong> None</p>
-                                <p><strong>Expected:</strong> </p>
-                                <p><strong>Actual:</strong> </p>
-                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'mistralai/mixtral-8x7b-instruct-v01\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'ac91b2182d472560cac558e4007ed5e1', 'status_code': 400}</p>
-                            </div>
-                        </div>
-                    </div>
-                
-                    <div class="detail-row" data-model="mistralai/pixtral-12b">
-                        <div class="detail-date">2025-07-17</div>
-                        <div class="detail-model">pixtral-12b</div>
-                        <div class="detail-status status-broken">Broken</div>
-                        <div class="detail-time">0.433s</div>
-                        <div class="detail-success">0.0%</div>
-                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
-                        <div class="detail-expanded" style="display: none;">
-                            <div class="expanded-content">
-                                <h5>Test Details</h5>
-                                <p><strong>Error:</strong> None</p>
-                                <p><strong>Expected:</strong> </p>
-                                <p><strong>Actual:</strong> </p>
-                                <p><strong>Details:</strong> Model does not support tool calling. Finish reason: stop. Response: [TOOL_CALLS][{"name": "hello_world", "arguments": {"language": "spanish", "name": "Daniel"}}]</p>
-                            </div>
-                        </div>
-                    </div>
-                
-                    <div class="detail-row" data-model="sentence-transformers/all-minilm-l12-v2">
-                        <div class="detail-date">2025-07-17</div>
-                        <div class="detail-model">all-minilm-l12-v2</div>
-                        <div class="detail-status status-broken">Broken</div>
-                        <div class="detail-time">0.096s</div>
-                        <div class="detail-success">0.0%</div>
-                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
-                        <div class="detail-expanded" style="display: none;">
-                            <div class="expanded-content">
-                                <h5>Test Details</h5>
-                                <p><strong>Error:</strong> None</p>
-                                <p><strong>Expected:</strong> </p>
-                                <p><strong>Actual:</strong> </p>
-                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'sentence-transformers/all-minilm-l12-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'f27538f2380afd7a0e64d8dba0b5213e', 'status_code': 400}</p>
-                            </div>
-                        </div>
-                    </div>
-                
-                    <div class="detail-row" data-model="sentence-transformers/all-minilm-l6-v2">
-                        <div class="detail-date">2025-07-17</div>
-                        <div class="detail-model">all-minilm-l6-v2</div>
-                        <div class="detail-status status-broken">Broken</div>
-                        <div class="detail-time">0.081s</div>
-                        <div class="detail-success">0.0%</div>
-                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
-                        <div class="detail-expanded" style="display: none;">
-                            <div class="expanded-content">
-                                <h5>Test Details</h5>
-                                <p><strong>Error:</strong> None</p>
-                                <p><strong>Expected:</strong> </p>
-                                <p><strong>Actual:</strong> </p>
-                                <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'sentence-transformers/all-minilm-l6-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '0288ec3e978f1ae8bfae320040b7dfb1', 'status_code': 400}</p>
-                            </div>
-                        </div>
                     </div>
                 
                 </div>
@@ -1475,7 +1109,7 @@
                         <th>Model</th>
                         <th>Tool Support</th>
                         <th>Response Handling</th>
-                        <th>Reliability (1x)</th>
+                        <th>Reliability (20x)</th>
                         <th>Call Time</th>
                         <th>Response Time</th>
                         <th>Total Time</th>
@@ -1490,8 +1124,8 @@
                 <td><span class="support-indicator support-yes">✅ Correct (20/20)</span></td>
                 <td><span class="reliability-badge reliability-perfect">✅ RELIABLE</span></td>
                 <td><span class="timing-info">0.61s</span></td>
-                <td><span class="timing-info">0.32s</span></td>
-                <td><span class="timing-info">0.93s</span></td>
+                <td><span class="timing-info">0.30s</span></td>
+                <td><span class="timing-info">0.91s</span></td>
                 <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
             </tr>
             
@@ -1500,53 +1134,53 @@
                 <td><span class="support-indicator support-yes">✅ Reliable (20/20)</span></td>
                 <td><span class="support-indicator support-partial">⚠️ Partial (19/20)</span></td>
                 <td><span class="reliability-badge reliability-partial">⚠️ UNRELIABLE</span></td>
-                <td><span class="timing-info">0.61s</span></td>
-                <td><span class="timing-info">0.37s</span></td>
-                <td><span class="timing-info">0.98s</span></td>
+                <td><span class="timing-info">0.57s</span></td>
+                <td><span class="timing-info">0.32s</span></td>
+                <td><span class="timing-info">0.89s</span></td>
                 <td><span class="details-cell" title="Inconsistent results across 20 iterations">Inconsistent results across 20 iterations</span></td>
             </tr>
             
             <tr data-model="ibm/granite-3-3-8b-instruct" data-support="True" data-handling="True">
                 <td class="model-name">ibm/granite-3-3-8b-instruct</td>
-                <td><span class="support-indicator support-partial">⚠️ Unreliable (14/20)</span></td>
-                <td><span class="support-indicator support-yes">✅ Correct (14/14)</span></td>
+                <td><span class="support-indicator support-partial">⚠️ Unreliable (7/20)</span></td>
+                <td><span class="support-indicator support-yes">✅ Correct (7/7)</span></td>
                 <td><span class="reliability-badge reliability-partial">⚠️ UNRELIABLE</span></td>
-                <td><span class="timing-info">0.43s</span></td>
-                <td><span class="timing-info">0.32s</span></td>
-                <td><span class="timing-info">0.75s</span></td>
+                <td><span class="timing-info">0.50s</span></td>
+                <td><span class="timing-info">0.09s</span></td>
+                <td><span class="timing-info">0.58s</span></td>
                 <td><span class="details-cell" title="Inconsistent results across 20 iterations">Inconsistent results across 20 iterations</span></td>
             </tr>
             
             <tr data-model="ibm/granite-3-8b-instruct" data-support="True" data-handling="True">
                 <td class="model-name">ibm/granite-3-8b-instruct</td>
-                <td><span class="support-indicator support-partial">⚠️ Unreliable (19/20)</span></td>
-                <td><span class="support-indicator support-partial">⚠️ Partial (17/19)</span></td>
+                <td><span class="support-indicator support-yes">✅ Reliable (20/20)</span></td>
+                <td><span class="support-indicator support-partial">⚠️ Partial (19/20)</span></td>
                 <td><span class="reliability-badge reliability-partial">⚠️ UNRELIABLE</span></td>
-                <td><span class="timing-info">1.26s</span></td>
-                <td><span class="timing-info">1.37s</span></td>
-                <td><span class="timing-info">5.63s</span></td>
+                <td><span class="timing-info">1.10s</span></td>
+                <td><span class="timing-info">0.79s</span></td>
+                <td><span class="timing-info">1.89s</span></td>
                 <td><span class="details-cell" title="Inconsistent results across 20 iterations">Inconsistent results across 20 iterations</span></td>
             </tr>
             
             <tr data-model="meta-llama/llama-3-2-11b-vision-instruct" data-support="True" data-handling="True">
                 <td class="model-name">meta-llama/llama-3-2-11b-vision-instruct</td>
-                <td><span class="support-indicator support-yes">✅ Reliable (20/20)</span></td>
-                <td><span class="support-indicator support-yes">✅ Correct (20/20)</span></td>
-                <td><span class="reliability-badge reliability-perfect">✅ RELIABLE</span></td>
-                <td><span class="timing-info">0.65s</span></td>
-                <td><span class="timing-info">0.34s</span></td>
-                <td><span class="timing-info">0.98s</span></td>
-                <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
+                <td><span class="support-indicator support-partial">⚠️ Unreliable (19/20)</span></td>
+                <td><span class="support-indicator support-yes">✅ Correct (19/19)</span></td>
+                <td><span class="reliability-badge reliability-partial">⚠️ UNRELIABLE</span></td>
+                <td><span class="timing-info">0.63s</span></td>
+                <td><span class="timing-info">0.49s</span></td>
+                <td><span class="timing-info">1.12s</span></td>
+                <td><span class="details-cell" title="Inconsistent results across 20 iterations">Inconsistent results across 20 iterations</span></td>
             </tr>
             
             <tr data-model="meta-llama/llama-3-2-3b-instruct" data-support="True" data-handling="True">
                 <td class="model-name">meta-llama/llama-3-2-3b-instruct</td>
                 <td><span class="support-indicator support-yes">✅ Reliable (20/20)</span></td>
-                <td><span class="support-indicator support-partial">⚠️ Partial (11/20)</span></td>
+                <td><span class="support-indicator support-partial">⚠️ Partial (12/20)</span></td>
                 <td><span class="reliability-badge reliability-partial">⚠️ UNRELIABLE</span></td>
-                <td><span class="timing-info">0.44s</span></td>
-                <td><span class="timing-info">0.90s</span></td>
-                <td><span class="timing-info">1.34s</span></td>
+                <td><span class="timing-info">0.40s</span></td>
+                <td><span class="timing-info">1.10s</span></td>
+                <td><span class="timing-info">1.50s</span></td>
                 <td><span class="details-cell" title="Inconsistent results across 20 iterations">Inconsistent results across 20 iterations</span></td>
             </tr>
             
@@ -1555,9 +1189,9 @@
                 <td><span class="support-indicator support-yes">✅ Reliable (20/20)</span></td>
                 <td><span class="support-indicator support-yes">✅ Correct (20/20)</span></td>
                 <td><span class="reliability-badge reliability-perfect">✅ RELIABLE</span></td>
-                <td><span class="timing-info">1.29s</span></td>
-                <td><span class="timing-info">0.68s</span></td>
-                <td><span class="timing-info">1.97s</span></td>
+                <td><span class="timing-info">1.11s</span></td>
+                <td><span class="timing-info">0.63s</span></td>
+                <td><span class="timing-info">1.73s</span></td>
                 <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
             </tr>
             
@@ -1566,43 +1200,43 @@
                 <td><span class="support-indicator support-yes">✅ Reliable (20/20)</span></td>
                 <td><span class="support-indicator support-yes">✅ Correct (20/20)</span></td>
                 <td><span class="reliability-badge reliability-perfect">✅ RELIABLE</span></td>
-                <td><span class="timing-info">0.84s</span></td>
-                <td><span class="timing-info">0.79s</span></td>
-                <td><span class="timing-info">1.63s</span></td>
+                <td><span class="timing-info">0.82s</span></td>
+                <td><span class="timing-info">0.80s</span></td>
+                <td><span class="timing-info">1.61s</span></td>
                 <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
             </tr>
             
             <tr data-model="meta-llama/llama-3-405b-instruct" data-support="True" data-handling="True">
                 <td class="model-name">meta-llama/llama-3-405b-instruct</td>
-                <td><span class="support-indicator support-partial">⚠️ Unreliable (19/20)</span></td>
-                <td><span class="support-indicator support-yes">✅ Correct (19/19)</span></td>
+                <td><span class="support-indicator support-yes">✅ Reliable (20/20)</span></td>
+                <td><span class="support-indicator support-partial">⚠️ Partial (19/20)</span></td>
                 <td><span class="reliability-badge reliability-partial">⚠️ UNRELIABLE</span></td>
-                <td><span class="timing-info">0.95s</span></td>
-                <td><span class="timing-info">0.38s</span></td>
-                <td><span class="timing-info">1.33s</span></td>
+                <td><span class="timing-info">0.97s</span></td>
+                <td><span class="timing-info">0.37s</span></td>
+                <td><span class="timing-info">1.35s</span></td>
                 <td><span class="details-cell" title="Inconsistent results across 20 iterations">Inconsistent results across 20 iterations</span></td>
             </tr>
             
             <tr data-model="meta-llama/llama-4-maverick-17b-128e-instruct-fp8" data-support="True" data-handling="True">
                 <td class="model-name">meta-llama/llama-4-maverick-17b-128e-instruct-fp8</td>
-                <td><span class="support-indicator support-partial">⚠️ Unreliable (19/20)</span></td>
-                <td><span class="support-indicator support-yes">✅ Correct (19/19)</span></td>
-                <td><span class="reliability-badge reliability-partial">⚠️ UNRELIABLE</span></td>
-                <td><span class="timing-info">0.49s</span></td>
-                <td><span class="timing-info">0.35s</span></td>
-                <td><span class="timing-info">3.84s</span></td>
-                <td><span class="details-cell" title="Inconsistent results across 20 iterations">Inconsistent results across 20 iterations</span></td>
+                <td><span class="support-indicator support-yes">✅ Reliable (20/20)</span></td>
+                <td><span class="support-indicator support-yes">✅ Correct (20/20)</span></td>
+                <td><span class="reliability-badge reliability-perfect">✅ RELIABLE</span></td>
+                <td><span class="timing-info">0.52s</span></td>
+                <td><span class="timing-info">0.41s</span></td>
+                <td><span class="timing-info">0.93s</span></td>
+                <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
             </tr>
             
             <tr data-model="mistralai/mistral-large" data-support="True" data-handling="True">
                 <td class="model-name">mistralai/mistral-large</td>
                 <td><span class="support-indicator support-yes">✅ Reliable (20/20)</span></td>
-                <td><span class="support-indicator support-yes">✅ Correct (20/20)</span></td>
-                <td><span class="reliability-badge reliability-perfect">✅ RELIABLE</span></td>
-                <td><span class="timing-info">0.85s</span></td>
-                <td><span class="timing-info">0.44s</span></td>
-                <td><span class="timing-info">1.30s</span></td>
-                <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
+                <td><span class="support-indicator support-partial">⚠️ Partial (19/20)</span></td>
+                <td><span class="reliability-badge reliability-partial">⚠️ UNRELIABLE</span></td>
+                <td><span class="timing-info">0.77s</span></td>
+                <td><span class="timing-info">0.34s</span></td>
+                <td><span class="timing-info">1.12s</span></td>
+                <td><span class="details-cell" title="Inconsistent results across 20 iterations">Inconsistent results across 20 iterations</span></td>
             </tr>
             
             <tr data-model="mistralai/mistral-medium-2505" data-support="True" data-handling="True">
@@ -1610,25 +1244,403 @@
                 <td><span class="support-indicator support-yes">✅ Reliable (20/20)</span></td>
                 <td><span class="support-indicator support-yes">✅ Correct (20/20)</span></td>
                 <td><span class="reliability-badge reliability-perfect">✅ RELIABLE</span></td>
-                <td><span class="timing-info">0.52s</span></td>
-                <td><span class="timing-info">0.35s</span></td>
-                <td><span class="timing-info">0.87s</span></td>
+                <td><span class="timing-info">0.67s</span></td>
+                <td><span class="timing-info">0.42s</span></td>
+                <td><span class="timing-info">1.09s</span></td>
                 <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
             </tr>
             
             <tr data-model="mistralai/mistral-small-3-1-24b-instruct-2503" data-support="True" data-handling="True">
                 <td class="model-name">mistralai/mistral-small-3-1-24b-instruct-2503</td>
                 <td><span class="support-indicator support-yes">✅ Reliable (20/20)</span></td>
-                <td><span class="support-indicator support-yes">✅ Correct (20/20)</span></td>
-                <td><span class="reliability-badge reliability-perfect">✅ RELIABLE</span></td>
-                <td><span class="timing-info">0.45s</span></td>
-                <td><span class="timing-info">0.28s</span></td>
-                <td><span class="timing-info">0.72s</span></td>
-                <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
+                <td><span class="support-indicator support-partial">⚠️ Partial (18/20)</span></td>
+                <td><span class="reliability-badge reliability-partial">⚠️ UNRELIABLE</span></td>
+                <td><span class="timing-info">0.43s</span></td>
+                <td><span class="timing-info">0.26s</span></td>
+                <td><span class="timing-info">0.68s</span></td>
+                <td><span class="details-cell" title="Inconsistent results across 20 iterations">Inconsistent results across 20 iterations</span></td>
             </tr>
             
                 </tbody>
             </table>
+        </section>
+        
+        
+        <section class="section">
+            <h2>📋 Recent Test Details</h2>
+            <div class="detailed-results">
+                <div class="details-table">
+                    <div class="details-header">
+                        <div class="detail-date">Date</div>
+                        <div class="detail-model">Model</div>
+                        <div class="detail-status">Status</div>
+                        <div class="detail-time">Time</div>
+                        <div class="detail-success">Success</div>
+                        <div class="detail-expand"></div>
+                    </div>
+                    
+                <div class="detail-row" data-model="ibm/slate-30m-english-rtrvr">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">slate-30m-english-rtrvr</div>
+                    <div class="detail-status status-broken">Broken</div>
+                    <div class="detail-time">0.084s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                    <div class="detail-expanded" style="display: none;">
+                        <div class="expanded-content">
+                            <h5>Test Details</h5>
+                            <p><strong>Error:</strong> None</p>
+                            <p><strong>Expected:</strong> </p>
+                            <p><strong>Actual:</strong> </p>
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-30m-english-rtrvr' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'de043bc0c37953f29b30507c4f5da994', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="ibm/slate-30m-english-rtrvr-v2">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">slate-30m-english-rtrvr-v2</div>
+                    <div class="detail-status status-broken">Broken</div>
+                    <div class="detail-time">0.091s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                    <div class="detail-expanded" style="display: none;">
+                        <div class="expanded-content">
+                            <h5>Test Details</h5>
+                            <p><strong>Error:</strong> None</p>
+                            <p><strong>Expected:</strong> </p>
+                            <p><strong>Actual:</strong> </p>
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-30m-english-rtrvr-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '2534bbc19ff3157ea74e22d0a57e5b78', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="intfloat/multilingual-e5-large">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">multilingual-e5-large</div>
+                    <div class="detail-status status-broken">Broken</div>
+                    <div class="detail-time">0.099s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                    <div class="detail-expanded" style="display: none;">
+                        <div class="expanded-content">
+                            <h5>Test Details</h5>
+                            <p><strong>Error:</strong> None</p>
+                            <p><strong>Expected:</strong> </p>
+                            <p><strong>Actual:</strong> </p>
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'intfloat/multilingual-e5-large' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '7d9017e749c7c43a72d57f3c1690324f', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="meta-llama/llama-2-13b-chat">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">llama-2-13b-chat</div>
+                    <div class="detail-status status-broken">Broken</div>
+                    <div class="detail-time">0.113s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                    <div class="detail-expanded" style="display: none;">
+                        <div class="expanded-content">
+                            <h5>Test Details</h5>
+                            <p><strong>Error:</strong> None</p>
+                            <p><strong>Expected:</strong> </p>
+                            <p><strong>Actual:</strong> </p>
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'meta-llama/llama-2-13b-chat' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '35fa56b6b8cfac185073143acc5a68d4', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="meta-llama/llama-3-1-8b">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">llama-3-1-8b</div>
+                    <div class="detail-status status-broken">Broken</div>
+                    <div class="detail-time">0.091s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                    <div class="detail-expanded" style="display: none;">
+                        <div class="expanded-content">
+                            <h5>Test Details</h5>
+                            <p><strong>Error:</strong> None</p>
+                            <p><strong>Expected:</strong> </p>
+                            <p><strong>Actual:</strong> </p>
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'meta-llama/llama-3-1-8b' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '1b5e597c023edd1f09d6ab237aab3faf', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="meta-llama/llama-3-2-11b-vision-instruct">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">llama-3-2-11b-vision-instruct</div>
+                    <div class="detail-status status-working">Working</div>
+                    <div class="detail-time">0.983s</div>
+                    <div class="detail-success">100.0%</div>
+                    <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                    <div class="detail-expanded" style="display: none;">
+                        <div class="expanded-content">
+                            <h5>Test Details</h5>
+                            <p><strong>Error:</strong> None</p>
+                            <p><strong>Expected:</strong> </p>
+                            <p><strong>Actual:</strong> </p>
+                            <p><strong>Details:</strong> Consistent success across all iterations</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="meta-llama/llama-3-2-1b-instruct">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">llama-3-2-1b-instruct</div>
+                    <div class="detail-status status-broken">Broken</div>
+                    <div class="detail-time">0.376s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                    <div class="detail-expanded" style="display: none;">
+                        <div class="expanded-content">
+                            <h5>Test Details</h5>
+                            <p><strong>Error:</strong> None</p>
+                            <p><strong>Expected:</strong> </p>
+                            <p><strong>Actual:</strong> </p>
+                            <p><strong>Details:</strong> Model does not support tool calling. Finish reason: stop. Response: <|python_tag|>{"type": "function", "function": "hello_world", "parameters": {"properties": {"language": "spanish", "name": "Daniel"}}}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="meta-llama/llama-3-2-3b-instruct">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">llama-3-2-3b-instruct</div>
+                    <div class="detail-status status-working">Working</div>
+                    <div class="detail-time">1.343s</div>
+                    <div class="detail-success">100.0%</div>
+                    <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                    <div class="detail-expanded" style="display: none;">
+                        <div class="expanded-content">
+                            <h5>Test Details</h5>
+                            <p><strong>Error:</strong> None</p>
+                            <p><strong>Expected:</strong> </p>
+                            <p><strong>Actual:</strong> </p>
+                            <p><strong>Details:</strong> Inconsistent results across 20 iterations</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="meta-llama/llama-3-2-90b-vision-instruct">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">llama-3-2-90b-vision-instruct</div>
+                    <div class="detail-status status-working">Working</div>
+                    <div class="detail-time">1.971s</div>
+                    <div class="detail-success">100.0%</div>
+                    <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                    <div class="detail-expanded" style="display: none;">
+                        <div class="expanded-content">
+                            <h5>Test Details</h5>
+                            <p><strong>Error:</strong> None</p>
+                            <p><strong>Expected:</strong> </p>
+                            <p><strong>Actual:</strong> </p>
+                            <p><strong>Details:</strong> Consistent success across all iterations</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="meta-llama/llama-3-3-70b-instruct">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">llama-3-3-70b-instruct</div>
+                    <div class="detail-status status-working">Working</div>
+                    <div class="detail-time">1.632s</div>
+                    <div class="detail-success">100.0%</div>
+                    <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                    <div class="detail-expanded" style="display: none;">
+                        <div class="expanded-content">
+                            <h5>Test Details</h5>
+                            <p><strong>Error:</strong> None</p>
+                            <p><strong>Expected:</strong> </p>
+                            <p><strong>Actual:</strong> </p>
+                            <p><strong>Details:</strong> Consistent success across all iterations</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="meta-llama/llama-3-405b-instruct">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">llama-3-405b-instruct</div>
+                    <div class="detail-status status-working">Working</div>
+                    <div class="detail-time">1.330s</div>
+                    <div class="detail-success">95.0%</div>
+                    <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                    <div class="detail-expanded" style="display: none;">
+                        <div class="expanded-content">
+                            <h5>Test Details</h5>
+                            <p><strong>Error:</strong> None</p>
+                            <p><strong>Expected:</strong> </p>
+                            <p><strong>Actual:</strong> </p>
+                            <p><strong>Details:</strong> Inconsistent results across 20 iterations</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="meta-llama/llama-4-maverick-17b-128e-instruct-fp8">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">llama-4-maverick-17b-128e-instruct-fp8</div>
+                    <div class="detail-status status-working">Working</div>
+                    <div class="detail-time">3.842s</div>
+                    <div class="detail-success">95.0%</div>
+                    <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                    <div class="detail-expanded" style="display: none;">
+                        <div class="expanded-content">
+                            <h5>Test Details</h5>
+                            <p><strong>Error:</strong> None</p>
+                            <p><strong>Expected:</strong> </p>
+                            <p><strong>Actual:</strong> </p>
+                            <p><strong>Details:</strong> Inconsistent results across 20 iterations</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="meta-llama/llama-guard-3-11b-vision">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">llama-guard-3-11b-vision</div>
+                    <div class="detail-status status-broken">Broken</div>
+                    <div class="detail-time">0.198s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                    <div class="detail-expanded" style="display: none;">
+                        <div class="expanded-content">
+                            <h5>Test Details</h5>
+                            <p><strong>Error:</strong> None</p>
+                            <p><strong>Expected:</strong> </p>
+                            <p><strong>Actual:</strong> </p>
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'meta-llama/llama-guard-3-11b-vision\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '1a6d46e90d79c6bbb187a0235247e1a3', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="mistralai/mistral-large">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">mistral-large</div>
+                    <div class="detail-status status-working">Working</div>
+                    <div class="detail-time">1.297s</div>
+                    <div class="detail-success">100.0%</div>
+                    <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                    <div class="detail-expanded" style="display: none;">
+                        <div class="expanded-content">
+                            <h5>Test Details</h5>
+                            <p><strong>Error:</strong> None</p>
+                            <p><strong>Expected:</strong> </p>
+                            <p><strong>Actual:</strong> </p>
+                            <p><strong>Details:</strong> Consistent success across all iterations</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="mistralai/mistral-medium-2505">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">mistral-medium-2505</div>
+                    <div class="detail-status status-working">Working</div>
+                    <div class="detail-time">0.873s</div>
+                    <div class="detail-success">100.0%</div>
+                    <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                    <div class="detail-expanded" style="display: none;">
+                        <div class="expanded-content">
+                            <h5>Test Details</h5>
+                            <p><strong>Error:</strong> None</p>
+                            <p><strong>Expected:</strong> </p>
+                            <p><strong>Actual:</strong> </p>
+                            <p><strong>Details:</strong> Consistent success across all iterations</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="mistralai/mistral-small-3-1-24b-instruct-2503">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">mistral-small-3-1-24b-instruct-2503</div>
+                    <div class="detail-status status-working">Working</div>
+                    <div class="detail-time">0.723s</div>
+                    <div class="detail-success">100.0%</div>
+                    <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                    <div class="detail-expanded" style="display: none;">
+                        <div class="expanded-content">
+                            <h5>Test Details</h5>
+                            <p><strong>Error:</strong> None</p>
+                            <p><strong>Expected:</strong> </p>
+                            <p><strong>Actual:</strong> </p>
+                            <p><strong>Details:</strong> Consistent success across all iterations</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="mistralai/mixtral-8x7b-instruct-v01">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">mixtral-8x7b-instruct-v01</div>
+                    <div class="detail-status status-broken">Broken</div>
+                    <div class="detail-time">0.326s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                    <div class="detail-expanded" style="display: none;">
+                        <div class="expanded-content">
+                            <h5>Test Details</h5>
+                            <p><strong>Error:</strong> None</p>
+                            <p><strong>Expected:</strong> </p>
+                            <p><strong>Actual:</strong> </p>
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'mistralai/mixtral-8x7b-instruct-v01\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '9aa0813b02cc764a1371e4ccf8517bb4', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="mistralai/pixtral-12b">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">pixtral-12b</div>
+                    <div class="detail-status status-broken">Broken</div>
+                    <div class="detail-time">0.463s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                    <div class="detail-expanded" style="display: none;">
+                        <div class="expanded-content">
+                            <h5>Test Details</h5>
+                            <p><strong>Error:</strong> None</p>
+                            <p><strong>Expected:</strong> </p>
+                            <p><strong>Actual:</strong> </p>
+                            <p><strong>Details:</strong> Model does not support tool calling. Finish reason: stop. Response: [TOOL_CALLS][{"name": "hello_world", "arguments": {"language": "spanish", "name": "Daniel"}}]</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="sentence-transformers/all-minilm-l12-v2">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">all-minilm-l12-v2</div>
+                    <div class="detail-status status-broken">Broken</div>
+                    <div class="detail-time">0.107s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                    <div class="detail-expanded" style="display: none;">
+                        <div class="expanded-content">
+                            <h5>Test Details</h5>
+                            <p><strong>Error:</strong> None</p>
+                            <p><strong>Expected:</strong> </p>
+                            <p><strong>Actual:</strong> </p>
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'sentence-transformers/all-minilm-l12-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'f737010604955f93a099816915665f27', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="sentence-transformers/all-minilm-l6-v2">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">all-minilm-l6-v2</div>
+                    <div class="detail-status status-broken">Broken</div>
+                    <div class="detail-time">0.094s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                    <div class="detail-expanded" style="display: none;">
+                        <div class="expanded-content">
+                            <h5>Test Details</h5>
+                            <p><strong>Error:</strong> None</p>
+                            <p><strong>Expected:</strong> </p>
+                            <p><strong>Actual:</strong> </p>
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'sentence-transformers/all-minilm-l6-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'abb1bcf926c52a1649db0f253800c1e5', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                </div>
+            </div>
         </section>
         
         
@@ -1782,71 +1794,6 @@
             </div>
         </section>
         
-        
-            
-        <section class="section">
-            <h2>📈 Performance Analytics</h2>
-
-            <div class="chart-container">
-                <div class="chart-title">Model Support Categories</div>
-                <div class="performance-chart">
-                    <div class="performance-item">
-                        <div class="performance-value" style="color: var(--success-color);">13</div>
-                        <div class="performance-label">Full Support</div>
-                    </div>
-                    <div class="performance-item">
-                        <div class="performance-value" style="color: var(--warning-color);">0</div>
-                        <div class="performance-label">Partial Support</div>
-                    </div>
-                    <div class="performance-item">
-                        <div class="performance-value" style="color: var(--error-color);">28</div>
-                        <div class="performance-label">No Support</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="chart-container">
-                <div class="chart-title">Average Response Times</div>
-                <div class="performance-chart">
-                    <div class="performance-item">
-                        <div class="performance-value">0.72s</div>
-                        <div class="performance-label">Tool Call Time</div>
-                    </div>
-                    <div class="performance-item">
-                        <div class="performance-value">0.53s</div>
-                        <div class="performance-label">Response Processing</div>
-                    </div>
-                    <div class="performance-item">
-                        <div class="performance-value">1.71s</div>
-                        <div class="performance-label">Total Time</div>
-                    </div>
-                </div>
-            </div>
-
-            
-            <div class="chart-container">
-                <div class="chart-title">Reliability Assessment</div>
-                <div class="performance-chart">
-                    <div class="performance-item">
-                        <div class="performance-value" style="color: var(--success-color);">7</div>
-                        <div class="performance-label">Reliable Models</div>
-                    </div>
-                    <div class="performance-item">
-                        <div class="performance-value" style="color: var(--warning-color);">6</div>
-                        <div class="performance-label">Unreliable Models</div>
-                    </div>
-                    <div class="performance-item">
-                        <div class="performance-value" style="color: var(--primary-color);">30.6%</div>
-                        <div class="performance-label">Avg Tool Success Rate</div>
-                    </div>
-                    <div class="performance-item">
-                        <div class="performance-value" style="color: var(--primary-color);">30.2%</div>
-                        <div class="performance-label">Avg Response Success Rate</div>
-                    </div>
-                </div>
-            </div>
-            
-        </section>
         
         </main>
 
