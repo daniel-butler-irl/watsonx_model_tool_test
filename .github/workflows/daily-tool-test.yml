@@ -234,6 +234,7 @@ jobs:
 
     - name: Pull latest changes
       run: |
+        git config --local pull.rebase false
         git pull origin main
 
     - name: Setup Pages
@@ -291,6 +292,7 @@ jobs:
           if [ -n "$(git status --porcelain reports/)" ]; then
             git config --local user.email "action@github.com"
             git config --local user.name "GitHub Action"
+            git config --local pull.rebase false
             git add reports/
             git commit -m "Clean up old test reports and historical data"
             
