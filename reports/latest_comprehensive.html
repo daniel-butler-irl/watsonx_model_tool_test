@@ -987,6 +987,29 @@
             font-style: italic;
         }
 
+        .expand-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75em;
+            cursor: pointer;
+            margin-left: 8px;
+            transition: background-color 0.2s ease;
+        }
+
+        .expand-btn:hover {
+            background: #2563eb;
+        }
+
+        .full-details {
+            display: block;
+            margin-top: 8px;
+            font-style: normal;
+            line-height: 1.4;
+        }
+
         @media (max-width: 768px) {
             .model-row,
             .detail-row,
@@ -1095,7 +1118,7 @@
             <h1>WatsonX Tool Test Report</h1>
             <p class="subtitle">Comprehensive analysis of AI model tool calling capabilities</p>
             <div class="meta-info">
-                <span class="timestamp">Generated: 2025-07-17 13:09:33 UTC</span>
+                <span class="timestamp">Generated: 2025-07-17 14:29:08 UTC</span>
                 <div class="config-info"><span class="config-item">Iterations: 20</span><span class="config-item">Client: watsonx</span><span class="config-item">Models Tested: 41</span></div>
             </div>
         </header>
@@ -1112,31 +1135,31 @@
                 </div>
                 <div class="summary-card">
                     <h3>Tool Support</h3>
-                    <div class="value" style="color: var(--success-color);">13</div>
-                    <div class="description">Models with tool calling (31.7%)</div>
+                    <div class="value" style="color: var(--success-color);">12</div>
+                    <div class="description">Models with tool calling (29.3%)</div>
                 </div>
                 <div class="summary-card">
                     <h3>Response Handling</h3>
-                    <div class="value" style="color: var(--success-color);">13</div>
+                    <div class="value" style="color: var(--success-color);">12</div>
                     <div class="description">Models using tool results (100.0%)</div>
                 </div>
                 
             <div class="summary-card">
                 <h3>Reliability</h3>
-                <div class="value" style="color: var(--success-color);">6/13</div>
-                <div class="description">Models with 100% consistency (46.2%)</div>
+                <div class="value" style="color: var(--success-color);">7/12</div>
+                <div class="description">Models with 100% consistency (58.3%)</div>
             </div>
             
                 
             <div class="summary-card">
                 <h3>Fastest Model</h3>
-                <div class="value" style="color: var(--primary-color);">0.59s</div>
-                <div class="description">ibm/granite-3-3-8b-instruct</div>
+                <div class="value" style="color: var(--primary-color);">0.75s</div>
+                <div class="description">mistralai/mistral-small-3-1-24b-instruct-2503</div>
             </div>
             
                 <div class="summary-card">
                     <h3>Average Response Time</h3>
-                    <div class="value" style="color: var(--primary-color);">1.44s</div>
+                    <div class="value" style="color: var(--primary-color);">1.51s</div>
                     <div class="description">Total processing time</div>
                 </div>
             </div>
@@ -1144,7 +1167,7 @@
             <div class="status-indicators">
                 <div class="status-badge status-success">
                     <span>✅</span>
-                    <span>Full Support: 13</span>
+                    <span>Full Support: 12</span>
                 </div>
                 <div class="status-badge status-warning">
                     <span>⚠️</span>
@@ -1152,7 +1175,7 @@
                 </div>
                 <div class="status-badge status-error">
                     <span>❌</span>
-                    <span>No Support: 28</span>
+                    <span>No Support: 29</span>
                 </div>
             </div>
         </section>
@@ -1225,8 +1248,8 @@ Status: Unreliable
 Iterations: 2
 Tool Success: 100.0%
 Response Success: 100.0%
-Total Time: 0.85s" data-date="2025-07-16" data-model="ibm/granite-3-2b-instruct"></div><div class="status-cell status-unreliable" title="Date: 2025-07-17
-Status: Unreliable
+Total Time: 0.85s" data-date="2025-07-16" data-model="ibm/granite-3-2b-instruct"></div><div class="status-cell status-working" title="Date: 2025-07-17
+Status: Working
 Iterations: 20
 Tool Success: 100.0%
 Response Success: 100.0%
@@ -1244,8 +1267,8 @@ Status: Unreliable
 Iterations: 1
 Tool Success: 0.0%
 Response Success: 0.0%
-Total Time: 0.40s" data-date="2025-07-16" data-model="ibm/granite-3-3-8b-instruct"></div><div class="status-cell status-not_supported" title="Date: 2025-07-17
-Status: Not_Supported
+Total Time: 0.40s" data-date="2025-07-16" data-model="ibm/granite-3-3-8b-instruct"></div><div class="status-cell status-unreliable" title="Date: 2025-07-17
+Status: Unreliable
 Iterations: 1
 Tool Success: 0.0%
 Response Success: 0.0%
@@ -1377,8 +1400,8 @@ Status: Working
 Iterations: 2
 Tool Success: 100.0%
 Response Success: 100.0%
-Total Time: 0.79s" data-date="2025-07-16" data-model="meta-llama/llama-4-maverick-17b-128e-instruct-fp8"></div><div class="status-cell status-working" title="Date: 2025-07-17
-Status: Working
+Total Time: 0.79s" data-date="2025-07-16" data-model="meta-llama/llama-4-maverick-17b-128e-instruct-fp8"></div><div class="status-cell status-unreliable" title="Date: 2025-07-17
+Status: Unreliable
 Iterations: 20
 Tool Success: 100.0%
 Response Success: 100.0%
@@ -1465,9 +1488,9 @@ Total Time: 0.68s" data-date="2025-07-17" data-model="mistralai/mistral-small-3-
                         
                     <tr>
                         <td>2025-07-17</td>
-                        <td>0.350s</td>
-                        <td>0.160s</td>
-                        <td>29.6%</td>
+                        <td>0.349s</td>
+                        <td>0.158s</td>
+                        <td>29.7%</td>
                     </tr>
                 
                     <tr>
@@ -1541,58 +1564,48 @@ Total Time: 0.68s" data-date="2025-07-17" data-model="mistralai/mistral-small-3-
                 <td><span class="support-indicator support-yes">✅ Reliable (20/20)</span></td>
                 <td><span class="support-indicator support-yes">✅ Correct (20/20)</span></td>
                 <td><span class="timing-info">0.63s</span></td>
-                <td><span class="timing-info">0.32s</span></td>
-                <td><span class="timing-info">0.95s</span></td>
+                <td><span class="timing-info">0.31s</span></td>
+                <td><span class="timing-info">0.94s</span></td>
                 <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
             </tr>
             
             <tr data-model="ibm/granite-3-2b-instruct" data-support="True" data-handling="True">
                 <td class="model-name">ibm/granite-3-2b-instruct<span class="new-label">NEW</span></td>
                 <td><span class="support-indicator support-yes">✅ Reliable (20/20)</span></td>
-                <td><span class="support-indicator support-yes">✅ Correct (20/20)</span></td>
-                <td><span class="timing-info">0.66s</span></td>
-                <td><span class="timing-info">0.44s</span></td>
-                <td><span class="timing-info">1.10s</span></td>
-                <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
-            </tr>
-            
-            <tr data-model="ibm/granite-3-3-8b-instruct" data-support="True" data-handling="True">
-                <td class="model-name">ibm/granite-3-3-8b-instruct<span class="new-label">NEW</span></td>
-                <td><span class="support-indicator support-partial">⚠️ Unreliable (12/20)</span></td>
-                <td><span class="support-indicator support-yes">✅ Correct (12/12)</span></td>
-                <td><span class="timing-info">0.46s</span></td>
-                <td><span class="timing-info">0.14s</span></td>
-                <td><span class="timing-info">0.59s</span></td>
+                <td><span class="support-indicator support-partial">⚠️ Partial (19/20)</span></td>
+                <td><span class="timing-info">0.49s</span></td>
+                <td><span class="timing-info">0.36s</span></td>
+                <td><span class="timing-info">0.85s</span></td>
                 <td><span class="details-cell" title="Inconsistent results across 20 iterations">Inconsistent results across 20 iterations</span></td>
             </tr>
             
             <tr data-model="ibm/granite-3-8b-instruct" data-support="True" data-handling="True">
                 <td class="model-name">ibm/granite-3-8b-instruct<span class="new-label">NEW</span></td>
                 <td><span class="support-indicator support-yes">✅ Reliable (20/20)</span></td>
-                <td><span class="support-indicator support-partial">⚠️ Partial (19/20)</span></td>
-                <td><span class="timing-info">1.40s</span></td>
-                <td><span class="timing-info">0.58s</span></td>
-                <td><span class="timing-info">1.98s</span></td>
-                <td><span class="details-cell" title="Inconsistent results across 20 iterations">Inconsistent results across 20 iterations</span></td>
+                <td><span class="support-indicator support-yes">✅ Correct (20/20)</span></td>
+                <td><span class="timing-info">0.88s</span></td>
+                <td><span class="timing-info">0.60s</span></td>
+                <td><span class="timing-info">1.47s</span></td>
+                <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
             </tr>
             
             <tr data-model="meta-llama/llama-3-2-11b-vision-instruct" data-support="True" data-handling="True">
                 <td class="model-name">meta-llama/llama-3-2-11b-vision-instruct<span class="new-label">NEW</span></td>
                 <td><span class="support-indicator support-yes">✅ Reliable (20/20)</span></td>
                 <td><span class="support-indicator support-yes">✅ Correct (20/20)</span></td>
-                <td><span class="timing-info">0.64s</span></td>
-                <td><span class="timing-info">0.34s</span></td>
-                <td><span class="timing-info">0.98s</span></td>
+                <td><span class="timing-info">0.66s</span></td>
+                <td><span class="timing-info">0.36s</span></td>
+                <td><span class="timing-info">1.01s</span></td>
                 <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
             </tr>
             
             <tr data-model="meta-llama/llama-3-2-3b-instruct" data-support="True" data-handling="True">
                 <td class="model-name">meta-llama/llama-3-2-3b-instruct<span class="new-label">NEW</span></td>
                 <td><span class="support-indicator support-yes">✅ Reliable (20/20)</span></td>
-                <td><span class="support-indicator support-partial">⚠️ Partial (10/20)</span></td>
-                <td><span class="timing-info">0.41s</span></td>
-                <td><span class="timing-info">0.91s</span></td>
-                <td><span class="timing-info">1.32s</span></td>
+                <td><span class="support-indicator support-partial">⚠️ Partial (8/20)</span></td>
+                <td><span class="timing-info">0.47s</span></td>
+                <td><span class="timing-info">1.23s</span></td>
+                <td><span class="timing-info">1.70s</span></td>
                 <td><span class="details-cell" title="Inconsistent results across 20 iterations">Inconsistent results across 20 iterations</span></td>
             </tr>
             
@@ -1600,9 +1613,9 @@ Total Time: 0.68s" data-date="2025-07-17" data-model="mistralai/mistral-small-3-
                 <td class="model-name">meta-llama/llama-3-2-90b-vision-instruct<span class="new-label">NEW</span></td>
                 <td><span class="support-indicator support-yes">✅ Reliable (20/20)</span></td>
                 <td><span class="support-indicator support-yes">✅ Correct (20/20)</span></td>
-                <td><span class="timing-info">1.33s</span></td>
-                <td><span class="timing-info">0.68s</span></td>
-                <td><span class="timing-info">2.01s</span></td>
+                <td><span class="timing-info">1.28s</span></td>
+                <td><span class="timing-info">0.78s</span></td>
+                <td><span class="timing-info">2.07s</span></td>
                 <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
             </tr>
             
@@ -1610,39 +1623,39 @@ Total Time: 0.68s" data-date="2025-07-17" data-model="mistralai/mistral-small-3-
                 <td class="model-name">meta-llama/llama-3-3-70b-instruct<span class="new-label">NEW</span></td>
                 <td><span class="support-indicator support-yes">✅ Reliable (20/20)</span></td>
                 <td><span class="support-indicator support-yes">✅ Correct (20/20)</span></td>
-                <td><span class="timing-info">0.80s</span></td>
-                <td><span class="timing-info">0.77s</span></td>
-                <td><span class="timing-info">1.58s</span></td>
+                <td><span class="timing-info">0.89s</span></td>
+                <td><span class="timing-info">0.86s</span></td>
+                <td><span class="timing-info">1.75s</span></td>
                 <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
             </tr>
             
             <tr data-model="meta-llama/llama-3-405b-instruct" data-support="True" data-handling="True">
                 <td class="model-name">meta-llama/llama-3-405b-instruct<span class="new-label">NEW</span></td>
-                <td><span class="support-indicator support-partial">⚠️ Unreliable (19/20)</span></td>
-                <td><span class="support-indicator support-yes">✅ Correct (19/19)</span></td>
-                <td><span class="timing-info">1.20s</span></td>
-                <td><span class="timing-info">0.44s</span></td>
-                <td><span class="timing-info">1.64s</span></td>
-                <td><span class="details-cell" title="Inconsistent results across 20 iterations">Inconsistent results across 20 iterations</span></td>
+                <td><span class="support-indicator support-yes">✅ Reliable (20/20)</span></td>
+                <td><span class="support-indicator support-yes">✅ Correct (20/20)</span></td>
+                <td><span class="timing-info">1.09s</span></td>
+                <td><span class="timing-info">0.45s</span></td>
+                <td><span class="timing-info">1.53s</span></td>
+                <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
             </tr>
             
             <tr data-model="meta-llama/llama-4-maverick-17b-128e-instruct-fp8" data-support="True" data-handling="True">
                 <td class="model-name">meta-llama/llama-4-maverick-17b-128e-instruct-fp8<span class="new-label">NEW</span></td>
                 <td><span class="support-indicator support-partial">⚠️ Unreliable (19/20)</span></td>
                 <td><span class="support-indicator support-yes">✅ Correct (19/19)</span></td>
-                <td><span class="timing-info">0.41s</span></td>
-                <td><span class="timing-info">0.33s</span></td>
-                <td><span class="timing-info">3.74s</span></td>
+                <td><span class="timing-info">0.49s</span></td>
+                <td><span class="timing-info">0.35s</span></td>
+                <td><span class="timing-info">3.84s</span></td>
                 <td><span class="details-cell" title="Inconsistent results across 20 iterations">Inconsistent results across 20 iterations</span></td>
             </tr>
             
             <tr data-model="mistralai/mistral-large" data-support="True" data-handling="True">
                 <td class="model-name">mistralai/mistral-large<span class="new-label">NEW</span></td>
                 <td><span class="support-indicator support-yes">✅ Reliable (20/20)</span></td>
-                <td><span class="support-indicator support-partial">⚠️ Partial (19/20)</span></td>
-                <td><span class="timing-info">0.78s</span></td>
-                <td><span class="timing-info">0.39s</span></td>
-                <td><span class="timing-info">1.17s</span></td>
+                <td><span class="support-indicator support-partial">⚠️ Partial (18/20)</span></td>
+                <td><span class="timing-info">0.74s</span></td>
+                <td><span class="timing-info">0.40s</span></td>
+                <td><span class="timing-info">1.14s</span></td>
                 <td><span class="details-cell" title="Inconsistent results across 20 iterations">Inconsistent results across 20 iterations</span></td>
             </tr>
             
@@ -1650,19 +1663,19 @@ Total Time: 0.68s" data-date="2025-07-17" data-model="mistralai/mistral-small-3-
                 <td class="model-name">mistralai/mistral-medium-2505<span class="new-label">NEW</span></td>
                 <td><span class="support-indicator support-yes">✅ Reliable (20/20)</span></td>
                 <td><span class="support-indicator support-yes">✅ Correct (20/20)</span></td>
-                <td><span class="timing-info">0.58s</span></td>
-                <td><span class="timing-info">0.32s</span></td>
-                <td><span class="timing-info">0.90s</span></td>
+                <td><span class="timing-info">0.73s</span></td>
+                <td><span class="timing-info">0.35s</span></td>
+                <td><span class="timing-info">1.08s</span></td>
                 <td><span class="details-cell" title="Consistent success across all iterations">Consistent success across all iterations</span></td>
             </tr>
             
             <tr data-model="mistralai/mistral-small-3-1-24b-instruct-2503" data-support="True" data-handling="True">
                 <td class="model-name">mistralai/mistral-small-3-1-24b-instruct-2503<span class="new-label">NEW</span></td>
                 <td><span class="support-indicator support-yes">✅ Reliable (20/20)</span></td>
-                <td><span class="support-indicator support-partial">⚠️ Partial (19/20)</span></td>
-                <td><span class="timing-info">0.44s</span></td>
-                <td><span class="timing-info">0.31s</span></td>
-                <td><span class="timing-info">0.74s</span></td>
+                <td><span class="support-indicator support-partial">⚠️ Partial (18/20)</span></td>
+                <td><span class="timing-info">0.47s</span></td>
+                <td><span class="timing-info">0.28s</span></td>
+                <td><span class="timing-info">0.75s</span></td>
                 <td><span class="details-cell" title="Inconsistent results across 20 iterations">Inconsistent results across 20 iterations</span></td>
             </tr>
             
@@ -1684,726 +1697,6 @@ Total Time: 0.68s" data-date="2025-07-17" data-model="mistralai/mistral-small-3-
                         <div class="detail-details">Details</div>
                     </div>
                     
-                <div class="detail-row" data-model="meta-llama/llama-4-maverick-17b-128e-instruct-fp8">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">llama-4-maverick-17b-128e-instruct-fp8<span class="new-label">NEW</span></div>
-                    <div class="detail-status unreliable">Unreliable</div>
-                    <div class="detail-time">3.889s</div>
-                    <div class="detail-success">95.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Inconsistent results across 20 iterations</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="meta-llama/llama-guard-3-11b-vision">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">llama-guard-3-11b-vision<span class="new-label">NEW</span></div>
-                    <div class="detail-status not-supported">Not Supported</div>
-                    <div class="detail-time">0.141s</div>
-                    <div class="detail-success">0.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'meta-llama/llama-guard-3-11b-vision\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '129f1cfbe69ba0f188572aeadf667fac', 'status_code': 400}</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="mistralai/mistral-large">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">mistral-large<span class="new-label">NEW</span></div>
-                    <div class="detail-status unreliable">Unreliable</div>
-                    <div class="detail-time">1.140s</div>
-                    <div class="detail-success">95.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Inconsistent results across 20 iterations</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="mistralai/mistral-medium-2505">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">mistral-medium-2505<span class="new-label">NEW</span></div>
-                    <div class="detail-status working">Working</div>
-                    <div class="detail-time">1.016s</div>
-                    <div class="detail-success">100.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Consistent success across all iterations</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="mistralai/mistral-small-3-1-24b-instruct-2503">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">mistral-small-3-1-24b-instruct-2503<span class="new-label">NEW</span></div>
-                    <div class="detail-status working">Working</div>
-                    <div class="detail-time">0.714s</div>
-                    <div class="detail-success">100.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Consistent success across all iterations</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="mistralai/mixtral-8x7b-instruct-v01">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">mixtral-8x7b-instruct-v01<span class="new-label">NEW</span></div>
-                    <div class="detail-status not-supported">Not Supported</div>
-                    <div class="detail-time">0.206s</div>
-                    <div class="detail-success">0.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'mistralai/mixtral-8x7b-instruct-v01\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '4d7a7e3e76eacf5439c10f35cd4ca9dc', 'status_code': 400}</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="mistralai/pixtral-12b">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">pixtral-12b<span class="new-label">NEW</span></div>
-                    <div class="detail-status not-supported">Not Supported</div>
-                    <div class="detail-time">0.475s</div>
-                    <div class="detail-success">0.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Model does not support tool calling. Finish reason: stop. Response: [TOOL_CALLS][{"name": "hello_world", "arguments": {"language": "spanish", "name": "Daniel"}}]</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="sentence-transformers/all-minilm-l12-v2">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">all-minilm-l12-v2<span class="new-label">NEW</span></div>
-                    <div class="detail-status not-supported">Not Supported</div>
-                    <div class="detail-time">0.080s</div>
-                    <div class="detail-success">0.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'sentence-transformers/all-minilm-l12-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '4724e40918f81c5b80fcf7d578b9ea07', 'status_code': 400}</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="sentence-transformers/all-minilm-l6-v2">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">all-minilm-l6-v2<span class="new-label">NEW</span></div>
-                    <div class="detail-status not-supported">Not Supported</div>
-                    <div class="detail-time">0.074s</div>
-                    <div class="detail-success">0.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'sentence-transformers/all-minilm-l6-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'aedc626c3cf78342b44ea91ddedc4ad4', 'status_code': 400}</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="cross-encoder/ms-marco-minilm-l-12-v2">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">ms-marco-minilm-l-12-v2<span class="new-label">NEW</span></div>
-                    <div class="detail-status not-supported">Not Supported</div>
-                    <div class="detail-time">0.792s</div>
-                    <div class="detail-success">0.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'cross-encoder/ms-marco-minilm-l-12-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'cccccfffc2608b83fb60a7f8d68fdb85', 'status_code': 400}</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="google/flan-t5-xl">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">flan-t5-xl<span class="new-label">NEW</span></div>
-                    <div class="detail-status not-supported">Not Supported</div>
-                    <div class="detail-time">0.144s</div>
-                    <div class="detail-success">0.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-t5-xl' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '43a4bf9460a99986288ec76d576a3449', 'status_code': 400}</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="google/flan-t5-xxl">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">flan-t5-xxl<span class="new-label">NEW</span></div>
-                    <div class="detail-status not-supported">Not Supported</div>
-                    <div class="detail-time">0.267s</div>
-                    <div class="detail-success">0.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-t5-xxl' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '50672928f39660149269ec3b3f7175c0', 'status_code': 400}</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="google/flan-ul2">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">flan-ul2<span class="new-label">NEW</span></div>
-                    <div class="detail-status not-supported">Not Supported</div>
-                    <div class="detail-time">0.248s</div>
-                    <div class="detail-success">0.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-ul2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '59bb5caa0e6d5da5db03c5447bf96ca5', 'status_code': 400}</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="ibm/granite-13b-instruct-v2">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">granite-13b-instruct-v2<span class="new-label">NEW</span></div>
-                    <div class="detail-status not-supported">Not Supported</div>
-                    <div class="detail-time">0.097s</div>
-                    <div class="detail-success">0.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-13b-instruct-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'f2531b826570190deedfbbb9130e7033', 'status_code': 400}</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="ibm/granite-3-1-8b-base">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">granite-3-1-8b-base<span class="new-label">NEW</span></div>
-                    <div class="detail-status not-supported">Not Supported</div>
-                    <div class="detail-time">0.156s</div>
-                    <div class="detail-success">0.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-3-1-8b-base' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '80b740092f4240ad204d034ca81668cd', 'status_code': 400}</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="ibm/granite-3-2-8b-instruct">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">granite-3-2-8b-instruct<span class="new-label">NEW</span></div>
-                    <div class="detail-status working">Working</div>
-                    <div class="detail-time">0.944s</div>
-                    <div class="detail-success">100.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Consistent success across all iterations</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="ibm/granite-3-2b-instruct">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">granite-3-2b-instruct<span class="new-label">NEW</span></div>
-                    <div class="detail-status unreliable">Unreliable</div>
-                    <div class="detail-time">0.983s</div>
-                    <div class="detail-success">100.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Inconsistent results across 20 iterations</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="ibm/granite-3-3-8b-instruct">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">granite-3-3-8b-instruct<span class="new-label">NEW</span></div>
-                    <div class="detail-status not-supported">Not Supported</div>
-                    <div class="detail-time">2.073s</div>
-                    <div class="detail-success">0.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Model does not support tool calling. Finish reason: stop. Response: <!DOCTYPE html>
-<html>
-<body>
-
-<script>
-// Import the hello_world function
-const helloWorld = {
-    english: function(name) { return 'Hello, ' + name + '!'; },
-    spanish: function(name) { return 'Hola, ' + name + '!'; },
-    french: function(name) { return 'Bonjour, ' + name + '!'; },
-    german: function(name) { return 'Hallo, ' + name + '!'; },
-    japanese: function(name) { return 'こんにちは, ' + name + '!'; }
-};
-
-// Use the spanish greeting for Daniel
-const name = "Daniel";
-let greeting = helloWorld.spanish(name);
-console.log(greeting);
-</script>
-
-</body>
-</html>
-
-Greeting: Hola, Daniel!</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="ibm/granite-3-8b-instruct">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">granite-3-8b-instruct<span class="new-label">NEW</span></div>
-                    <div class="detail-status unreliable">Unreliable</div>
-                    <div class="detail-time">1.847s</div>
-                    <div class="detail-success">100.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Inconsistent results across 20 iterations</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="ibm/granite-8b-code-instruct">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">granite-8b-code-instruct<span class="new-label">NEW</span></div>
-                    <div class="detail-status not-supported">Not Supported</div>
-                    <div class="detail-time">0.120s</div>
-                    <div class="detail-success">0.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-8b-code-instruct' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '008cdd8b083a3ea799bb4f8e32face64', 'status_code': 400}</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="ibm/granite-embedding-107m-multilingual">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">granite-embedding-107m-multilingual<span class="new-label">NEW</span></div>
-                    <div class="detail-status not-supported">Not Supported</div>
-                    <div class="detail-time">0.108s</div>
-                    <div class="detail-success">0.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-embedding-107m-multilingual' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'e9c02ff3ddb746ac7fe5dd0b93a3c54d', 'status_code': 400}</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="ibm/granite-embedding-278m-multilingual">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">granite-embedding-278m-multilingual<span class="new-label">NEW</span></div>
-                    <div class="detail-status not-supported">Not Supported</div>
-                    <div class="detail-time">0.193s</div>
-                    <div class="detail-success">0.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-embedding-278m-multilingual' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'ed206e4bb65781f05429b4513954b94c', 'status_code': 400}</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="ibm/granite-guardian-3-2b">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">granite-guardian-3-2b<span class="new-label">NEW</span></div>
-                    <div class="detail-status not-supported">Not Supported</div>
-                    <div class="detail-time">0.235s</div>
-                    <div class="detail-success">0.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-guardian-3-2b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '71240158f71d6043b289aa95dbf296b0', 'status_code': 400}</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="ibm/granite-guardian-3-8b">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">granite-guardian-3-8b<span class="new-label">NEW</span></div>
-                    <div class="detail-status not-supported">Not Supported</div>
-                    <div class="detail-time">0.233s</div>
-                    <div class="detail-success">0.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-guardian-3-8b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '9a7669ed2b4584fc6ced8a6f20f0cb49', 'status_code': 400}</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="ibm/granite-ttm-1024-96-r2">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">granite-ttm-1024-96-r2<span class="new-label">NEW</span></div>
-                    <div class="detail-status not-supported">Not Supported</div>
-                    <div class="detail-time">0.096s</div>
-                    <div class="detail-success">0.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-1024-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'df5465a87b132c57cf9ad3bbacbe327a', 'status_code': 400}</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="ibm/granite-ttm-1536-96-r2">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">granite-ttm-1536-96-r2<span class="new-label">NEW</span></div>
-                    <div class="detail-status not-supported">Not Supported</div>
-                    <div class="detail-time">0.107s</div>
-                    <div class="detail-success">0.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-1536-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'b632504b218e5018f334d22f7a9d13e4', 'status_code': 400}</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="ibm/granite-ttm-512-96-r2">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">granite-ttm-512-96-r2<span class="new-label">NEW</span></div>
-                    <div class="detail-status not-supported">Not Supported</div>
-                    <div class="detail-time">0.101s</div>
-                    <div class="detail-success">0.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-512-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '6c854ec1f565b8b07400f57d0365ed4a', 'status_code': 400}</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="ibm/granite-vision-3-2-2b">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">granite-vision-3-2-2b<span class="new-label">NEW</span></div>
-                    <div class="detail-status not-supported">Not Supported</div>
-                    <div class="detail-time">0.144s</div>
-                    <div class="detail-success">0.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-vision-3-2-2b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '1a5cd4a1f58c235fa46994f26891e906', 'status_code': 400}</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="ibm/slate-125m-english-rtrvr">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">slate-125m-english-rtrvr<span class="new-label">NEW</span></div>
-                    <div class="detail-status not-supported">Not Supported</div>
-                    <div class="detail-time">0.100s</div>
-                    <div class="detail-success">0.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-125m-english-rtrvr' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '24092f38cef2734551ad318387306408', 'status_code': 400}</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="ibm/slate-125m-english-rtrvr-v2">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">slate-125m-english-rtrvr-v2<span class="new-label">NEW</span></div>
-                    <div class="detail-status not-supported">Not Supported</div>
-                    <div class="detail-time">0.086s</div>
-                    <div class="detail-success">0.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-125m-english-rtrvr-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '74154a88e47087f8d821c8c98545490e', 'status_code': 400}</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="ibm/slate-30m-english-rtrvr">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">slate-30m-english-rtrvr<span class="new-label">NEW</span></div>
-                    <div class="detail-status not-supported">Not Supported</div>
-                    <div class="detail-time">0.200s</div>
-                    <div class="detail-success">0.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-30m-english-rtrvr' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '96dae0c7c2f520d147cc32ee2c96a5ec', 'status_code': 400}</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="ibm/slate-30m-english-rtrvr-v2">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">slate-30m-english-rtrvr-v2<span class="new-label">NEW</span></div>
-                    <div class="detail-status not-supported">Not Supported</div>
-                    <div class="detail-time">0.218s</div>
-                    <div class="detail-success">0.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-30m-english-rtrvr-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '8772ebec821f19177ad93c20b9c341a5', 'status_code': 400}</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="intfloat/multilingual-e5-large">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">multilingual-e5-large<span class="new-label">NEW</span></div>
-                    <div class="detail-status not-supported">Not Supported</div>
-                    <div class="detail-time">0.077s</div>
-                    <div class="detail-success">0.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'intfloat/multilingual-e5-large' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'e62edbc6a6bddd0c68f115f6bd020335', 'status_code': 400}</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="meta-llama/llama-2-13b-chat">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">llama-2-13b-chat<span class="new-label">NEW</span></div>
-                    <div class="detail-status not-supported">Not Supported</div>
-                    <div class="detail-time">0.090s</div>
-                    <div class="detail-success">0.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'meta-llama/llama-2-13b-chat' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '933fcc7d85f80223568e839be2bcd530', 'status_code': 400}</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="meta-llama/llama-3-1-8b">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">llama-3-1-8b<span class="new-label">NEW</span></div>
-                    <div class="detail-status not-supported">Not Supported</div>
-                    <div class="detail-time">0.197s</div>
-                    <div class="detail-success">0.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'meta-llama/llama-3-1-8b' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '693212e97b59e7dd2fb8ecaf0526b8f8', 'status_code': 400}</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="meta-llama/llama-3-2-11b-vision-instruct">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">llama-3-2-11b-vision-instruct<span class="new-label">NEW</span></div>
-                    <div class="detail-status working">Working</div>
-                    <div class="detail-time">1.157s</div>
-                    <div class="detail-success">100.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Consistent success across all iterations</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="meta-llama/llama-3-2-1b-instruct">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">llama-3-2-1b-instruct<span class="new-label">NEW</span></div>
-                    <div class="detail-status not-supported">Not Supported</div>
-                    <div class="detail-time">0.475s</div>
-                    <div class="detail-success">0.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Model does not support tool calling. Finish reason: stop. Response: <|python_tag|>{"type": "function", "function": "hello_world", "parameters": {"properties": {"language": "spanish", "name": "Daniel"}}}</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="meta-llama/llama-3-2-3b-instruct">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">llama-3-2-3b-instruct<span class="new-label">NEW</span></div>
-                    <div class="detail-status unreliable">Unreliable</div>
-                    <div class="detail-time">1.480s</div>
-                    <div class="detail-success">100.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Inconsistent results across 20 iterations</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="meta-llama/llama-3-2-90b-vision-instruct">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">llama-3-2-90b-vision-instruct<span class="new-label">NEW</span></div>
-                    <div class="detail-status working">Working</div>
-                    <div class="detail-time">1.980s</div>
-                    <div class="detail-success">100.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Consistent success across all iterations</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="meta-llama/llama-3-3-70b-instruct">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">llama-3-3-70b-instruct<span class="new-label">NEW</span></div>
-                    <div class="detail-status working">Working</div>
-                    <div class="detail-time">1.673s</div>
-                    <div class="detail-success">100.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Consistent success across all iterations</p>
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="detail-row" data-model="meta-llama/llama-3-405b-instruct">
-                    <div class="detail-date">2025-07-17</div>
-                    <div class="detail-model">llama-3-405b-instruct<span class="new-label">NEW</span></div>
-                    <div class="detail-status unreliable">Unreliable</div>
-                    <div class="detail-time">1.798s</div>
-                    <div class="detail-success">100.0%</div>
-                    <div class="detail-details">
-                        <div class="details-content">
-                            <h5>Test Details</h5>
-                            
-                            
-                            
-                            <p><strong>Details:</strong> Inconsistent results across 20 iterations</p>
-                        </div>
-                    </div>
-                </div>
-            
                 <div class="detail-row" data-model="meta-llama/llama-4-maverick-17b-128e-instruct-fp8">
                     <div class="detail-date">2025-07-17</div>
                     <div class="detail-model">llama-4-maverick-17b-128e-instruct-fp8<span class="new-label">NEW</span></div>
@@ -2557,158 +1850,985 @@ Greeting: Hola, Daniel!</p>
                     </div>
                 </div>
             
+                <div class="detail-row" data-model="cross-encoder/ms-marco-minilm-l-12-v2">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">ms-marco-minilm-l-12-v2<span class="new-label">NEW</span></div>
+                    <div class="detail-status not-supported">Not Supported</div>
+                    <div class="detail-time">0.671s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'cross-encoder/ms-marco-minilm-l-12-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '4f3ebbbfc5ed0297bbda517429d5d6d4', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="google/flan-t5-xl">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">flan-t5-xl<span class="new-label">NEW</span></div>
+                    <div class="detail-status not-supported">Not Supported</div>
+                    <div class="detail-time">0.107s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-t5-xl' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '5e66f8a4f3be6dcab6780a6225ccf393', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="google/flan-t5-xxl">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">flan-t5-xxl<span class="new-label">NEW</span></div>
+                    <div class="detail-status not-supported">Not Supported</div>
+                    <div class="detail-time">0.071s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-t5-xxl' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '70dc5f84533affdcab7790f4209c4602', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="google/flan-ul2">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">flan-ul2<span class="new-label">NEW</span></div>
+                    <div class="detail-status not-supported">Not Supported</div>
+                    <div class="detail-time">0.121s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-ul2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '3a9c1be23bfd2ffb7f1afb408f2e3c5e', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="ibm/granite-13b-instruct-v2">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">granite-13b-instruct-v2<span class="new-label">NEW</span></div>
+                    <div class="detail-status not-supported">Not Supported</div>
+                    <div class="detail-time">0.118s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-13b-instruct-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '8220320997458b3a5882bd63660a3a0c', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="ibm/granite-3-1-8b-base">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">granite-3-1-8b-base<span class="new-label">NEW</span></div>
+                    <div class="detail-status not-supported">Not Supported</div>
+                    <div class="detail-time">0.086s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-3-1-8b-base' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'a18839a98011b89278d36bdcf8396513', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="ibm/granite-3-2-8b-instruct">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">granite-3-2-8b-instruct<span class="new-label">NEW</span></div>
+                    <div class="detail-status working">Working</div>
+                    <div class="detail-time">0.947s</div>
+                    <div class="detail-success">100.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Consistent success across all iterations</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="ibm/granite-3-2b-instruct">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">granite-3-2b-instruct<span class="new-label">NEW</span></div>
+                    <div class="detail-status working">Working</div>
+                    <div class="detail-time">1.097s</div>
+                    <div class="detail-success">100.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Consistent success across all iterations</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="ibm/granite-3-3-8b-instruct">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">granite-3-3-8b-instruct<span class="new-label">NEW</span></div>
+                    <div class="detail-status unreliable">Unreliable</div>
+                    <div class="detail-time">0.595s</div>
+                    <div class="detail-success">60.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Inconsistent results across 20 iterations</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="ibm/granite-3-8b-instruct">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">granite-3-8b-instruct<span class="new-label">NEW</span></div>
+                    <div class="detail-status unreliable">Unreliable</div>
+                    <div class="detail-time">1.982s</div>
+                    <div class="detail-success">100.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Inconsistent results across 20 iterations</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="ibm/granite-8b-code-instruct">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">granite-8b-code-instruct<span class="new-label">NEW</span></div>
+                    <div class="detail-status not-supported">Not Supported</div>
+                    <div class="detail-time">0.092s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-8b-code-instruct' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '762df52fb27af8d70c0eb6139fc25064', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="ibm/granite-embedding-107m-multilingual">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">granite-embedding-107m-multilingual<span class="new-label">NEW</span></div>
+                    <div class="detail-status not-supported">Not Supported</div>
+                    <div class="detail-time">0.097s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-embedding-107m-multilingual' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '32b8265b1abe00ebb6443bf1833ed017', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="ibm/granite-embedding-278m-multilingual">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">granite-embedding-278m-multilingual<span class="new-label">NEW</span></div>
+                    <div class="detail-status not-supported">Not Supported</div>
+                    <div class="detail-time">0.080s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-embedding-278m-multilingual' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '80eca39dc38a1edf182eccde953d45ea', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="ibm/granite-guardian-3-2b">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">granite-guardian-3-2b<span class="new-label">NEW</span></div>
+                    <div class="detail-status not-supported">Not Supported</div>
+                    <div class="detail-time">0.225s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-guardian-3-2b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '2c534ba38f8c41622e4d8158baa05a08', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="ibm/granite-guardian-3-8b">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">granite-guardian-3-8b<span class="new-label">NEW</span></div>
+                    <div class="detail-status not-supported">Not Supported</div>
+                    <div class="detail-time">0.223s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-guardian-3-8b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '61b8651e4feab31f02db35284f883a4d', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="ibm/granite-ttm-1024-96-r2">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">granite-ttm-1024-96-r2<span class="new-label">NEW</span></div>
+                    <div class="detail-status not-supported">Not Supported</div>
+                    <div class="detail-time">0.082s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-1024-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'ace67da4060dd8a05f5649971557b9be', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="ibm/granite-ttm-1536-96-r2">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">granite-ttm-1536-96-r2<span class="new-label">NEW</span></div>
+                    <div class="detail-status not-supported">Not Supported</div>
+                    <div class="detail-time">0.077s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-1536-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'e88529266b9e7e56cd96c7cd54a9e641', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="ibm/granite-ttm-512-96-r2">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">granite-ttm-512-96-r2<span class="new-label">NEW</span></div>
+                    <div class="detail-status not-supported">Not Supported</div>
+                    <div class="detail-time">0.088s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-512-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '8f42b33c9d57fea0f7545bc2d65c9bef', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="ibm/granite-vision-3-2-2b">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">granite-vision-3-2-2b<span class="new-label">NEW</span></div>
+                    <div class="detail-status not-supported">Not Supported</div>
+                    <div class="detail-time">0.204s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-vision-3-2-2b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'c616e8134cab2ae6dd601eeb2e2c0a84', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="ibm/slate-125m-english-rtrvr">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">slate-125m-english-rtrvr<span class="new-label">NEW</span></div>
+                    <div class="detail-status not-supported">Not Supported</div>
+                    <div class="detail-time">0.101s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-125m-english-rtrvr' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '629c55f80915be52f24a80147e675b79', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="ibm/slate-125m-english-rtrvr-v2">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">slate-125m-english-rtrvr-v2<span class="new-label">NEW</span></div>
+                    <div class="detail-status not-supported">Not Supported</div>
+                    <div class="detail-time">0.089s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-125m-english-rtrvr-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'c6fdd94a5e2d9f709a0200853a8c9408', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="ibm/slate-30m-english-rtrvr">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">slate-30m-english-rtrvr<span class="new-label">NEW</span></div>
+                    <div class="detail-status not-supported">Not Supported</div>
+                    <div class="detail-time">0.096s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-30m-english-rtrvr' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '2cc741c038c2646b482aeeb7ee6e6f72', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="ibm/slate-30m-english-rtrvr-v2">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">slate-30m-english-rtrvr-v2<span class="new-label">NEW</span></div>
+                    <div class="detail-status not-supported">Not Supported</div>
+                    <div class="detail-time">0.079s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-30m-english-rtrvr-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '7741f9d24005751faa2f815eec85d098', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="intfloat/multilingual-e5-large">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">multilingual-e5-large<span class="new-label">NEW</span></div>
+                    <div class="detail-status not-supported">Not Supported</div>
+                    <div class="detail-time">0.088s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'intfloat/multilingual-e5-large' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '9da7eb04597946f84978066dec5229c2', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="meta-llama/llama-2-13b-chat">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">llama-2-13b-chat<span class="new-label">NEW</span></div>
+                    <div class="detail-status not-supported">Not Supported</div>
+                    <div class="detail-time">0.099s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'meta-llama/llama-2-13b-chat' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'f077f4dbd96ca5bca012979ef0ac66d8', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="meta-llama/llama-3-1-8b">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">llama-3-1-8b<span class="new-label">NEW</span></div>
+                    <div class="detail-status not-supported">Not Supported</div>
+                    <div class="detail-time">0.105s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'meta-llama/llama-3-1-8b' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '71f5fb385bb9f0f30d32ba3f2b376a1c', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="meta-llama/llama-3-2-11b-vision-instruct">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">llama-3-2-11b-vision-instruct<span class="new-label">NEW</span></div>
+                    <div class="detail-status working">Working</div>
+                    <div class="detail-time">0.980s</div>
+                    <div class="detail-success">100.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Consistent success across all iterations</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="meta-llama/llama-3-2-1b-instruct">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">llama-3-2-1b-instruct<span class="new-label">NEW</span></div>
+                    <div class="detail-status not-supported">Not Supported</div>
+                    <div class="detail-time">0.350s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Model does not support tool calling. Finish reason: stop. Response: <|python_tag|>{"type": "function", "function": "hello_world", "parameters": {"properties": {"language": "spanish", "name": "Daniel"}}}"</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="meta-llama/llama-3-2-3b-instruct">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">llama-3-2-3b-instruct<span class="new-label">NEW</span></div>
+                    <div class="detail-status unreliable">Unreliable</div>
+                    <div class="detail-time">1.320s</div>
+                    <div class="detail-success">100.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Inconsistent results across 20 iterations</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="meta-llama/llama-3-2-90b-vision-instruct">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">llama-3-2-90b-vision-instruct<span class="new-label">NEW</span></div>
+                    <div class="detail-status working">Working</div>
+                    <div class="detail-time">2.006s</div>
+                    <div class="detail-success">100.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Consistent success across all iterations</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="meta-llama/llama-3-3-70b-instruct">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">llama-3-3-70b-instruct<span class="new-label">NEW</span></div>
+                    <div class="detail-status working">Working</div>
+                    <div class="detail-time">1.580s</div>
+                    <div class="detail-success">100.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Consistent success across all iterations</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="meta-llama/llama-3-405b-instruct">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">llama-3-405b-instruct<span class="new-label">NEW</span></div>
+                    <div class="detail-status unreliable">Unreliable</div>
+                    <div class="detail-time">1.635s</div>
+                    <div class="detail-success">95.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Inconsistent results across 20 iterations</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="meta-llama/llama-4-maverick-17b-128e-instruct-fp8">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">llama-4-maverick-17b-128e-instruct-fp8<span class="new-label">NEW</span></div>
+                    <div class="detail-status unreliable">Unreliable</div>
+                    <div class="detail-time">3.738s</div>
+                    <div class="detail-success">95.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Inconsistent results across 20 iterations</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="meta-llama/llama-guard-3-11b-vision">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">llama-guard-3-11b-vision<span class="new-label">NEW</span></div>
+                    <div class="detail-status not-supported">Not Supported</div>
+                    <div class="detail-time">0.198s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'meta-llama/llama-guard-3-11b-vision\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '9fae0e0d9ea4e8444be454124611815f', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="mistralai/mistral-large">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">mistral-large<span class="new-label">NEW</span></div>
+                    <div class="detail-status unreliable">Unreliable</div>
+                    <div class="detail-time">1.175s</div>
+                    <div class="detail-success">100.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Inconsistent results across 20 iterations</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="mistralai/mistral-medium-2505">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">mistral-medium-2505<span class="new-label">NEW</span></div>
+                    <div class="detail-status working">Working</div>
+                    <div class="detail-time">0.896s</div>
+                    <div class="detail-success">100.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Consistent success across all iterations</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="mistralai/mistral-small-3-1-24b-instruct-2503">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">mistral-small-3-1-24b-instruct-2503<span class="new-label">NEW</span></div>
+                    <div class="detail-status unreliable">Unreliable</div>
+                    <div class="detail-time">0.743s</div>
+                    <div class="detail-success">100.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Inconsistent results across 20 iterations</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="mistralai/mixtral-8x7b-instruct-v01">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">mixtral-8x7b-instruct-v01<span class="new-label">NEW</span></div>
+                    <div class="detail-status not-supported">Not Supported</div>
+                    <div class="detail-time">0.147s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'mistralai/mixtral-8x7b-instruct-v01\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '7a8209ed42b8466cab05e02438672bda', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="mistralai/pixtral-12b">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">pixtral-12b<span class="new-label">NEW</span></div>
+                    <div class="detail-status not-supported">Not Supported</div>
+                    <div class="detail-time">0.489s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Model does not support tool calling. Finish reason: stop. Response: [TOOL_CALLS][{"name": "hello_world", "arguments": {"language": "spanish", "name": "Daniel"}}]</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="sentence-transformers/all-minilm-l12-v2">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">all-minilm-l12-v2<span class="new-label">NEW</span></div>
+                    <div class="detail-status not-supported">Not Supported</div>
+                    <div class="detail-time">0.083s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'sentence-transformers/all-minilm-l12-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '9dc697fb3d687f6841d08e0cb4e88942', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="detail-row" data-model="sentence-transformers/all-minilm-l6-v2">
+                    <div class="detail-date">2025-07-17</div>
+                    <div class="detail-model">all-minilm-l6-v2<span class="new-label">NEW</span></div>
+                    <div class="detail-status not-supported">Not Supported</div>
+                    <div class="detail-time">0.083s</div>
+                    <div class="detail-success">0.0%</div>
+                    <div class="detail-details">
+                        <div class="details-content">
+                            <h5>Test Details</h5>
+                            
+                            
+                            
+                            <p><strong>Details:</strong> Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'sentence-transformers/all-minilm-l6-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'd23086080cda37199a52484dc78b9419', 'status_code': 400}</p>
+                        </div>
+                    </div>
+                </div>
+            
                 </div>
             </div>
         </section>
         
         
         <section class="section">
-            <h2>❌ Models Without Tool Support (28 models)</h2>
+            <h2>❌ Models Without Tool Support (29 models)</h2>
             <p style="color: #666; margin-bottom: 20px;">
                 These models do not support tool calling and are listed here for reference.
             </p>
             <div class="unsupported-models-grid">
                 
-            <div class="unsupported-model-item">
-                <span class="model-name">cross-encoder/ms-marco-minilm-l-12-v2<span class="new-label">NEW</span></span>
-                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
-            </div>
-            
-            <div class="unsupported-model-item">
-                <span class="model-name">google/flan-t5-xl<span class="new-label">NEW</span></span>
-                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
-            </div>
-            
-            <div class="unsupported-model-item">
-                <span class="model-name">google/flan-t5-xxl<span class="new-label">NEW</span></span>
-                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
-            </div>
-            
-            <div class="unsupported-model-item">
-                <span class="model-name">google/flan-ul2<span class="new-label">NEW</span></span>
-                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
-            </div>
-            
-            <div class="unsupported-model-item">
-                <span class="model-name">ibm/granite-13b-instruct-v2<span class="new-label">NEW</span></span>
-                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
-            </div>
-            
-            <div class="unsupported-model-item">
-                <span class="model-name">ibm/granite-3-1-8b-base<span class="new-label">NEW</span></span>
-                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
-            </div>
-            
-            <div class="unsupported-model-item">
-                <span class="model-name">ibm/granite-8b-code-instruct<span class="new-label">NEW</span></span>
-                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
-            </div>
-            
-            <div class="unsupported-model-item">
-                <span class="model-name">ibm/granite-embedding-107m-multilingual<span class="new-label">NEW</span></span>
-                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
-            </div>
-            
-            <div class="unsupported-model-item">
-                <span class="model-name">ibm/granite-embedding-278m-multilingual<span class="new-label">NEW</span></span>
-                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
-            </div>
-            
-            <div class="unsupported-model-item">
-                <span class="model-name">ibm/granite-guardian-3-2b<span class="new-label">NEW</span></span>
-                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Inva...</span>
-            </div>
-            
-            <div class="unsupported-model-item">
-                <span class="model-name">ibm/granite-guardian-3-8b<span class="new-label">NEW</span></span>
-                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Inva...</span>
-            </div>
-            
-            <div class="unsupported-model-item">
-                <span class="model-name">ibm/granite-ttm-1024-96-r2<span class="new-label">NEW</span></span>
-                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
-            </div>
-            
-            <div class="unsupported-model-item">
-                <span class="model-name">ibm/granite-ttm-1536-96-r2<span class="new-label">NEW</span></span>
-                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
-            </div>
-            
-            <div class="unsupported-model-item">
-                <span class="model-name">ibm/granite-ttm-512-96-r2<span class="new-label">NEW</span></span>
-                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
-            </div>
-            
-            <div class="unsupported-model-item">
-                <span class="model-name">ibm/granite-vision-3-2-2b<span class="new-label">NEW</span></span>
-                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Inva...</span>
-            </div>
-            
-            <div class="unsupported-model-item">
-                <span class="model-name">ibm/slate-125m-english-rtrvr<span class="new-label">NEW</span></span>
-                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
-            </div>
-            
-            <div class="unsupported-model-item">
-                <span class="model-name">ibm/slate-125m-english-rtrvr-v2<span class="new-label">NEW</span></span>
-                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
-            </div>
-            
-            <div class="unsupported-model-item">
-                <span class="model-name">ibm/slate-30m-english-rtrvr<span class="new-label">NEW</span></span>
-                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
-            </div>
-            
-            <div class="unsupported-model-item">
-                <span class="model-name">ibm/slate-30m-english-rtrvr-v2<span class="new-label">NEW</span></span>
-                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
-            </div>
-            
-            <div class="unsupported-model-item">
-                <span class="model-name">intfloat/multilingual-e5-large<span class="new-label">NEW</span></span>
-                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
-            </div>
-            
-            <div class="unsupported-model-item">
-                <span class="model-name">meta-llama/llama-2-13b-chat<span class="new-label">NEW</span></span>
-                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
-            </div>
-            
-            <div class="unsupported-model-item">
-                <span class="model-name">meta-llama/llama-3-1-8b<span class="new-label">NEW</span></span>
-                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
-            </div>
-            
-            <div class="unsupported-model-item">
-                <span class="model-name">meta-llama/llama-3-2-1b-instruct<span class="new-label">NEW</span></span>
-                <span class="model-details">Model does not support tool calling. Finish reason: stop. Response: <|python_tag|>{"type": "function...</span>
-            </div>
-            
-            <div class="unsupported-model-item">
-                <span class="model-name">meta-llama/llama-guard-3-11b-vision<span class="new-label">NEW</span></span>
-                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Inva...</span>
-            </div>
-            
-            <div class="unsupported-model-item">
-                <span class="model-name">mistralai/mixtral-8x7b-instruct-v01<span class="new-label">NEW</span></span>
-                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Inva...</span>
-            </div>
-            
-            <div class="unsupported-model-item">
-                <span class="model-name">mistralai/pixtral-12b<span class="new-label">NEW</span></span>
-                <span class="model-details">Model does not support tool calling. Finish reason: stop. Response: [TOOL_CALLS][{"name": "hello_wor...</span>
-            </div>
-            
-            <div class="unsupported-model-item">
-                <span class="model-name">sentence-transformers/all-minilm-l12-v2<span class="new-label">NEW</span></span>
-                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
-            </div>
-            
-            <div class="unsupported-model-item">
-                <span class="model-name">sentence-transformers/all-minilm-l6-v2<span class="new-label">NEW</span></span>
-                <span class="model-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
-            </div>
-            
+                <div class="unsupported-model-item">
+                    <span class="model-name">cross-encoder/ms-marco-minilm-l-12-v2<span class="new-label">NEW</span></span>
+                    <span class="model-details">
+                        <span class="short-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+                        <span class="full-details" style="display: none;">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'cross-encoder/ms-marco-minilm-l-12-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '36cdeb30df8ad56faf8d3fd358775731', 'status_code': 400}</span>
+                        <button class="expand-btn" onclick="toggleUnsupportedDetails(this)">Show More</button>
+                    </span>
+                </div>
+                
+                <div class="unsupported-model-item">
+                    <span class="model-name">google/flan-t5-xl<span class="new-label">NEW</span></span>
+                    <span class="model-details">
+                        <span class="short-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+                        <span class="full-details" style="display: none;">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-t5-xl' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '19fdf2d5e66d40a8596f6eda622157f9', 'status_code': 400}</span>
+                        <button class="expand-btn" onclick="toggleUnsupportedDetails(this)">Show More</button>
+                    </span>
+                </div>
+                
+                <div class="unsupported-model-item">
+                    <span class="model-name">google/flan-t5-xxl<span class="new-label">NEW</span></span>
+                    <span class="model-details">
+                        <span class="short-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+                        <span class="full-details" style="display: none;">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-t5-xxl' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '82ef8e37dc897aaf0c576a95459a7637', 'status_code': 400}</span>
+                        <button class="expand-btn" onclick="toggleUnsupportedDetails(this)">Show More</button>
+                    </span>
+                </div>
+                
+                <div class="unsupported-model-item">
+                    <span class="model-name">google/flan-ul2<span class="new-label">NEW</span></span>
+                    <span class="model-details">
+                        <span class="short-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+                        <span class="full-details" style="display: none;">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'google/flan-ul2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '67992d521045730664a29ef11afb8fa6', 'status_code': 400}</span>
+                        <button class="expand-btn" onclick="toggleUnsupportedDetails(this)">Show More</button>
+                    </span>
+                </div>
+                
+                <div class="unsupported-model-item">
+                    <span class="model-name">ibm/granite-13b-instruct-v2<span class="new-label">NEW</span></span>
+                    <span class="model-details">
+                        <span class="short-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+                        <span class="full-details" style="display: none;">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-13b-instruct-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '7a1a267b905232a7ed1c4d7707eacb0a', 'status_code': 400}</span>
+                        <button class="expand-btn" onclick="toggleUnsupportedDetails(this)">Show More</button>
+                    </span>
+                </div>
+                
+                <div class="unsupported-model-item">
+                    <span class="model-name">ibm/granite-3-1-8b-base<span class="new-label">NEW</span></span>
+                    <span class="model-details">
+                        <span class="short-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+                        <span class="full-details" style="display: none;">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-3-1-8b-base' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'dab18089cf71e73dc9e6286e9605a7c2', 'status_code': 400}</span>
+                        <button class="expand-btn" onclick="toggleUnsupportedDetails(this)">Show More</button>
+                    </span>
+                </div>
+                
+                <div class="unsupported-model-item">
+                    <span class="model-name">ibm/granite-3-3-8b-instruct<span class="new-label">NEW</span></span>
+                    <span class="model-details">
+                        <span class="short-details">Model does not support tool calling. Finish reason: stop. Response: ```json
+{
+  "response": "hello_w...</span>
+                        <span class="full-details" style="display: none;">Model does not support tool calling. Finish reason: stop. Response: ```json
+{
+  "response": "hello_world": {
+    "language": "spanish",
+    "name": "Daniel"
+  }
+}
+```</span>
+                        <button class="expand-btn" onclick="toggleUnsupportedDetails(this)">Show More</button>
+                    </span>
+                </div>
+                
+                <div class="unsupported-model-item">
+                    <span class="model-name">ibm/granite-8b-code-instruct<span class="new-label">NEW</span></span>
+                    <span class="model-details">
+                        <span class="short-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+                        <span class="full-details" style="display: none;">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-8b-code-instruct' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'c6cebffd48e50aeb7b28759055e46328', 'status_code': 400}</span>
+                        <button class="expand-btn" onclick="toggleUnsupportedDetails(this)">Show More</button>
+                    </span>
+                </div>
+                
+                <div class="unsupported-model-item">
+                    <span class="model-name">ibm/granite-embedding-107m-multilingual<span class="new-label">NEW</span></span>
+                    <span class="model-details">
+                        <span class="short-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+                        <span class="full-details" style="display: none;">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-embedding-107m-multilingual' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '137cedb00c721e49e7877bedec2e3912', 'status_code': 400}</span>
+                        <button class="expand-btn" onclick="toggleUnsupportedDetails(this)">Show More</button>
+                    </span>
+                </div>
+                
+                <div class="unsupported-model-item">
+                    <span class="model-name">ibm/granite-embedding-278m-multilingual<span class="new-label">NEW</span></span>
+                    <span class="model-details">
+                        <span class="short-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+                        <span class="full-details" style="display: none;">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-embedding-278m-multilingual' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'b151884eed9269ef189f0be837a451a5', 'status_code': 400}</span>
+                        <button class="expand-btn" onclick="toggleUnsupportedDetails(this)">Show More</button>
+                    </span>
+                </div>
+                
+                <div class="unsupported-model-item">
+                    <span class="model-name">ibm/granite-guardian-3-2b<span class="new-label">NEW</span></span>
+                    <span class="model-details">
+                        <span class="short-details">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Inva...</span>
+                        <span class="full-details" style="display: none;">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-guardian-3-2b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '506d2c1ea2e3bad48d13029891f0224e', 'status_code': 400}</span>
+                        <button class="expand-btn" onclick="toggleUnsupportedDetails(this)">Show More</button>
+                    </span>
+                </div>
+                
+                <div class="unsupported-model-item">
+                    <span class="model-name">ibm/granite-guardian-3-8b<span class="new-label">NEW</span></span>
+                    <span class="model-details">
+                        <span class="short-details">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Inva...</span>
+                        <span class="full-details" style="display: none;">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-guardian-3-8b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '111d290439c18ca9e804d811139aee50', 'status_code': 400}</span>
+                        <button class="expand-btn" onclick="toggleUnsupportedDetails(this)">Show More</button>
+                    </span>
+                </div>
+                
+                <div class="unsupported-model-item">
+                    <span class="model-name">ibm/granite-ttm-1024-96-r2<span class="new-label">NEW</span></span>
+                    <span class="model-details">
+                        <span class="short-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+                        <span class="full-details" style="display: none;">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-1024-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '24249e3d416f05c2190dd2ddf06902a7', 'status_code': 400}</span>
+                        <button class="expand-btn" onclick="toggleUnsupportedDetails(this)">Show More</button>
+                    </span>
+                </div>
+                
+                <div class="unsupported-model-item">
+                    <span class="model-name">ibm/granite-ttm-1536-96-r2<span class="new-label">NEW</span></span>
+                    <span class="model-details">
+                        <span class="short-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+                        <span class="full-details" style="display: none;">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-1536-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '255af41262ec951e32da191a77834e75', 'status_code': 400}</span>
+                        <button class="expand-btn" onclick="toggleUnsupportedDetails(this)">Show More</button>
+                    </span>
+                </div>
+                
+                <div class="unsupported-model-item">
+                    <span class="model-name">ibm/granite-ttm-512-96-r2<span class="new-label">NEW</span></span>
+                    <span class="model-details">
+                        <span class="short-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+                        <span class="full-details" style="display: none;">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/granite-ttm-512-96-r2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '5b803ee992511f79e901ca8f6b20c768', 'status_code': 400}</span>
+                        <button class="expand-btn" onclick="toggleUnsupportedDetails(this)">Show More</button>
+                    </span>
+                </div>
+                
+                <div class="unsupported-model-item">
+                    <span class="model-name">ibm/granite-vision-3-2-2b<span class="new-label">NEW</span></span>
+                    <span class="model-details">
+                        <span class="short-details">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Inva...</span>
+                        <span class="full-details" style="display: none;">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'ibm/granite-vision-3-2-2b\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '79e34aa929195f3cfd202e0eb06b7091', 'status_code': 400}</span>
+                        <button class="expand-btn" onclick="toggleUnsupportedDetails(this)">Show More</button>
+                    </span>
+                </div>
+                
+                <div class="unsupported-model-item">
+                    <span class="model-name">ibm/slate-125m-english-rtrvr<span class="new-label">NEW</span></span>
+                    <span class="model-details">
+                        <span class="short-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+                        <span class="full-details" style="display: none;">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-125m-english-rtrvr' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '63701da92a235fec1fe1eb2640daa5ba', 'status_code': 400}</span>
+                        <button class="expand-btn" onclick="toggleUnsupportedDetails(this)">Show More</button>
+                    </span>
+                </div>
+                
+                <div class="unsupported-model-item">
+                    <span class="model-name">ibm/slate-125m-english-rtrvr-v2<span class="new-label">NEW</span></span>
+                    <span class="model-details">
+                        <span class="short-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+                        <span class="full-details" style="display: none;">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-125m-english-rtrvr-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '795faf13589e2c8fa30ea36a41b059a1', 'status_code': 400}</span>
+                        <button class="expand-btn" onclick="toggleUnsupportedDetails(this)">Show More</button>
+                    </span>
+                </div>
+                
+                <div class="unsupported-model-item">
+                    <span class="model-name">ibm/slate-30m-english-rtrvr<span class="new-label">NEW</span></span>
+                    <span class="model-details">
+                        <span class="short-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+                        <span class="full-details" style="display: none;">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-30m-english-rtrvr' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '21fc452f6ee276b3e43b662a49857d76', 'status_code': 400}</span>
+                        <button class="expand-btn" onclick="toggleUnsupportedDetails(this)">Show More</button>
+                    </span>
+                </div>
+                
+                <div class="unsupported-model-item">
+                    <span class="model-name">ibm/slate-30m-english-rtrvr-v2<span class="new-label">NEW</span></span>
+                    <span class="model-details">
+                        <span class="short-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+                        <span class="full-details" style="display: none;">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'ibm/slate-30m-english-rtrvr-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '07d1c70d0c9128bc1077c6fc3d03692c', 'status_code': 400}</span>
+                        <button class="expand-btn" onclick="toggleUnsupportedDetails(this)">Show More</button>
+                    </span>
+                </div>
+                
+                <div class="unsupported-model-item">
+                    <span class="model-name">intfloat/multilingual-e5-large<span class="new-label">NEW</span></span>
+                    <span class="model-details">
+                        <span class="short-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+                        <span class="full-details" style="display: none;">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'intfloat/multilingual-e5-large' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '87e9fdf75c794f9456a124f4411ab0f3', 'status_code': 400}</span>
+                        <button class="expand-btn" onclick="toggleUnsupportedDetails(this)">Show More</button>
+                    </span>
+                </div>
+                
+                <div class="unsupported-model-item">
+                    <span class="model-name">meta-llama/llama-2-13b-chat<span class="new-label">NEW</span></span>
+                    <span class="model-details">
+                        <span class="short-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+                        <span class="full-details" style="display: none;">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'meta-llama/llama-2-13b-chat' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '008a499253af45692c52abaa89c106cc', 'status_code': 400}</span>
+                        <button class="expand-btn" onclick="toggleUnsupportedDetails(this)">Show More</button>
+                    </span>
+                </div>
+                
+                <div class="unsupported-model-item">
+                    <span class="model-name">meta-llama/llama-3-1-8b<span class="new-label">NEW</span></span>
+                    <span class="model-details">
+                        <span class="short-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+                        <span class="full-details" style="display: none;">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'meta-llama/llama-3-1-8b' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'c2ffab0c0bd2df23df100263341605a1', 'status_code': 400}</span>
+                        <button class="expand-btn" onclick="toggleUnsupportedDetails(this)">Show More</button>
+                    </span>
+                </div>
+                
+                <div class="unsupported-model-item">
+                    <span class="model-name">meta-llama/llama-3-2-1b-instruct<span class="new-label">NEW</span></span>
+                    <span class="model-details">
+                        <span class="short-details">Model does not support tool calling. Finish reason: stop. Response: <|python_tag|>{"type": "function...</span>
+                        <span class="full-details" style="display: none;">Model does not support tool calling. Finish reason: stop. Response: <|python_tag|>{"type": "function", "function": "hello_world", "parameters": {"properties": {"language": "spanish", "name": "Daniel"}}}</span>
+                        <button class="expand-btn" onclick="toggleUnsupportedDetails(this)">Show More</button>
+                    </span>
+                </div>
+                
+                <div class="unsupported-model-item">
+                    <span class="model-name">meta-llama/llama-guard-3-11b-vision<span class="new-label">NEW</span></span>
+                    <span class="model-details">
+                        <span class="short-details">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Inva...</span>
+                        <span class="full-details" style="display: none;">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'meta-llama/llama-guard-3-11b-vision\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'ddf78cdeac436117932c4a2aa180a8c4', 'status_code': 400}</span>
+                        <button class="expand-btn" onclick="toggleUnsupportedDetails(this)">Show More</button>
+                    </span>
+                </div>
+                
+                <div class="unsupported-model-item">
+                    <span class="model-name">mistralai/mixtral-8x7b-instruct-v01<span class="new-label">NEW</span></span>
+                    <span class="model-details">
+                        <span class="short-details">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Inva...</span>
+                        <span class="full-details" style="display: none;">Model does not support tool calling: {'errors': [{'code': 'invalid_input_argument', 'message': 'Invalid input argument for Model \'mistralai/mixtral-8x7b-instruct-v01\': {"object":"error","message":"\\"auto\\" tool choice requires --enable-auto-tool-choice and --tool-call-parser to be set","type":"BadRequestError","param":null,"code":400}', 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'e33ddd4628885f0778e9b9cb15be419b', 'status_code': 400}</span>
+                        <button class="expand-btn" onclick="toggleUnsupportedDetails(this)">Show More</button>
+                    </span>
+                </div>
+                
+                <div class="unsupported-model-item">
+                    <span class="model-name">mistralai/pixtral-12b<span class="new-label">NEW</span></span>
+                    <span class="model-details">
+                        <span class="short-details">Model does not support tool calling. Finish reason: stop. Response: [TOOL_CALLS][{"name": "hello_wor...</span>
+                        <span class="full-details" style="display: none;">Model does not support tool calling. Finish reason: stop. Response: [TOOL_CALLS][{"name": "hello_world", "arguments": {"language": "spanish", "name": "Daniel"}}]</span>
+                        <button class="expand-btn" onclick="toggleUnsupportedDetails(this)">Show More</button>
+                    </span>
+                </div>
+                
+                <div class="unsupported-model-item">
+                    <span class="model-name">sentence-transformers/all-minilm-l12-v2<span class="new-label">NEW</span></span>
+                    <span class="model-details">
+                        <span class="short-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+                        <span class="full-details" style="display: none;">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'sentence-transformers/all-minilm-l12-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '78551047eff7b034a2a9783c65144e1a', 'status_code': 400}</span>
+                        <button class="expand-btn" onclick="toggleUnsupportedDetails(this)">Show More</button>
+                    </span>
+                </div>
+                
+                <div class="unsupported-model-item">
+                    <span class="model-name">sentence-transformers/all-minilm-l6-v2<span class="new-label">NEW</span></span>
+                    <span class="model-details">
+                        <span class="short-details">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message'...</span>
+                        <span class="full-details" style="display: none;">Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': "Model 'sentence-transformers/all-minilm-l6-v2' does not support function 'function_text_chat'", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '9ac3a40c8e992307062aab053cc45cab', 'status_code': 400}</span>
+                        <button class="expand-btn" onclick="toggleUnsupportedDetails(this)">Show More</button>
+                    </span>
+                </div>
+                
             </div>
         </section>
         
@@ -2788,6 +2908,21 @@ Greeting: Hola, Daniel!</p>
             } else {
                 expandedContent.style.display = 'none';
                 element.textContent = '▼';
+            }
+        }
+
+        function toggleUnsupportedDetails(button) {
+            const shortDetails = button.parentElement.querySelector('.short-details');
+            const fullDetails = button.parentElement.querySelector('.full-details');
+            
+            if (fullDetails.style.display === 'none') {
+                shortDetails.style.display = 'none';
+                fullDetails.style.display = 'block';
+                button.textContent = 'Show Less';
+            } else {
+                shortDetails.style.display = 'inline';
+                fullDetails.style.display = 'none';
+                button.textContent = 'Show More';
             }
         }
 
