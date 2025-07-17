@@ -21,7 +21,7 @@ class TestHTMLReportGenerator:
         # Sample test results
         results = [
             {
-                "model": "test-model-1",
+                "model": "mock-test-model-1",
                 "tool_call_support": True,
                 "handles_response": True,
                 "details": "Success",
@@ -32,7 +32,7 @@ class TestHTMLReportGenerator:
                 },
             },
             {
-                "model": "test-model-2",
+                "model": "mock-test-model-2",
                 "tool_call_support": True,
                 "handles_response": False,
                 "details": "Called tool but ignored result",
@@ -43,7 +43,7 @@ class TestHTMLReportGenerator:
                 },
             },
             {
-                "model": "test-model-3",
+                "model": "mock-test-model-3",
                 "tool_call_support": False,
                 "handles_response": False,
                 "details": "No tool calling support",
@@ -64,7 +64,7 @@ class TestHTMLReportGenerator:
             "avg_response_time": 0.75,
             "avg_total_time": 2.25,
             "fastest_model": {
-                "model": "test-model-1",
+                "model": "mock-test-model-1",
                 "time": 1.5,
             },
         }
@@ -76,7 +76,7 @@ class TestHTMLReportGenerator:
         assert "<!DOCTYPE html>" in html_content
         assert '<html lang="en">' in html_content
         assert "WatsonX Tool Test Report" in html_content
-        assert "test-model-1" in html_content
+        assert "mock-test-model-1" in html_content
         assert "test-model-2" in html_content
         assert "test-model-3" in html_content
 

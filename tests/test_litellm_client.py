@@ -40,7 +40,7 @@ def test_initialization():
     config = {
         "base_url": "https://test-url.com",
         "auth_token": "test-token",
-        "model": "test-model",
+        "model": "mock-test-model",
         "debug": True,
         "temperature": 0.5,
         "max_tokens": 100,
@@ -49,7 +49,7 @@ def test_initialization():
 
     assert client.base_url == "https://test-url.com"
     assert client.auth_token == "test-token"
-    assert client.model == "test-model"
+    assert client.model == "mock-test-model"
     assert client.debug is True
     assert client.temperature == 0.5
     assert client.max_tokens == 100

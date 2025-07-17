@@ -54,13 +54,13 @@ class TestCLIWithMocks:
         """Set up mocks for all API-calling methods"""
         # Create mock model data to return
         self.test_models = [
-            {"id": "test-model-1", "name": "Test Model 1"},
-            {"id": "test-model-2", "name": "Test Model 2"},
+            {"id": "mock-test-model-1", "name": "Mock Test Model 1"},
+            {"id": "mock-test-model-2", "name": "Mock Test Model 2"},
         ]
 
         self.test_results = [
             {
-                "model": "test-model-1",
+                "model": "mock-test-model-1",
                 "tool_call_support": True,
                 "handles_response": True,
                 "details": "Successfully called tool",
@@ -71,7 +71,7 @@ class TestCLIWithMocks:
                 },
             },
             {
-                "model": "test-model-2",
+                "model": "mock-test-model-2",
                 "tool_call_support": False,
                 "handles_response": False,
                 "details": "Failed to call tool",
@@ -151,7 +151,7 @@ class TestCLIWithMocks:
                 "--watsonx-project-id",
                 "test-project",
                 "--model",
-                "test-model-1",
+                "mock-test-model-1",
             ],
         )
 
@@ -195,8 +195,8 @@ class TestCLIWithMocks:
 
         assert result.exit_code == 0
         assert "Available models" in result.stdout
-        assert "test-model-1" in result.stdout
-        assert "test-model-2" in result.stdout
+        assert "mock-test-model-1" in result.stdout
+        assert "mock-test-model-2" in result.stdout
 
     def test_list_models_command_with_validation_failure(
         self, runner, monkeypatch

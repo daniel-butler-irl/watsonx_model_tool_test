@@ -260,6 +260,19 @@ class HTMLReportGenerator:
             color: #721c24;
         }
 
+        .new-label {
+            background: linear-gradient(135deg, #9333ea, #7c3aed);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7em;
+            font-weight: 600;
+            margin-left: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 1px 3px rgba(147, 51, 234, 0.3);
+        }
+
         .results-table {
             width: 100%;
             border-collapse: collapse;
@@ -544,6 +557,12 @@ class HTMLReportGenerator:
             padding: 24px;
             margin-bottom: 24px;
             box-shadow: var(--shadow);
+            overflow-x: auto;
+        }
+        
+        .history-container {
+            min-width: 800px;
+            width: 100%;
         }
 
         .history-legend {
@@ -564,33 +583,42 @@ class HTMLReportGenerator:
             background: #fafafa;
             border: 1px solid var(--border-color);
             border-radius: var(--border-radius);
-            overflow: hidden;
+            overflow-x: auto;
+            overflow-y: hidden;
         }
 
         .chart-header {
             display: flex;
             background: #f0f0f0;
             border-bottom: 1px solid var(--border-color);
+            min-width: max-content;
         }
 
         .model-header {
-            width: 200px;
+            min-width: 200px;
+            max-width: 250px;
             padding: 12px;
             font-weight: 600;
             border-right: 1px solid var(--border-color);
+            flex-shrink: 0;
         }
 
         .timeline-header {
             display: flex;
             flex: 1;
+            min-width: 0;
         }
 
         .date-header {
-            width: 20px;
-            padding: 12px 4px;
+            min-width: 24px;
+            flex: 1;
+            padding: 12px 2px;
             text-align: center;
-            font-size: 0.8em;
+            font-size: 0.7em;
             color: #666;
+            writing-mode: vertical-lr;
+            text-orientation: mixed;
+            white-space: nowrap;
         }
 
         .chart-body {
@@ -601,6 +629,7 @@ class HTMLReportGenerator:
         .model-row {
             display: flex;
             border-bottom: 1px solid var(--border-color);
+            min-width: max-content;
         }
 
         .model-row:last-child {
@@ -608,11 +637,13 @@ class HTMLReportGenerator:
         }
 
         .model-info {
-            width: 200px;
+            min-width: 200px;
+            max-width: 250px;
             padding: 12px;
             border-right: 1px solid var(--border-color);
             display: flex;
             flex-direction: column;
+            flex-shrink: 0;
         }
 
         .model-name {
@@ -626,14 +657,17 @@ class HTMLReportGenerator:
             flex: 1;
             align-items: center;
             padding: 8px 0;
+            min-width: 0;
         }
 
         .status-cell {
-            width: 20px;
-            height: 20px;
-            margin: 0 2px;
+            min-width: 24px;
+            height: 24px;
+            flex: 1;
+            margin: 0 1px;
             border-radius: 3px;
             cursor: pointer;
+            position: relative;
         }
 
         .status-working {
@@ -655,6 +689,118 @@ class HTMLReportGenerator:
         .status-cell:hover {
             transform: scale(1.2);
             transition: transform 0.2s ease;
+            z-index: 10;
+            position: relative;
+        }
+        
+        .status-cell[title] {
+            white-space: pre-line;
+        }
+        
+        /* Responsive adjustments for timeline */
+        @media (max-width: 1200px) {
+            .date-header {
+                font-size: 0.6em;
+                min-width: 20px;
+            }
+            
+            .status-cell {
+                min-width: 20px;
+                height: 20px;
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .history-container {
+                min-width: 600px;
+            }
+            
+            .model-header,
+            .model-info {
+                min-width: 150px;
+                max-width: 150px;
+            }
+            
+            .date-header {
+                font-size: 0.5em;
+                min-width: 18px;
+            }
+            
+            .status-cell {
+                min-width: 18px;
+                height: 18px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .history-section {
+                padding: 16px;
+            }
+            
+            .history-container {
+                min-width: 500px;
+            }
+            
+            .model-header,
+            .model-info {
+                min-width: 120px;
+                max-width: 120px;
+                font-size: 0.9em;
+            }
+            
+            .date-header {
+                font-size: 0.4em;
+                min-width: 16px;
+                padding: 8px 1px;
+            }
+            
+            .status-cell {
+                min-width: 16px;
+                height: 16px;
+            }
+            
+            .chart-body {
+                max-height: 400px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .history-container {
+                min-width: 400px;
+            }
+            
+            .model-header,
+            .model-info {
+                min-width: 100px;
+                max-width: 100px;
+                font-size: 0.8em;
+                padding: 8px;
+            }
+            
+            .date-header {
+                font-size: 0.3em;
+                min-width: 14px;
+                padding: 6px 1px;
+            }
+            
+            .status-cell {
+                min-width: 14px;
+                height: 14px;
+                margin: 0 0.5px;
+            }
+            
+            .chart-body {
+                max-height: 300px;
+            }
+            
+            .history-legend {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .legend-item {
+                font-size: 0.9em;
+            }
         }
 
         /* Detailed History Section Styles */
@@ -724,10 +870,35 @@ class HTMLReportGenerator:
             color: #666;
         }
 
+        /* Recent Test Details Table Styles */
+        .details-table {
+            width: 100%;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        .details-header {
+            display: flex;
+            background: var(--background-color);
+            font-weight: 600;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .details-header > div {
+            padding: 12px;
+            border-right: 1px solid var(--border-color);
+        }
+
+        .details-header > div:last-child {
+            border-right: none;
+        }
+
         .detail-row {
             display: flex;
-            justify-content: space-between;
-            padding: 10px;
+            align-items: center;
+            padding: 0;
             border-bottom: 1px solid var(--border-color);
             cursor: pointer;
         }
@@ -736,11 +907,44 @@ class HTMLReportGenerator:
             background: rgba(15, 98, 254, 0.05);
         }
 
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-row > div {
+            padding: 12px;
+            border-right: 1px solid var(--border-color);
+        }
+
+        .detail-row > div:last-child {
+            border-right: none;
+        }
+
+        .detail-date {
+            width: 80px;
+            min-width: 80px;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .detail-model {
+            width: 200px;
+            min-width: 200px;
+            font-weight: 500;
+            color: var(--primary-color);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
         .detail-status {
+            width: 120px;
+            min-width: 120px;
             text-align: center;
             padding: 4px 8px;
             border-radius: 12px;
             font-weight: 500;
+            font-size: 0.9em;
         }
 
         .detail-status.working {
@@ -758,22 +962,62 @@ class HTMLReportGenerator:
             color: #721c24;
         }
 
+        .detail-status.not-supported {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        .detail-time {
+            width: 80px;
+            min-width: 80px;
+            font-family: monospace;
+            font-size: 0.9em;
+            color: #666;
+            text-align: right;
+        }
+
+        .detail-success {
+            width: 100px;
+            min-width: 100px;
+            font-family: monospace;
+            font-size: 0.9em;
+            color: var(--primary-color);
+            text-align: right;
+        }
+
         .detail-expand {
             width: 30px;
+            min-width: 30px;
             text-align: center;
             cursor: pointer;
+            font-size: 0.8em;
+            color: #666;
         }
 
         .detail-expanded {
-            padding: 10px;
+            padding: 15px;
+            background: #f8f9fa;
             border-top: 1px solid var(--border-color);
-            margin-top: 5px;
             display: none;
         }
 
         .expanded-content {
             font-size: 0.9em;
             color: #333;
+        }
+
+        .expanded-content h5 {
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .expanded-content p {
+            margin-bottom: 8px;
+            word-wrap: break-word;
+        }
+
+        .expanded-content strong {
+            color: #495057;
         }
 
         /* Unsupported Models Section Styles */
@@ -858,6 +1102,52 @@ class HTMLReportGenerator:
             .detail-row {
                 flex-direction: column;
                 align-items: flex-start;
+            }
+
+            .detail-row > div {
+                width: 100% !important;
+                min-width: auto !important;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                padding: 8px 12px;
+            }
+
+            .detail-row > div:last-child {
+                border-bottom: none;
+            }
+
+            .details-header {
+                display: none;
+            }
+
+            .detail-date::before {
+                content: "Date: ";
+                font-weight: 600;
+                color: var(--primary-color);
+            }
+
+            .detail-model::before {
+                content: "Model: ";
+                font-weight: 600;
+                color: var(--primary-color);
+            }
+
+            .detail-status::before {
+                content: "Status: ";
+                font-weight: 600;
+                color: var(--primary-color);
+            }
+
+            .detail-time::before {
+                content: "Time: ";
+                font-weight: 600;
+                color: var(--primary-color);
+            }
+
+            .detail-success::before {
+                content: "Tool Success: ";
+                font-weight: 600;
+                color: var(--primary-color);
             }
 
             .unsupported-models-grid {
@@ -1014,18 +1304,12 @@ class HTMLReportGenerator:
             r for r in results if not r.get("tool_call_support", False)
         ]
 
-        # Check if we have reliability data
+        # Check if we have reliability data (but we won't show the column)
         has_reliability = any("reliability" in result for result in results)
-
-        # Generate table headers
-        reliability_header = ""
-        if has_reliability:
-            iterations = config.get("iterations", 1) if config else 1
-            reliability_header = f"<th>Reliability ({iterations}x)</th>"
 
         # Generate main results table (supported models only)
         main_results_html = self._generate_results_table(
-            supported_results, has_reliability, reliability_header, "supported"
+            supported_results, has_reliability, "supported"
         )
 
         # Generate unsupported models section
@@ -1065,27 +1349,54 @@ class HTMLReportGenerator:
         detail_rows = []
 
         for result in recent_results:
-            status_class = (
-                "working"
-                if result["tool_call_support"] and result["handles_response"]
-                else "partial" if result["tool_call_support"] else "broken"
+            # Determine status based on support and reliability
+            tool_support = result["tool_call_support"]
+            handles_response = result["handles_response"]
+            is_reliable = result.get("is_reliable", True)
+            
+            # Check if this is a model that never supported tool calling vs one that is broken
+            error_message = result['test_details'].get('error_message', '')
+            details = result['test_details'].get('details', '')
+            
+            # Models that explicitly don't support tool calling
+            is_not_supported = (
+                not tool_support and 
+                ('not support' in error_message.lower() or 
+                 'not support' in details.lower() or
+                 'function' in error_message.lower() and 'not support' in error_message.lower())
             )
+            
+            if tool_support and handles_response and is_reliable:
+                status_class = "working"
+                status_text = "Working"
+            elif tool_support and not handles_response:
+                status_class = "partial"
+                status_text = "Partial"
+            elif tool_support and not is_reliable:
+                status_class = "broken"
+                status_text = "Broken"
+            elif is_not_supported:
+                status_class = "not-supported"
+                status_text = "Not Supported"
+            else:
+                status_class = "broken"
+                status_text = "Broken"
 
             detail_rows.append(
                 f"""
                 <div class="detail-row" data-model="{result['model_id']}">
                     <div class="detail-date">{result['date']}</div>
-                    <div class="detail-model">{result['model_info']['display_name']}</div>
-                    <div class="detail-status status-{status_class}">{status_class.title()}</div>
+                    <div class="detail-model">{result['model_info']['display_name']}{self._generate_new_label(result['model_id'])}</div>
+                    <div class="detail-status {status_class}">{status_text}</div>
                     <div class="detail-time">{result['performance']['total_time']:.3f}s</div>
                     <div class="detail-success">{result['performance'].get('tool_success_rate', 0):.1%}</div>
                     <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
                     <div class="detail-expanded" style="display: none;">
                         <div class="expanded-content">
                             <h5>Test Details</h5>
-                            <p><strong>Error:</strong> {result['test_details']['error_message'] or 'None'}</p>
-                            <p><strong>Expected:</strong> {result['test_details']['expected_result'][:100]}{'...' if len(result['test_details']['expected_result']) > 100 else ''}</p>
-                            <p><strong>Actual:</strong> {result['test_details']['actual_result'][:100]}{'...' if len(result['test_details']['actual_result']) > 100 else ''}</p>
+                            {f'<p><strong>Error:</strong> {result["test_details"]["error_message"]}</p>' if result["test_details"].get("error_message") else ''}
+                            {f'<p><strong>Expected:</strong> {result["test_details"]["expected_result"][:100]}{"..." if len(result["test_details"]["expected_result"]) > 100 else ""}</p>' if result["test_details"].get("expected_result") else ''}
+                            {f'<p><strong>Actual:</strong> {result["test_details"]["actual_result"][:100]}{"..." if len(result["test_details"]["actual_result"]) > 100 else ""}</p>' if result["test_details"].get("actual_result") else ''}
                             <p><strong>Details:</strong> {result['test_details']['details']}</p>
                         </div>
                     </div>
@@ -1103,7 +1414,7 @@ class HTMLReportGenerator:
                         <div class="detail-model">Model</div>
                         <div class="detail-status">Status</div>
                         <div class="detail-time">Time</div>
-                        <div class="detail-success">Success</div>
+                        <div class="detail-success">Tool Success</div>
                         <div class="detail-expand"></div>
                     </div>
                     {''.join(detail_rows)}
@@ -1116,7 +1427,6 @@ class HTMLReportGenerator:
         self,
         results: List[Dict[str, Any]],
         has_reliability: bool,
-        reliability_header: str,
         table_type: str,
     ) -> str:
         """Generate a results table for the given results."""
@@ -1190,25 +1500,7 @@ class HTMLReportGenerator:
             else:
                 response_support_html = f'<span class="support-indicator support-{"yes" if handles_response else "no"}">{"✅ Yes" if handles_response else "❌ No"}</span>'
 
-            # Format reliability info
-            reliability_html = ""
-            if has_reliability and "reliability" in result:
-                rel_info = result["reliability"]
-                is_reliable = rel_info.get("is_reliable", False)
-                tool_success_rate = rel_info.get("tool_call_success_rate", 0)
-                response_success_rate = rel_info.get(
-                    "response_handling_success_rate", 0
-                )
-
-                # Simplified reliability display since other columns show the detail
-                if not tool_support:
-                    reliability_html = '<span class="reliability-badge reliability-none">❌ NOT SUPPORTED</span>'
-                elif is_reliable:
-                    reliability_html = '<span class="reliability-badge reliability-perfect">✅ RELIABLE</span>'
-                else:
-                    reliability_html = '<span class="reliability-badge reliability-partial">⚠️ UNRELIABLE</span>'
-            elif has_reliability:
-                reliability_html = '<span class="reliability-badge reliability-perfect">✅ SINGLE TEST</span>'
+            # Reliability info is now shown in tooltips only, not in a separate column
 
             # Format timing info
             times = result.get("response_times", {})
@@ -1235,16 +1527,13 @@ class HTMLReportGenerator:
             # Truncate details for display
             details_html = f'<span class="details-cell" title="{details}">{details}</span>'
 
-            reliability_cell = (
-                f"<td>{reliability_html}</td>" if has_reliability else ""
-            )
+            # No reliability column
 
             row = f"""
             <tr data-model="{model_name.lower()}" data-support="{tool_support}" data-handling="{handles_response}">
-                <td class="model-name">{model_name}</td>
+                <td class="model-name">{model_name}{self._generate_new_label(model_name)}</td>
                 <td>{tool_support_html}</td>
                 <td>{response_support_html}</td>
-                {reliability_cell}
                 <td>{call_time_html}</td>
                 <td>{resp_time_html}</td>
                 <td>{total_time_html}</td>
@@ -1298,7 +1587,6 @@ class HTMLReportGenerator:
                         <th>Model</th>
                         <th>Tool Support</th>
                         <th>Response Handling</th>
-                        {reliability_header}
                         <th>Call Time</th>
                         <th>Response Time</th>
                         <th>Total Time</th>
@@ -1332,7 +1620,7 @@ class HTMLReportGenerator:
             model_items.append(
                 f"""
             <div class="unsupported-model-item">
-                <span class="model-name">{model_name}</span>
+                <span class="model-name">{model_name}{self._generate_new_label(model_name)}</span>
                 <span class="model-details">{truncated_details}</span>
             </div>
             """
@@ -1486,24 +1774,52 @@ class HTMLReportGenerator:
                     status = status_data["status"]
                     details = status_data["details"]
                     css_class = f"status-{status}"
-                    title = (
-                        f"{date}: {details}"
-                        if details
-                        else f"{date}: {status}"
-                    )
+                    
+                    # Get detailed test data for rich tooltips
+                    detailed_data = None
+                    if self.history_manager:
+                        detailed_results = self.history_manager.get_detailed_test_results(model_id=model_id, days=30)
+                        for result in detailed_results:
+                            if result["date"] == date:
+                                detailed_data = result
+                                break
+                    
+                    # Create rich tooltip content
+                    if detailed_data:
+                        iterations = detailed_data["performance"]["iterations"]
+                        tool_success_rate = detailed_data["performance"]["tool_success_rate"]
+                        response_success_rate = detailed_data["performance"]["response_success_rate"]
+                        total_time = detailed_data["performance"]["total_time"]
+                        
+                        tooltip_content = (
+                            f"Date: {date}\n"
+                            f"Status: {status.title()}\n"
+                            f"Iterations: {iterations}\n"
+                            f"Tool Success: {tool_success_rate:.1%}\n"
+                            f"Response Success: {response_success_rate:.1%}\n"
+                            f"Total Time: {total_time:.2f}s"
+                        )
+                        
+                        # Add error details if available
+                        error_msg = detailed_data["test_details"].get("error_message", "")
+                        if error_msg:
+                            tooltip_content += f"\nError: {error_msg[:100]}{'...' if len(error_msg) > 100 else ''}"
+                    else:
+                        tooltip_content = f"{date}: {details}" if details else f"{date}: {status}"
+                    
                     status_cells.append(
-                        f'<div class="status-cell {css_class}" title="{title}"></div>'
+                        f'<div class="status-cell {css_class}" title="{tooltip_content}" data-date="{date}" data-model="{model_id}"></div>'
                     )
                 else:
                     status_cells.append(
-                        '<div class="status-cell status-untested" title="Not tested"></div>'
+                        f'<div class="status-cell status-untested" title="{date}: Not tested" data-date="{date}" data-model="{model_id}"></div>'
                     )
 
             model_rows.append(
                 f"""
                 <div class="model-row">
                     <div class="model-info">
-                        <span class="model-name">{display_name}</span>
+                        <span class="model-name">{display_name}{self._generate_new_label(model_id)}</span>
                     </div>
                     <div class="status-timeline">
                         {''.join(status_cells)}
@@ -1515,8 +1831,8 @@ class HTMLReportGenerator:
         # Generate date headers for display
         date_headers = []
         for i, date in enumerate(dates):
-            # Show every 5th date to avoid clutter
-            if i % 5 == 0:
+            # Show every 3rd date to balance readability with space
+            if i % 3 == 0:
                 # Try to parse date with fallback for different formats
                 try:
                     display_date = datetime.datetime.strptime(
@@ -1574,15 +1890,17 @@ class HTMLReportGenerator:
                     <span>Not Tested</span>
                 </div>
             </div>
-            <div class="history-chart">
-                <div class="chart-header">
-                    <div class="model-header">Model</div>
-                    <div class="timeline-header">
-                        {''.join(date_headers)}
+            <div class="history-container">
+                <div class="history-chart">
+                    <div class="chart-header">
+                        <div class="model-header">Model</div>
+                        <div class="timeline-header">
+                            {''.join(date_headers)}
+                        </div>
                     </div>
-                </div>
-                <div class="chart-body">
-                    {''.join(model_rows)}
+                    <div class="chart-body">
+                        {''.join(model_rows)}
+                    </div>
                 </div>
             </div>
             {detailed_history_section}
@@ -1680,6 +1998,19 @@ class HTMLReportGenerator:
             {trends_section}
         </div>
         """
+
+    def _generate_new_label(self, model_id: str) -> str:
+        """Generate a NEW label for recently detected models.
+        
+        Args:
+            model_id: The model ID to check
+            
+        Returns:
+            str: HTML for the NEW label if the model is new, empty string otherwise
+        """
+        if self.history_manager and self.history_manager.is_new_model(model_id):
+            return '<span class="new-label">NEW</span>'
+        return ''
 
     def _get_javascript(self) -> str:
         """Generate JavaScript for interactive features."""

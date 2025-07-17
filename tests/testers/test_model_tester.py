@@ -219,7 +219,7 @@ def test_save_results_to_file(model_tester, tmp_path):
     # Create test results
     results = [
         {
-            "model": "test-model",
+            "model": "mock-test-model",
             "tool_call_support": True,
             "handles_response": True,
             "details": "Success",

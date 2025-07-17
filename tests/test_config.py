@@ -44,7 +44,7 @@ def test_default_config():
         "WATSONX_REGION": "eu-de",
         "LITELLM_URL": "http://localhost:9000",
         "LITELLM_TOKEN": "test-token",
-        "WATSONX_TOOL_MODEL": "test-model",
+        "WATSONX_TOOL_MODEL": "ibm/granite-13b-instruct-v2",
         "WATSONX_TOOL_SORT": "total_time",
         "WATSONX_TOOL_DEBUG": "true",
         "WATSONX_TOOL_LOG_DIR": "custom-logs",
@@ -62,7 +62,7 @@ def test_load_config_from_env():
     assert config.watsonx_region == "eu-de"
     assert config.litellm_url == "http://localhost:9000"
     assert config.litellm_token == "test-token"
-    assert config.model == "test-model"
+    assert config.model == "ibm/granite-13b-instruct-v2"
     assert config.sort_key == "total_time"
     assert config.debug is True
     assert config.log_dir == "custom-logs"
