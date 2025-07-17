@@ -252,6 +252,10 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         fetch-depth: 0
 
+    - name: Pull latest changes
+      run: |
+        git pull origin main
+
     - name: Setup Pages
       uses: actions/configure-pages@v4
 
