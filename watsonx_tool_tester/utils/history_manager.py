@@ -740,20 +740,45 @@ class HistoryManager:
                                 handles_response = (
                                     row["handles_response"].lower() == "true"
                                 )
+                                is_reliable = (
+                                    row["is_reliable"].lower() == "true"
+                                    if row["is_reliable"]
+                                    else True
+                                )
 
-                                if tool_support and handles_response:
+                                if not tool_support:
+                                    status_entry["status"] = "not_supported"
+                                    status_entry["details"] = (
+                                        "Model does not support tool calling"
+                                    )
+                                elif (
+                                    tool_support
+                                    and handles_response
+                                    and is_reliable
+                                ):
                                     status_entry["status"] = "working"
                                     status_entry["details"] = (
-                                        "Full tool calling support"
+                                        "Full tool calling support - reliable"
                                     )
-                                elif tool_support:
+                                elif (
+                                    tool_support
+                                    and handles_response
+                                    and not is_reliable
+                                ):
+                                    status_entry["status"] = "unreliable"
+                                    status_entry["details"] = (
+                                        "Full tool calling support - inconsistent results"
+                                    )
+                                elif tool_support and not handles_response:
                                     status_entry["status"] = "partial"
                                     status_entry["details"] = (
-                                        "Tool calling only"
+                                        "Tool calling only - doesn't handle responses"
                                     )
                                 else:
                                     status_entry["status"] = "broken"
-                                    status_entry["details"] = "No tool calling"
+                                    status_entry["details"] = (
+                                        "Tool calling failed"
+                                    )
                                 break
 
         return status_matrix
@@ -1129,19 +1154,19 @@ class HistoryManager:
 
     def is_new_model(self, model_id: str) -> bool:
         """Check if a model is newly detected (within the last 2 weeks).
-        
+
         Args:
             model_id: The model ID to check
-            
+
         Returns:
             bool: True if the model was first seen within the last 2 weeks, False otherwise
         """
         if not os.path.exists(self.models_file):
             return False
-            
+
         # Calculate the cutoff date (2 weeks ago)
         cutoff_date = datetime.datetime.now() - datetime.timedelta(weeks=2)
-        
+
         with open(self.models_file, "r") as f:
             reader = csv.DictReader(f)
             for row in reader:
@@ -1150,8 +1175,8 @@ class HistoryManager:
                     first_seen = self._parse_datetime_safely(row["first_seen"])
                     if first_seen is None:
                         return False
-                    
+
                     # Check if first_seen is within the last 2 weeks
                     return first_seen >= cutoff_date
-                    
+
         return False

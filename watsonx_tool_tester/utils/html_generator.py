@@ -682,6 +682,14 @@ class HTMLReportGenerator:
             background-color: var(--error-color);
         }
 
+        .status-not_supported {
+            background-color: #e0e0e0;
+        }
+
+        .status-unreliable {
+            background-color: #ffd700;
+        }
+
         .status-untested {
             background-color: #e0e0e0;
         }
@@ -928,8 +936,8 @@ class HTMLReportGenerator:
         }
 
         .detail-model {
-            width: 200px;
-            min-width: 200px;
+            width: 300px;
+            min-width: 300px;
             font-weight: 500;
             color: var(--primary-color);
             overflow: hidden;
@@ -967,6 +975,12 @@ class HTMLReportGenerator:
             color: #495057;
         }
 
+        .detail-status.unreliable {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
         .detail-time {
             width: 80px;
             min-width: 80px;
@@ -985,25 +999,32 @@ class HTMLReportGenerator:
             text-align: right;
         }
 
-        .detail-expand {
-            width: 30px;
-            min-width: 30px;
-            text-align: center;
-            cursor: pointer;
-            font-size: 0.8em;
-            color: #666;
-        }
-
-        .detail-expanded {
-            padding: 15px;
-            background: #f8f9fa;
-            border-top: 1px solid var(--border-color);
-            display: none;
-        }
-
-        .expanded-content {
+        .detail-details {
+            flex: 1;
+            min-width: 300px;
             font-size: 0.9em;
-            color: #333;
+            color: #666;
+            padding: 8px;
+            background: #f8f9fa;
+            border-left: 3px solid #dee2e6;
+            border-radius: 4px;
+        }
+
+        .details-content {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .details-content h5 {
+            margin: 0 0 8px 0;
+            font-size: 0.95em;
+            color: var(--primary-color);
+        }
+
+        .details-content p {
+            margin: 4px 0;
+            font-size: 0.85em;
+            line-height: 1.4;
         }
 
         .expanded-content h5 {
@@ -1345,7 +1366,7 @@ class HTMLReportGenerator:
         if not detailed_results:
             return ""
 
-        recent_results = detailed_results[-20:]  # Last 20 detailed results
+        recent_results = detailed_results[-50:]  # Last 50 detailed results
         detail_rows = []
 
         for result in recent_results:
@@ -1353,31 +1374,31 @@ class HTMLReportGenerator:
             tool_support = result["tool_call_support"]
             handles_response = result["handles_response"]
             is_reliable = result.get("is_reliable", True)
-            
+
             # Check if this is a model that never supported tool calling vs one that is broken
-            error_message = result['test_details'].get('error_message', '')
-            details = result['test_details'].get('details', '')
-            
+            error_message = result["test_details"].get("error_message", "")
+            details = result["test_details"].get("details", "")
+
             # Models that explicitly don't support tool calling
-            is_not_supported = (
-                not tool_support and 
-                ('not support' in error_message.lower() or 
-                 'not support' in details.lower() or
-                 'function' in error_message.lower() and 'not support' in error_message.lower())
+            is_not_supported = not tool_support and (
+                "not support" in error_message.lower()
+                or "not support" in details.lower()
+                or "function" in error_message.lower()
+                and "not support" in error_message.lower()
             )
-            
-            if tool_support and handles_response and is_reliable:
+
+            if is_not_supported:
+                status_class = "not-supported"
+                status_text = "Not Supported"
+            elif tool_support and handles_response and is_reliable:
                 status_class = "working"
                 status_text = "Working"
+            elif tool_support and handles_response and not is_reliable:
+                status_class = "unreliable"
+                status_text = "Unreliable"
             elif tool_support and not handles_response:
                 status_class = "partial"
                 status_text = "Partial"
-            elif tool_support and not is_reliable:
-                status_class = "broken"
-                status_text = "Broken"
-            elif is_not_supported:
-                status_class = "not-supported"
-                status_text = "Not Supported"
             else:
                 status_class = "broken"
                 status_text = "Broken"
@@ -1390,13 +1411,12 @@ class HTMLReportGenerator:
                     <div class="detail-status {status_class}">{status_text}</div>
                     <div class="detail-time">{result['performance']['total_time']:.3f}s</div>
                     <div class="detail-success">{result['performance'].get('tool_success_rate', 0):.1%}</div>
-                    <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
-                    <div class="detail-expanded" style="display: none;">
-                        <div class="expanded-content">
+                    <div class="detail-details">
+                        <div class="details-content">
                             <h5>Test Details</h5>
                             {f'<p><strong>Error:</strong> {result["test_details"]["error_message"]}</p>' if result["test_details"].get("error_message") else ''}
-                            {f'<p><strong>Expected:</strong> {result["test_details"]["expected_result"][:100]}{"..." if len(result["test_details"]["expected_result"]) > 100 else ""}</p>' if result["test_details"].get("expected_result") else ''}
-                            {f'<p><strong>Actual:</strong> {result["test_details"]["actual_result"][:100]}{"..." if len(result["test_details"]["actual_result"]) > 100 else ""}</p>' if result["test_details"].get("actual_result") else ''}
+                            {f'<p><strong>Expected:</strong> {result["test_details"]["expected_result"][:200]}{"..." if len(result["test_details"]["expected_result"]) > 200 else ""}</p>' if result["test_details"].get("expected_result") else ''}
+                            {f'<p><strong>Actual:</strong> {result["test_details"]["actual_result"][:200]}{"..." if len(result["test_details"]["actual_result"]) > 200 else ""}</p>' if result["test_details"].get("actual_result") else ''}
                             <p><strong>Details:</strong> {result['test_details']['details']}</p>
                         </div>
                     </div>
@@ -1415,7 +1435,7 @@ class HTMLReportGenerator:
                         <div class="detail-status">Status</div>
                         <div class="detail-time">Time</div>
                         <div class="detail-success">Tool Success</div>
-                        <div class="detail-expand"></div>
+                        <div class="detail-details">Details</div>
                     </div>
                     {''.join(detail_rows)}
                 </div>
@@ -1774,23 +1794,31 @@ class HTMLReportGenerator:
                     status = status_data["status"]
                     details = status_data["details"]
                     css_class = f"status-{status}"
-                    
+
                     # Get detailed test data for rich tooltips
                     detailed_data = None
                     if self.history_manager:
-                        detailed_results = self.history_manager.get_detailed_test_results(model_id=model_id, days=30)
+                        detailed_results = (
+                            self.history_manager.get_detailed_test_results(
+                                model_id=model_id, days=30
+                            )
+                        )
                         for result in detailed_results:
                             if result["date"] == date:
                                 detailed_data = result
                                 break
-                    
+
                     # Create rich tooltip content
                     if detailed_data:
                         iterations = detailed_data["performance"]["iterations"]
-                        tool_success_rate = detailed_data["performance"]["tool_success_rate"]
-                        response_success_rate = detailed_data["performance"]["response_success_rate"]
+                        tool_success_rate = detailed_data["performance"][
+                            "tool_success_rate"
+                        ]
+                        response_success_rate = detailed_data["performance"][
+                            "response_success_rate"
+                        ]
                         total_time = detailed_data["performance"]["total_time"]
-                        
+
                         tooltip_content = (
                             f"Date: {date}\n"
                             f"Status: {status.title()}\n"
@@ -1799,14 +1827,20 @@ class HTMLReportGenerator:
                             f"Response Success: {response_success_rate:.1%}\n"
                             f"Total Time: {total_time:.2f}s"
                         )
-                        
+
                         # Add error details if available
-                        error_msg = detailed_data["test_details"].get("error_message", "")
+                        error_msg = detailed_data["test_details"].get(
+                            "error_message", ""
+                        )
                         if error_msg:
                             tooltip_content += f"\nError: {error_msg[:100]}{'...' if len(error_msg) > 100 else ''}"
                     else:
-                        tooltip_content = f"{date}: {details}" if details else f"{date}: {status}"
-                    
+                        tooltip_content = (
+                            f"{date}: {details}"
+                            if details
+                            else f"{date}: {status}"
+                        )
+
                     status_cells.append(
                         f'<div class="status-cell {css_class}" title="{tooltip_content}" data-date="{date}" data-model="{model_id}"></div>'
                     )
@@ -1882,8 +1916,16 @@ class HTMLReportGenerator:
                     <span>Partial (Tool Calls Only)</span>
                 </div>
                 <div class="legend-item">
+                    <div class="status-cell status-unreliable"></div>
+                    <span>Unreliable (Inconsistent)</span>
+                </div>
+                <div class="legend-item">
                     <div class="status-cell status-broken"></div>
-                    <span>Broken (No Support)</span>
+                    <span>Broken (Failed)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="status-cell status-not_supported"></div>
+                    <span>Not Supported</span>
                 </div>
                 <div class="legend-item">
                     <div class="status-cell status-untested"></div>
@@ -1965,27 +2007,31 @@ class HTMLReportGenerator:
             ]:  # Last 7 days
                 trend_rows.append(
                     f"""
-                    <div class="trend-row">
-                        <div class="trend-date">{date}</div>
-                        <div class="trend-metric">{data['avg_tool_time']:.3f}s</div>
-                        <div class="trend-metric">{data['avg_response_time']:.3f}s</div>
-                        <div class="trend-metric">{data['avg_success_rate']:.1%}</div>
-                    </div>
+                    <tr>
+                        <td>{date}</td>
+                        <td>{data['avg_tool_time']:.3f}s</td>
+                        <td>{data['avg_response_time']:.3f}s</td>
+                        <td>{data['avg_success_rate']:.1%}</td>
+                    </tr>
                 """
                 )
 
             trends_section = f"""
             <div class="performance-trends">
                 <h3>Performance Trends</h3>
-                <div class="trends-table">
-                    <div class="trends-header">
-                        <div class="trend-date">Date</div>
-                        <div class="trend-metric">Avg Tool Time</div>
-                        <div class="trend-metric">Avg Response Time</div>
-                        <div class="trend-metric">Success Rate</div>
-                    </div>
-                    {''.join(trend_rows)}
-                </div>
+                <table class="trends-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Avg Tool Time</th>
+                            <th>Avg Response Time</th>
+                            <th>Success Rate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {''.join(trend_rows)}
+                    </tbody>
+                </table>
             </div>
             """
 
@@ -2001,16 +2047,18 @@ class HTMLReportGenerator:
 
     def _generate_new_label(self, model_id: str) -> str:
         """Generate a NEW label for recently detected models.
-        
+
         Args:
             model_id: The model ID to check
-            
+
         Returns:
             str: HTML for the NEW label if the model is new, empty string otherwise
         """
-        if self.history_manager and self.history_manager.is_new_model(model_id):
+        if self.history_manager and self.history_manager.is_new_model(
+            model_id
+        ):
             return '<span class="new-label">NEW</span>'
-        return ''
+        return ""
 
     def _get_javascript(self) -> str:
         """Generate JavaScript for interactive features."""
@@ -2089,10 +2137,58 @@ class HTMLReportGenerator:
             const statusCells = document.querySelectorAll('.status-cell');
 
             statusCells.forEach(cell => {
-                cell.addEventListener('mouseenter', function() {
-                    // Could add enhanced tooltip functionality here
+                cell.addEventListener('mouseenter', function(e) {
+                    showTooltip(e, this.getAttribute('title'));
+                });
+                
+                cell.addEventListener('mouseleave', function() {
+                    hideTooltip();
                 });
             });
+        }
+
+        function showTooltip(event, content) {
+            if (!content) return;
+            
+            const tooltip = document.createElement('div');
+            tooltip.id = 'status-tooltip';
+            tooltip.innerHTML = content.replace(/\n/g, '<br>');
+            tooltip.style.cssText = `
+                position: absolute;
+                z-index: 1000;
+                background: #333;
+                color: white;
+                padding: 8px 12px;
+                border-radius: 4px;
+                font-size: 0.85em;
+                max-width: 300px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+                pointer-events: none;
+                white-space: nowrap;
+            `;
+            
+            document.body.appendChild(tooltip);
+            
+            // Position tooltip near mouse
+            const rect = event.target.getBoundingClientRect();
+            tooltip.style.left = (rect.right + 10) + 'px';
+            tooltip.style.top = rect.top + 'px';
+            
+            // Adjust if tooltip goes off screen
+            const tooltipRect = tooltip.getBoundingClientRect();
+            if (tooltipRect.right > window.innerWidth) {
+                tooltip.style.left = (rect.left - tooltipRect.width - 10) + 'px';
+            }
+            if (tooltipRect.bottom > window.innerHeight) {
+                tooltip.style.top = (rect.top - tooltipRect.height - 10) + 'px';
+            }
+        }
+
+        function hideTooltip() {
+            const tooltip = document.getElementById('status-tooltip');
+            if (tooltip) {
+                tooltip.remove();
+            }
         }
 
         // Sort table functionality
