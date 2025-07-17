@@ -511,7 +511,7 @@ class WatsonXClient(BaseClient):  # Changed from ModelClient to BaseClient
                                 None,
                                 response_times,
                             )
-                    except:
+                    except Exception:
                         pass
 
                 return (

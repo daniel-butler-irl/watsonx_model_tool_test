@@ -8,7 +8,7 @@ This module sets up global fixtures for testing.
 from unittest import mock
 
 import pytest
-import requests
+import requests  # noqa: F401
 
 
 @pytest.fixture(autouse=True)

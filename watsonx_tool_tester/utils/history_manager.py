@@ -280,11 +280,21 @@ class HistoryManager:
                     "response_handling_days": "1" if handles_response else "0",
                     "display_name": self._extract_display_name(model_id),
                     "last_error": error_message,
-                    "avg_tool_time": str(tool_time if tool_time is not None else 0.0),
-                    "avg_response_time": str(response_time if response_time is not None else 0.0),
-                    "best_tool_time": str(tool_time) if tool_time is not None and tool_time > 0 else "0",
+                    "avg_tool_time": str(
+                        tool_time if tool_time is not None else 0.0
+                    ),
+                    "avg_response_time": str(
+                        response_time if response_time is not None else 0.0
+                    ),
+                    "best_tool_time": (
+                        str(tool_time)
+                        if tool_time is not None and tool_time > 0
+                        else "0"
+                    ),
                     "best_response_time": (
-                        str(response_time) if response_time is not None and response_time > 0 else "0"
+                        str(response_time)
+                        if response_time is not None and response_time > 0
+                        else "0"
                     ),
                     "consistency_score": "1.0" if tool_support else "0.0",
                 }

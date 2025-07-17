@@ -47,7 +47,9 @@ class HTMLReportGenerator:
             str: Complete HTML report as a string
         """
         # Generate report timestamp
-        timestamp = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
+        timestamp = datetime.datetime.utcnow().strftime(
+            "%Y-%m-%d %H:%M:%S UTC"
+        )
 
         # Build HTML structure
         html_content = f"""
@@ -75,8 +77,7 @@ class HTMLReportGenerator:
         <main>
             {self._generate_summary_section(summary)}
             {self._generate_history_section() if include_history and self.history_manager else ''}
-            {self._generate_results_section(results)}
-            {self._generate_charts_section(results, summary)}
+            {self._generate_results_section(results, config)}
         </main>
 
         <footer class="footer">
@@ -270,6 +271,16 @@ class HTMLReportGenerator:
             padding: 12px;
             text-align: left;
             border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
+        }
+
+        .results-table th:nth-child(2),
+        .results-table th:nth-child(3),
+        .results-table th:nth-child(4),
+        .results-table td:nth-child(2),
+        .results-table td:nth-child(3),
+        .results-table td:nth-child(4) {
+            text-align: center;
         }
 
         .results-table th {
@@ -907,16 +918,22 @@ class HTMLReportGenerator:
             rel_stats = summary["reliability"]
             reliable_count = rel_stats.get("reliable_count", 0)
             total_tested = rel_stats.get("total_tested", 0)
+
+            # Use supported_count instead of total_tested for display consistency
+            # since total_tested might still include unsupported models in some cases
+            display_total = (
+                supported_count if supported_count > 0 else total_tested
+            )
             reliability_percentage = (
-                (reliable_count / total_tested * 100)
-                if total_tested > 0
+                (reliable_count / display_total * 100)
+                if display_total > 0
                 else 0
             )
 
             reliability_info = f"""
             <div class="summary-card">
                 <h3>Reliability</h3>
-                <div class="value" style="color: var(--success-color);">{reliable_count}/{total_tested}</div>
+                <div class="value" style="color: var(--success-color);">{reliable_count}/{display_total}</div>
                 <div class="description">Models with 100% consistency ({reliability_percentage:.1f}%)</div>
             </div>
             """
@@ -933,17 +950,9 @@ class HTMLReportGenerator:
             </div>
             """
 
-        # Status indicators
-        full_support = sum(
-            1
-            for r in summary.get("results", [])
-            if r.get("tool_call_support") and r.get("handles_response")
-        )
-        partial_support = sum(
-            1
-            for r in summary.get("results", [])
-            if r.get("tool_call_support") and not r.get("handles_response")
-        )
+        # Status indicators - use the same counts as the summary cards
+        full_support = handles_response_count
+        partial_support = supported_count - handles_response_count
         no_support = total_count - supported_count
 
         return f"""
@@ -991,7 +1000,11 @@ class HTMLReportGenerator:
         </section>
         """
 
-    def _generate_results_section(self, results: List[Dict[str, Any]]) -> str:
+    def _generate_results_section(
+        self,
+        results: List[Dict[str, Any]],
+        config: Optional[Dict[str, Any]] = None,
+    ) -> str:
         """Generate the detailed results table section."""
         # Split results into supported and unsupported models
         supported_results = [
@@ -1007,14 +1020,7 @@ class HTMLReportGenerator:
         # Generate table headers
         reliability_header = ""
         if has_reliability:
-            iterations = next(
-                (
-                    r.get("reliability", {}).get("iterations", 1)
-                    for r in results
-                    if "reliability" in r
-                ),
-                1,
-            )
+            iterations = config.get("iterations", 1) if config else 1
             reliability_header = f"<th>Reliability ({iterations}x)</th>"
 
         # Generate main results table (supported models only)
@@ -1029,9 +1035,81 @@ class HTMLReportGenerator:
                 unsupported_results
             )
 
+        # Generate recent test details section if history is available
+        recent_test_details = ""
+        if self.history_manager:
+            detailed_results = self.history_manager.get_detailed_test_results(
+                days=30
+            )
+            if detailed_results:
+                recent_test_details = (
+                    self._generate_recent_test_details_section(
+                        detailed_results
+                    )
+                )
+
         return f"""
         {main_results_html}
+        {recent_test_details}
         {unsupported_section}
+        """
+
+    def _generate_recent_test_details_section(
+        self, detailed_results: List[Dict[str, Any]]
+    ) -> str:
+        """Generate the recent test details section as a standalone section."""
+        if not detailed_results:
+            return ""
+
+        recent_results = detailed_results[-20:]  # Last 20 detailed results
+        detail_rows = []
+
+        for result in recent_results:
+            status_class = (
+                "working"
+                if result["tool_call_support"] and result["handles_response"]
+                else "partial" if result["tool_call_support"] else "broken"
+            )
+
+            detail_rows.append(
+                f"""
+                <div class="detail-row" data-model="{result['model_id']}">
+                    <div class="detail-date">{result['date']}</div>
+                    <div class="detail-model">{result['model_info']['display_name']}</div>
+                    <div class="detail-status status-{status_class}">{status_class.title()}</div>
+                    <div class="detail-time">{result['performance']['total_time']:.3f}s</div>
+                    <div class="detail-success">{result['performance'].get('tool_success_rate', 0):.1%}</div>
+                    <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
+                    <div class="detail-expanded" style="display: none;">
+                        <div class="expanded-content">
+                            <h5>Test Details</h5>
+                            <p><strong>Error:</strong> {result['test_details']['error_message'] or 'None'}</p>
+                            <p><strong>Expected:</strong> {result['test_details']['expected_result'][:100]}{'...' if len(result['test_details']['expected_result']) > 100 else ''}</p>
+                            <p><strong>Actual:</strong> {result['test_details']['actual_result'][:100]}{'...' if len(result['test_details']['actual_result']) > 100 else ''}</p>
+                            <p><strong>Details:</strong> {result['test_details']['details']}</p>
+                        </div>
+                    </div>
+                </div>
+            """
+            )
+
+        return f"""
+        <section class="section">
+            <h2>📋 Recent Test Details</h2>
+            <div class="detailed-results">
+                <div class="details-table">
+                    <div class="details-header">
+                        <div class="detail-date">Date</div>
+                        <div class="detail-model">Model</div>
+                        <div class="detail-status">Status</div>
+                        <div class="detail-time">Time</div>
+                        <div class="detail-success">Success</div>
+                        <div class="detail-expand"></div>
+                    </div>
+                    {''.join(detail_rows)}
+                </div>
+            </div>
+        </section>
         """
 
     def _generate_results_table(
@@ -1593,64 +1671,13 @@ class HTMLReportGenerator:
             </div>
             """
 
-        # Generate detailed results section (expandable)
-        detailed_section = ""
-        if detailed_results:
-            recent_results = detailed_results[-20:]  # Last 20 detailed results
-            detail_rows = []
-
-            for result in recent_results:
-                status_class = (
-                    "working"
-                    if result["tool_call_support"]
-                    and result["handles_response"]
-                    else "partial" if result["tool_call_support"] else "broken"
-                )
-
-                detail_rows.append(
-                    f"""
-                    <div class="detail-row" data-model="{result['model_id']}">
-                        <div class="detail-date">{result['date']}</div>
-                        <div class="detail-model">{result['model_info']['display_name']}</div>
-                        <div class="detail-status status-{status_class}">{status_class.title()}</div>
-                        <div class="detail-time">{result['performance']['total_time']:.3f}s</div>
-                        <div class="detail-success">{result['performance']['tool_success_rate']:.1%}</div>
-                        <div class="detail-expand" onclick="toggleDetails(this)">▼</div>
-                        <div class="detail-expanded" style="display: none;">
-                            <div class="expanded-content">
-                                <h5>Test Details</h5>
-                                <p><strong>Error:</strong> {result['test_details']['error_message'] or 'None'}</p>
-                                <p><strong>Expected:</strong> {result['test_details']['expected_result'][:100]}{'...' if len(result['test_details']['expected_result']) > 100 else ''}</p>
-                                <p><strong>Actual:</strong> {result['test_details']['actual_result'][:100]}{'...' if len(result['test_details']['actual_result']) > 100 else ''}</p>
-                                <p><strong>Details:</strong> {result['test_details']['details']}</p>
-                            </div>
-                        </div>
-                    </div>
-                """
-                )
-
-            detailed_section = f"""
-            <div class="detailed-results">
-                <h3>Recent Test Details</h3>
-                <div class="details-table">
-                    <div class="details-header">
-                        <div class="detail-date">Date</div>
-                        <div class="detail-model">Model</div>
-                        <div class="detail-status">Status</div>
-                        <div class="detail-time">Time</div>
-                        <div class="detail-success">Success</div>
-                        <div class="detail-expand"></div>
-                    </div>
-                    {''.join(detail_rows)}
-                </div>
-            </div>
-            """
+        # Note: Recent Test Details section is now generated separately
+        # in _generate_recent_test_details_section to appear in the correct order
 
         return f"""
         <div class="detailed-history">
             {error_section}
             {trends_section}
-            {detailed_section}
         </div>
         """
 

@@ -327,7 +327,12 @@ class ResultHandler:
 
         # Calculate reliability statistics
         reliability_stats = None
-        reliability_results = [r for r in results if "reliability" in r]
+        # Only include models that support tool calling for reliability calculation
+        reliability_results = [
+            r
+            for r in results
+            if "reliability" in r and r.get("tool_call_support", False)
+        ]
         if reliability_results:
             reliable_count = sum(
                 1
