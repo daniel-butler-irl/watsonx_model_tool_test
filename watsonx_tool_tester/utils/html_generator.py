@@ -75,7 +75,7 @@ class HTMLReportGenerator:
         </header>
 
         <main>
-            {self._generate_summary_section(summary)}
+            {self._generate_summary_section(summary, results)}
             {self._generate_history_section() if include_history and self.history_manager else ''}
             {self._generate_results_section(results, config)}
         </main>
@@ -675,11 +675,11 @@ class HTMLReportGenerator:
         }
 
         .status-partial {
-            background-color: var(--warning-color);
+            background-color: #ff8c00;
         }
 
         .status-broken {
-            background-color: var(--error-color);
+            background-color: #8b0000;
         }
 
         .status-not_supported {
@@ -1230,7 +1230,9 @@ class HTMLReportGenerator:
 
         return ""
 
-    def _generate_summary_section(self, summary: Dict[str, Any]) -> str:
+    def _generate_summary_section(
+        self, summary: Dict[str, Any], results: List[Dict[str, Any]]
+    ) -> str:
         """Generate the summary statistics section."""
         # Calculate percentages
         total_count = summary.get("total_count", 0)
@@ -1284,10 +1286,27 @@ class HTMLReportGenerator:
             </div>
             """
 
-        # Status indicators - use the same counts as the summary cards
-        full_support = handles_response_count
-        partial_support = supported_count - handles_response_count
-        no_support = total_count - supported_count
+        # Status indicators - calculate based on actual model states
+        full_support = 0
+        partial_support = 0
+        no_support = 0
+
+        # Count based on the actual results data
+        for result in results:
+            tool_support = result.get("tool_call_support", False)
+            handles_response = result.get("handles_response", False)
+            is_reliable = result.get("reliability", {}).get(
+                "is_reliable", True
+            )
+
+            if tool_support and handles_response and is_reliable:
+                full_support += 1
+            elif tool_support and not handles_response:
+                partial_support += 1
+            elif not tool_support:
+                no_support += 1
+            # Note: unreliable models (tool_support=True, handles_response=True, is_reliable=False)
+            # are not counted in these simple categories as they're a separate concern
 
         return f"""
         <section class="section">
@@ -1944,23 +1963,19 @@ class HTMLReportGenerator:
             <div class="history-legend">
                 <div class="legend-item">
                     <div class="status-cell status-working"></div>
-                    <span>Working (Full Support)</span>
+                    <span>Working Reliably</span>
                 </div>
                 <div class="legend-item">
                     <div class="status-cell status-partial"></div>
-                    <span>Partial (Tool Calls Only)</span>
+                    <span>Tool Calls Only</span>
                 </div>
                 <div class="legend-item">
                     <div class="status-cell status-unreliable"></div>
-                    <span>Unreliable (Inconsistent)</span>
+                    <span>Inconsistent Results</span>
                 </div>
                 <div class="legend-item">
                     <div class="status-cell status-broken"></div>
-                    <span>Broken (Failed)</span>
-                </div>
-                <div class="legend-item">
-                    <div class="status-cell status-not_supported"></div>
-                    <span>Not Supported</span>
+                    <span>Previously Worked</span>
                 </div>
                 <div class="legend-item">
                     <div class="status-cell status-untested"></div>
@@ -2171,7 +2186,11 @@ class HTMLReportGenerator:
             const shortDetails = button.parentElement.querySelector('.short-details');
             const fullDetails = button.parentElement.querySelector('.full-details');
             
-            if (fullDetails.style.display === 'none') {
+            // Check if full details are hidden (either inline style or computed style)
+            const isHidden = fullDetails.style.display === 'none' || 
+                            window.getComputedStyle(fullDetails).display === 'none';
+            
+            if (isHidden) {
                 shortDetails.style.display = 'none';
                 fullDetails.style.display = 'block';
                 button.textContent = 'Show Less';
