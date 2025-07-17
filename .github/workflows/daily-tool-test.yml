@@ -220,7 +220,6 @@ jobs:
   deploy-to-pages:
     runs-on: ubuntu-latest
     needs: test-models
-    if: always()
     
     environment:
       name: github-pages
@@ -232,6 +231,10 @@ jobs:
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         fetch-depth: 0
+
+    - name: Pull latest changes
+      run: |
+        git pull origin main
 
     - name: Setup Pages
       uses: actions/configure-pages@v4
@@ -248,7 +251,6 @@ jobs:
   cleanup-old-reports:
     runs-on: ubuntu-latest
     needs: [test-models, deploy-to-pages]
-    if: always()
     
     steps:
     - name: Checkout repository
