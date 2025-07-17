@@ -18,7 +18,7 @@ The package supports direct testing against WatsonX.ai API or through a LiteLLM 
 
 📊 **[Latest Daily Report](https://daniel-butler-irl.github.io/watsonx_model_tool_test/reports/latest_report.html)** | **[90-Day Comprehensive Report](https://daniel-butler-irl.github.io/watsonx_model_tool_test/reports/latest_comprehensive.html)**
 
-- **Last Updated:** 2025-07-17 08:55:33 UTC
+- **Last Updated:** 2025-07-17 10:23:45 UTC
 - **Test Iterations:** 20 per model
 - **All Reports:** [Browse Reports Directory](https://daniel-butler-irl.github.io/watsonx_model_tool_test/reports/)
 
