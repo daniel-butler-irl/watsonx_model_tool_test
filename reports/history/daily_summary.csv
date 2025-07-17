@@ -1,3 +1,1 @@
 datetime,total_models,working_models,handling_models,reliable_models,avg_tool_time,avg_response_time,avg_total_time,fastest_model,fastest_time
-2025-07-16,44,13,13,7,0.387,0.630,0.573,ibm/granite-8b-code-instruct,0.086
-2025-07-17,41,13,13,5,0.327,0.485,0.481,ibm/slate-125m-english-rtrvr,0.068
