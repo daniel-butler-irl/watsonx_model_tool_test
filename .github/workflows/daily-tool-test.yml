@@ -292,31 +292,67 @@ jobs:
             git add reports/
             git commit -m "Clean up old test reports and historical data"
             
-            # Pull latest changes before pushing to avoid non-fast-forward errors
-            echo "Pulling latest changes before push..."
-            if git pull origin main --rebase; then
-              echo "Successfully pulled latest changes"
-            else
-              echo "Failed to pull latest changes, but continuing with push attempt"
-            fi
+            # Use a safer approach: fetch latest, reset, and force push if needed
+            echo "Fetching latest changes..."
+            git fetch origin main
             
-            # Try to push with retry logic
-            echo "Attempting to push changes..."
-            for i in {1..3}; do
-              if git push; then
-                echo "✅ Successfully pushed changes on attempt $i"
-                break
-              else
-                echo "❌ Push failed on attempt $i"
-                if [ $i -lt 3 ]; then
-                  echo "Retrying after pulling latest changes..."
-                  sleep 5
-                  git pull origin main --rebase || echo "Pull failed, but continuing"
+            echo "Checking if we need to sync with remote..."
+            LOCAL_COMMIT=$(git rev-parse HEAD)
+            REMOTE_COMMIT=$(git rev-parse origin/main)
+            
+            if [ "$LOCAL_COMMIT" != "$REMOTE_COMMIT" ]; then
+              echo "Repository has diverged. Attempting to merge cleanup changes..."
+              
+              # Create a temporary branch for our changes
+              git checkout -b temp-cleanup-branch
+              
+              # Switch to main and pull latest
+              git checkout main
+              git pull origin main
+              
+              # Try to merge our cleanup changes
+              if git merge temp-cleanup-branch --no-edit; then
+                echo "Successfully merged cleanup changes"
+                git branch -d temp-cleanup-branch
+                
+                # Push the merged result
+                if git push origin main; then
+                  echo "✅ Successfully pushed merged cleanup changes"
                 else
-                  echo "All push attempts failed"
+                  echo "❌ Failed to push merged changes"
+                  exit 1
+                fi
+              else
+                echo "Merge conflict detected. Resolving automatically..."
+                
+                # For CSV files, prefer the remote version and just clean up old entries
+                if [ -f "reports/history/daily_summary.csv" ]; then
+                  git checkout --theirs reports/history/daily_summary.csv
+                  git add reports/history/daily_summary.csv
+                fi
+                
+                # Complete the merge
+                git commit --no-edit -m "Resolve merge conflict in cleanup job"
+                git branch -d temp-cleanup-branch
+                
+                # Push the resolved result
+                if git push origin main; then
+                  echo "✅ Successfully pushed resolved cleanup changes"
+                else
+                  echo "❌ Failed to push resolved changes"
                   exit 1
                 fi
               fi
-            done
+            else
+              echo "No divergence detected, pushing directly..."
+              if git push origin main; then
+                echo "✅ Successfully pushed cleanup changes"
+              else
+                echo "❌ Failed to push cleanup changes"
+                exit 1
+              fi
+            fi
+          else
+            echo "No changes to commit for cleanup"
           fi
         fi
