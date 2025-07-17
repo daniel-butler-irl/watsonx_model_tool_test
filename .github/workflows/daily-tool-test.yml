@@ -43,7 +43,7 @@ jobs:
         WATSONX_APIKEY: ${{ secrets.WATSONX_APIKEY }}
         WATSONX_PROJECT_ID: ${{ secrets.WATSONX_PROJECT_ID }}
         WATSONX_TOOL_CLIENT: watsonx
-        WATSONX_TOOL_ITERATIONS: ${{ inputs.iterations || '20' }}
+        WATSONX_TOOL_ITERATIONS: ${{ inputs.iterations || '50' }}
         WATSONX_TOOL_DEBUG: 'false'
       run: |
         # Create reports directory if it doesn't exist
