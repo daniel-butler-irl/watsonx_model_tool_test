@@ -1090,27 +1090,55 @@ class HTMLReportGenerator:
             font-style: italic;
         }
 
-        .expand-btn {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.75em;
-            cursor: pointer;
-            margin-left: 8px;
-            transition: background-color 0.2s ease;
-        }
-
-        .expand-btn:hover {
-            background: #2563eb;
-        }
-
         .full-details {
             display: block;
             margin-top: 8px;
             font-style: normal;
             line-height: 1.4;
+        }
+
+        /* CSS-only collapsible details styling */
+        .model-details-expandable {
+            margin-top: 8px;
+        }
+
+        .model-details-summary {
+            font-size: 0.85em;
+            color: #666;
+            font-style: italic;
+            cursor: pointer;
+            padding: 4px 0;
+            list-style: none;
+            position: relative;
+        }
+
+        .model-details-summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .model-details-summary::before {
+            content: "▶";
+            color: var(--primary-color);
+            font-size: 0.8em;
+            margin-right: 8px;
+            transition: transform 0.2s ease;
+        }
+
+        .model-details-expandable[open] .model-details-summary::before {
+            transform: rotate(90deg);
+        }
+
+        .model-details-summary:hover {
+            color: var(--primary-color);
+        }
+
+        .model-details-full {
+            font-size: 0.85em;
+            color: #666;
+            font-style: normal;
+            line-height: 1.4;
+            margin-top: 8px;
+            padding-left: 16px;
         }
 
         @media (max-width: 768px) {
@@ -1730,11 +1758,10 @@ class HTMLReportGenerator:
                     f"""
                 <div class="unsupported-model-item">
                     <span class="model-name">{model_name}{self._generate_new_label(model_name)}{self._generate_variable_label(result)}</span>
-                    <span class="model-details">
-                        <span class="short-details">{short_details}</span>
-                        <span class="full-details" style="display: none;">{details}</span>
-                        <button class="expand-btn" onclick="toggleUnsupportedDetails(this)">Show More</button>
-                    </span>
+                    <details class="model-details-expandable">
+                        <summary class="model-details-summary">{short_details}</summary>
+                        <div class="model-details-full">{details}</div>
+                    </details>
                 </div>
                 """
                 )
@@ -2244,24 +2271,6 @@ class HTMLReportGenerator:
             }
         }
 
-        function toggleUnsupportedDetails(button) {
-            const shortDetails = button.parentElement.querySelector('.short-details');
-            const fullDetails = button.parentElement.querySelector('.full-details');
-            
-            // Check if full details are hidden (either inline style or computed style)
-            const isHidden = fullDetails.style.display === 'none' || 
-                            window.getComputedStyle(fullDetails).display === 'none';
-            
-            if (isHidden) {
-                shortDetails.style.display = 'none';
-                fullDetails.style.display = 'block';
-                button.textContent = 'Show Less';
-            } else {
-                shortDetails.style.display = 'inline';
-                fullDetails.style.display = 'none';
-                button.textContent = 'Show More';
-            }
-        }
 
         // Status cell tooltips and interactions
         function initializeStatusCells() {
