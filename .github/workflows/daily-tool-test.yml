@@ -9,7 +9,7 @@ on:
       iterations:
         description: 'Number of test iterations per model'
         required: false
-        default: '20'
+        default: '50'
         type: string
 
 permissions:
