@@ -1565,10 +1565,13 @@ class HTMLReportGenerator:
             # Reliability info is now shown in tooltips only, not in a separate column
 
             # Format timing info
+            # Handle both nested response_times structure and flat CSV structure
             times = result.get("response_times", {})
-            call_time = times.get("tool_call_time", 0)
-            resp_time = times.get("response_processing_time", 0)
-            total_time = times.get("total_time", 0)
+
+            # Try nested structure first, then fall back to flat CSV columns
+            call_time = times.get("tool_call_time", 0) or result.get("tool_call_time", 0)
+            resp_time = times.get("response_processing_time", 0) or result.get("response_time", 0)
+            total_time = times.get("total_time", 0) or result.get("total_time", 0)
 
             call_time_html = (
                 f'<span class="timing-info">{call_time:.2f}s</span>'
