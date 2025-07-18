@@ -273,6 +273,20 @@ class HTMLReportGenerator:
             box-shadow: 0 1px 3px rgba(147, 51, 234, 0.3);
         }
 
+        .variable-label {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7em;
+            font-weight: 600;
+            margin-left: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 1px 3px rgba(245, 158, 11, 0.3);
+            cursor: help;
+        }
+
         .results-table {
             width: 100%;
             border-collapse: collapse;
@@ -1359,13 +1373,44 @@ class HTMLReportGenerator:
         config: Optional[Dict[str, Any]] = None,
     ) -> str:
         """Generate the detailed results table section."""
-        # Split results into supported and unsupported models
-        supported_results = [
-            r for r in results if r.get("tool_call_support", False)
-        ]
-        unsupported_results = [
-            r for r in results if not r.get("tool_call_support", False)
-        ]
+        # Group results by model to handle conflicting results
+        model_results = {}
+        for result in results:
+            model_id = result.get("model", "unknown")
+            if model_id not in model_results:
+                model_results[model_id] = []
+            model_results[model_id].append(result)
+        
+        # Process each model to get the best representation
+        supported_results = []
+        unsupported_results = []
+        
+        for model_id, model_data in model_results.items():
+            # Sort by most recent or most successful test
+            model_data.sort(key=lambda x: (
+                x.get("tool_call_support", False),  # Prefer supported
+                x.get("handles_response", False),   # Prefer handling response
+                x.get("total_time", 0)              # Prefer faster (ascending)
+            ), reverse=True)
+            
+            # Use the best result for this model
+            best_result = model_data[0]
+            
+            # Add metadata about conflicting results if they exist
+            if len(model_data) > 1:
+                conflicting_statuses = set(r.get("tool_call_support", False) for r in model_data)
+                if len(conflicting_statuses) > 1:
+                    best_result["has_conflicting_results"] = True
+                    best_result["total_test_runs"] = len(model_data)
+                    # Add note to details
+                    original_details = best_result.get("details", "")
+                    best_result["details"] = f"{original_details} (Variable results: {len(model_data)} tests)"
+            
+            # Categorize based on the best result
+            if best_result.get("tool_call_support", False):
+                supported_results.append(best_result)
+            else:
+                unsupported_results.append(best_result)
 
         # Check if we have reliability data (but we won't show the column)
         has_reliability = any("reliability" in result for result in results)
@@ -1596,7 +1641,7 @@ class HTMLReportGenerator:
 
             row = f"""
             <tr data-model="{model_name.lower()}" data-support="{tool_support}" data-handling="{handles_response}">
-                <td class="model-name">{model_name}{self._generate_new_label(model_name)}</td>
+                <td class="model-name">{model_name}{self._generate_new_label(model_name)}{self._generate_variable_label(result)}</td>
                 <td>{tool_support_html}</td>
                 <td>{response_support_html}</td>
                 <td>{call_time_html}</td>
@@ -1684,7 +1729,7 @@ class HTMLReportGenerator:
                 model_items.append(
                     f"""
                 <div class="unsupported-model-item">
-                    <span class="model-name">{model_name}{self._generate_new_label(model_name)}</span>
+                    <span class="model-name">{model_name}{self._generate_new_label(model_name)}{self._generate_variable_label(result)}</span>
                     <span class="model-details">
                         <span class="short-details">{short_details}</span>
                         <span class="full-details" style="display: none;">{details}</span>
@@ -1697,7 +1742,7 @@ class HTMLReportGenerator:
                 model_items.append(
                     f"""
                 <div class="unsupported-model-item">
-                    <span class="model-name">{model_name}{self._generate_new_label(model_name)}</span>
+                    <span class="model-name">{model_name}{self._generate_new_label(model_name)}{self._generate_variable_label(result)}</span>
                     <span class="model-details">{details}</span>
                 </div>
                 """
@@ -2111,6 +2156,20 @@ class HTMLReportGenerator:
             model_id
         ):
             return '<span class="new-label">NEW</span>'
+        return ""
+    
+    def _generate_variable_label(self, result: Dict[str, Any]) -> str:
+        """Generate a VARIABLE label for models with conflicting results.
+
+        Args:
+            result: The result dictionary to check
+
+        Returns:
+            str: HTML for the VARIABLE label if the model has conflicting results, empty string otherwise
+        """
+        if result.get("has_conflicting_results", False):
+            total_runs = result.get("total_test_runs", 0)
+            return f'<span class="variable-label" title="Model has inconsistent results across {total_runs} tests">VARIABLE</span>'
         return ""
 
     def _get_javascript(self) -> str:
