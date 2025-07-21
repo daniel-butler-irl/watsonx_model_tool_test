@@ -1408,32 +1408,41 @@ class HTMLReportGenerator:
             if model_id not in model_results:
                 model_results[model_id] = []
             model_results[model_id].append(result)
-        
+
         # Process each model to get the best representation
         supported_results = []
         unsupported_results = []
-        
+
         for model_id, model_data in model_results.items():
             # Sort by most recent or most successful test
-            model_data.sort(key=lambda x: (
-                x.get("tool_call_support", False),  # Prefer supported
-                x.get("handles_response", False),   # Prefer handling response
-                x.get("total_time", 0)              # Prefer faster (ascending)
-            ), reverse=True)
-            
+            model_data.sort(
+                key=lambda x: (
+                    x.get("tool_call_support", False),  # Prefer supported
+                    x.get(
+                        "handles_response", False
+                    ),  # Prefer handling response
+                    x.get("total_time", 0),  # Prefer faster (ascending)
+                ),
+                reverse=True,
+            )
+
             # Use the best result for this model
             best_result = model_data[0]
-            
+
             # Add metadata about conflicting results if they exist
             if len(model_data) > 1:
-                conflicting_statuses = set(r.get("tool_call_support", False) for r in model_data)
+                conflicting_statuses = set(
+                    r.get("tool_call_support", False) for r in model_data
+                )
                 if len(conflicting_statuses) > 1:
                     best_result["has_conflicting_results"] = True
                     best_result["total_test_runs"] = len(model_data)
                     # Add note to details
                     original_details = best_result.get("details", "")
-                    best_result["details"] = f"{original_details} (Variable results: {len(model_data)} tests)"
-            
+                    best_result["details"] = (
+                        f"{original_details} (Variable results: {len(model_data)} tests)"
+                    )
+
             # Categorize based on the best result
             if best_result.get("tool_call_support", False):
                 supported_results.append(best_result)
@@ -1477,14 +1486,61 @@ class HTMLReportGenerator:
     def _generate_recent_test_details_section(
         self, detailed_results: List[Dict[str, Any]]
     ) -> str:
-        """Generate the recent test details section as a standalone section."""
+        """Generate the latest test results section showing only results from the most recent test run."""
         if not detailed_results:
             return ""
 
-        recent_results = detailed_results[-50:]  # Last 50 detailed results
+        # Find the most recent test date
+        latest_date = max(result["date"] for result in detailed_results)
+
+        # Filter to show only results from the latest test run
+        latest_results = [
+            result
+            for result in detailed_results
+            if result["date"] == latest_date
+        ]
+
+        # Sort results by status priority and then by model name
+        def get_status_priority(result):
+            tool_support = result["tool_call_support"]
+            handles_response = result["handles_response"]
+            is_reliable = result.get("is_reliable", True)
+
+            # Check if this is a model that never supported tool calling
+            error_message = result["test_details"].get("error_message", "")
+            details = result["test_details"].get("details", "")
+            is_not_supported = not tool_support and (
+                "not support" in error_message.lower()
+                or "not support" in details.lower()
+                or (
+                    "function" in error_message.lower()
+                    and "not support" in error_message.lower()
+                )
+            )
+
+            # Status priority order: Working(1) -> Unreliable(2) -> Partial(3) -> Broken(4) -> Not Supported(5)
+            if tool_support and handles_response and is_reliable:
+                return (1, result["model_info"]["display_name"])  # Working
+            elif tool_support and handles_response and not is_reliable:
+                return (2, result["model_info"]["display_name"])  # Unreliable
+            elif tool_support and not handles_response:
+                return (3, result["model_info"]["display_name"])  # Partial
+            elif not tool_support and not is_not_supported:
+                return (
+                    4,
+                    result["model_info"]["display_name"],
+                )  # Broken (was working before)
+            else:
+                return (
+                    5,
+                    result["model_info"]["display_name"],
+                )  # Not Supported
+
+        latest_results.sort(key=get_status_priority)
+
         detail_rows = []
 
-        for result in recent_results:
+        for result in latest_results:
             # Determine status based on support and reliability
             tool_support = result["tool_call_support"]
             handles_response = result["handles_response"]
@@ -1541,7 +1597,10 @@ class HTMLReportGenerator:
 
         return f"""
         <section class="section">
-            <h2>📋 Recent Test Details</h2>
+            <h2>📋 Latest Test Results</h2>
+            <p style="color: #666; margin-bottom: 20px;">
+                Results from the most recent test execution ({latest_date})
+            </p>
             <div class="detailed-results">
                 <div class="details-table">
                     <div class="details-header">
@@ -1642,9 +1701,15 @@ class HTMLReportGenerator:
             times = result.get("response_times", {})
 
             # Try nested structure first, then fall back to flat CSV columns
-            call_time = times.get("tool_call_time", 0) or result.get("tool_call_time", 0)
-            resp_time = times.get("response_processing_time", 0) or result.get("response_time", 0)
-            total_time = times.get("total_time", 0) or result.get("total_time", 0)
+            call_time = times.get("tool_call_time", 0) or result.get(
+                "tool_call_time", 0
+            )
+            resp_time = times.get("response_processing_time", 0) or result.get(
+                "response_time", 0
+            )
+            total_time = times.get("total_time", 0) or result.get(
+                "total_time", 0
+            )
 
             call_time_html = (
                 f'<span class="timing-info">{call_time:.2f}s</span>'
@@ -1895,11 +1960,11 @@ class HTMLReportGenerator:
         if not trackable_models:
             return ""
 
-        # Generate date headers (last 30 days)
+        # Generate date headers (last 30 days) - use UTC to match test execution timezone
         dates = []
         for i in range(29, -1, -1):
             date = (
-                datetime.datetime.now() - datetime.timedelta(days=i)
+                datetime.datetime.utcnow() - datetime.timedelta(days=i)
             ).strftime("%Y-%m-%d")
             dates.append(date)
 
@@ -1991,6 +2056,43 @@ class HTMLReportGenerator:
             """
             )
 
+        # Validate for blank columns, especially the latest day
+        latest_date = dates[-1] if dates else None
+        blank_column_warning = ""
+        if latest_date:
+            # Check if the latest day has any test data across all models
+            latest_day_has_data = False
+            for model in trackable_models:
+                model_id = model["model_id"]
+                if model_id in status_matrix:
+                    for status_entry in status_matrix[model_id]:
+                        if (
+                            status_entry["date"] == latest_date
+                            and status_entry["status"] != "untested"
+                        ):
+                            latest_day_has_data = True
+                            break
+                if latest_day_has_data:
+                    break
+
+            # If latest day is blank but we have recent test results, show warning
+            if not latest_day_has_data and self.history_manager:
+                recent_results = (
+                    self.history_manager.get_detailed_test_results(days=2)
+                )
+                if recent_results:
+                    # Find the most recent actual test date
+                    most_recent_test_date = max(
+                        result["date"] for result in recent_results
+                    )
+                    blank_column_warning = f"""
+                    <div style="background: #fff3cd; color: #856404; padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #ffeaa7;">
+                        <strong>⚠️ Timeline Notice:</strong> The latest column ({latest_date}) shows no test data.
+                        Most recent test results are from {most_recent_test_date}.
+                        This may indicate a timezone mismatch or tests haven't run today.
+                    </div>
+                    """
+
         # Generate date headers for display
         date_headers = []
         for i, date in enumerate(dates):
@@ -2035,6 +2137,7 @@ class HTMLReportGenerator:
         return f"""
         <section class="history-section">
             <h2>Model Performance History (Last 30 Days)</h2>
+            {blank_column_warning}
             <div class="history-legend">
                 <div class="legend-item">
                     <div class="status-cell status-working"></div>
@@ -2184,7 +2287,7 @@ class HTMLReportGenerator:
         ):
             return '<span class="new-label">NEW</span>'
         return ""
-    
+
     def _generate_variable_label(self, result: Dict[str, Any]) -> str:
         """Generate a VARIABLE label for models with conflicting results.
 
