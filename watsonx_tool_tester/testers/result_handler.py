@@ -424,11 +424,20 @@ class ResultHandler:
             sum(total_times) / len(total_times) if total_times else 0
         )
 
-        # Find fastest model (by total time, only among successful models)
+        # Find fastest model (by total time, only among reliable models)
         fastest_model = None
         fastest_time = float("inf")
 
-        for result in successful_results:
+        # Only consider reliable models for fastest calculation
+        reliable_results = [
+            r for r in successful_results 
+            if r.get("reliability", {}).get("is_reliable") is True
+        ]
+        
+        # If no reliable models, fall back to all successful models
+        models_to_check = reliable_results if reliable_results else successful_results
+
+        for result in models_to_check:
             total_time = result.get("response_times", {}).get("total_time")
             if total_time is not None and total_time < fastest_time:
                 fastest_time = total_time
@@ -558,11 +567,8 @@ class ResultHandler:
                 # Count models by reliability status
                 supported_reliable = rel_stats["reliable_count"]
                 supported_unreliable = rel_stats["unreliable_count"]
-                unsupported = (
-                    rel_stats["total_tested"]
-                    - supported_reliable
-                    - supported_unreliable
-                )
+                # Calculate unsupported from total results, not just reliability-tested results
+                unsupported = summary["total_count"] - summary["supported_count"]
 
                 click.secho(
                     f"✅ Supported & Reliable: {supported_reliable} models",

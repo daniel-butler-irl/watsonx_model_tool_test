@@ -636,8 +636,7 @@ class HTMLReportGenerator:
         }
 
         .chart-body {
-            max-height: 600px;
-            overflow-y: auto;
+            /* Removed max-height to show full table without scrollbars */
         }
 
         .model-row {
@@ -1328,27 +1327,21 @@ class HTMLReportGenerator:
             </div>
             """
 
-        # Status indicators - calculate based on actual model states
-        full_support = 0
-        partial_support = 0
-        no_support = 0
-
-        # Count based on the actual results data
-        for result in results:
-            tool_support = result.get("tool_call_support", False)
-            handles_response = result.get("handles_response", False)
-            is_reliable = result.get("reliability", {}).get(
-                "is_reliable", True
-            )
-
-            if tool_support and handles_response and is_reliable:
-                full_support += 1
-            elif tool_support and not handles_response:
-                partial_support += 1
-            elif not tool_support:
-                no_support += 1
-            # Note: unreliable models (tool_support=True, handles_response=True, is_reliable=False)
-            # are not counted in these simple categories as they're a separate concern
+        # Status indicators - calculate from summary statistics to avoid double counting
+        # Get counts from summary which are already correctly calculated
+        total_models = summary.get("total_count", 0)
+        supported_models = summary.get("supported_count", 0)
+        handles_response_models = summary.get("handles_response_count", 0)
+        
+        # Get reliability stats if available
+        reliable_models = 0
+        if "reliability" in summary:
+            reliable_models = summary["reliability"].get("reliable_count", 0)
+        
+        # Calculate badge counts
+        full_support = reliable_models  # Only reliable models get full support
+        partial_support = supported_models - handles_response_models  # Models with tool support but don't handle responses
+        no_support = total_models - supported_models  # Models without tool support
 
         return f"""
         <section class="section">
