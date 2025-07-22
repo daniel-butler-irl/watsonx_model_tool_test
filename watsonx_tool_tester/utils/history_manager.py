@@ -176,7 +176,18 @@ class HistoryManager:
             for result in results:
                 # Extract reliability info
                 reliability = result.get("reliability", {})
-                is_reliable = reliability.get("is_reliable", False)
+                # Only set is_reliable to False if we actually tested reliability and it failed
+                # For single-iteration tests or tests without reliability data, use empty string
+                is_reliable_raw = reliability.get("is_reliable")
+                if is_reliable_raw is None:
+                    # No reliability data - likely a single iteration test
+                    # Check if the model worked - if so, consider it reliable for single tests
+                    if result.get("tool_call_support", False):
+                        is_reliable = ""  # Leave empty to be inferred from success
+                    else:
+                        is_reliable = False
+                else:
+                    is_reliable = is_reliable_raw
                 tool_success_rate = reliability.get(
                     "tool_call_success_rate", 0.0
                 )
@@ -754,11 +765,21 @@ class HistoryManager:
                         handles_response = (
                             most_recent_row["handles_response"].lower() == "true"
                         )
-                        is_reliable = (
-                            most_recent_row["is_reliable"].lower() == "true"
-                            if most_recent_row["is_reliable"]
-                            else True
-                        )
+                        
+                        # Handle reliability data more carefully
+                        reliability_field = most_recent_row.get("is_reliable", "")
+                        if reliability_field and reliability_field.strip():
+                            # We have explicit reliability data
+                            is_reliable = reliability_field.lower() == "true"
+                        else:
+                            # No explicit reliability data - infer from performance
+                            # For single-iteration tests, if tool worked and handled response, consider reliable
+                            tool_success_rate = float(most_recent_row.get("tool_success_rate", "0"))
+                            if tool_support and handles_response:
+                                # If tool success rate is 100% or near 100%, consider reliable
+                                is_reliable = tool_success_rate >= 1.0
+                            else:
+                                is_reliable = False
 
                         if not tool_support:
                             # Check if model worked before to differentiate broken vs not_supported
