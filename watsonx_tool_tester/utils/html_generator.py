@@ -1333,15 +1333,15 @@ class HTMLReportGenerator:
         supported_models = summary.get("supported_count", 0)
         handles_response_models = summary.get("handles_response_count", 0)
         
-        # Get reliability stats if available
-        reliable_models = 0
-        if "reliability" in summary:
-            reliable_models = summary["reliability"].get("reliable_count", 0)
+        # Calculate badge counts based on current day results only
+        # Full Support: models with both tool calling AND response handling
+        full_support = handles_response_models  # Models that both call tools AND handle responses
         
-        # Calculate badge counts
-        full_support = reliable_models  # Only reliable models get full support
-        partial_support = supported_models - reliable_models  # Models that work but are unreliable
-        no_support = total_models - supported_models  # Models without tool support
+        # Partial Support: models with tool calling but NOT response handling  
+        partial_support = supported_models - handles_response_models  # Tool calling but no response handling
+        
+        # No Support: models without tool calling
+        no_support = total_models - supported_models  # No tool calling at all
 
         return f"""
         <section class="section">
