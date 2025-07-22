@@ -160,6 +160,9 @@ class HistoryManager:
         self, results: List[Dict[str, Any]], test_date: Optional[str] = None
     ) -> None:
         """Record test results to CSV history.
+        
+        If results already exist for the same model and date, they will be replaced
+        with the new results to prevent duplicates.
 
         Args:
             results: List of test result dictionaries
@@ -170,69 +173,107 @@ class HistoryManager:
 
         timestamp = datetime.datetime.utcnow().isoformat()
 
-        # Record individual results
-        with open(self.results_file, "a", newline="") as f:
-            writer = csv.writer(f)
-            for result in results:
-                # Extract reliability info
-                reliability = result.get("reliability", {})
-                is_reliable = reliability.get("is_reliable", False)
-                tool_success_rate = reliability.get(
-                    "tool_call_success_rate", 0.0
-                )
-                response_success_rate = reliability.get(
-                    "response_handling_success_rate", 0.0
-                )
-                iterations = reliability.get("iterations", 1)
+        # Read existing results and build lookup for duplicates
+        existing_results = []
+        model_date_indices = {}  # (model_id, date) -> row_index
+        fieldnames = [
+            "timestamp", "date", "model_id", "tool_call_support", 
+            "handles_response", "is_reliable", "tool_call_time", 
+            "response_time", "total_time", "iterations", 
+            "tool_success_rate", "response_success_rate", "details",
+            "tool_call_raw", "response_raw", "error_message",
+            "test_prompt", "expected_result", "actual_result", 
+            "model_version", "test_config"
+        ]
+        
+        if os.path.exists(self.results_file):
+            with open(self.results_file, "r") as f:
+                reader = csv.DictReader(f)
+                # Use the fieldnames from the file if available, otherwise use defaults
+                if reader.fieldnames:
+                    fieldnames = reader.fieldnames
+                for i, row in enumerate(reader):
+                    existing_results.append(row)
+                    key = (row["model_id"], row["date"])
+                    model_date_indices[key] = i
 
-                # Extract timing info
-                times = result.get("response_times", {})
-                tool_call_time = times.get("tool_call_time") or 0.0
-                response_time = times.get("response_processing_time") or 0.0
-                total_time = times.get("total_time") or 0.0
+        # Process new results
+        for result in results:
+            # Extract reliability info
+            reliability = result.get("reliability", {})
+            is_reliable = reliability.get("is_reliable", False)
+            tool_success_rate = reliability.get(
+                "tool_call_success_rate", 0.0
+            )
+            response_success_rate = reliability.get(
+                "response_handling_success_rate", 0.0
+            )
+            iterations = reliability.get("iterations", 1)
 
-                # Extract detailed test information
-                test_details = result.get("test_details", {})
-                tool_call_raw = test_details.get("tool_call_response", "")
-                response_raw = test_details.get("final_response", "")
-                error_message = test_details.get("error_message", "")
-                test_prompt = test_details.get("test_prompt", "")
-                expected_result = test_details.get("expected_result", "")
-                actual_result = test_details.get("actual_result", "")
+            # Extract timing info
+            times = result.get("response_times", {})
+            tool_call_time = times.get("tool_call_time") or 0.0
+            response_time = times.get("response_processing_time") or 0.0
+            total_time = times.get("total_time") or 0.0
 
-                # Extract model metadata
-                model_info = result.get("model_info", {})
-                model_version = model_info.get("version", "")
+            # Extract detailed test information
+            test_details = result.get("test_details", {})
+            tool_call_raw = test_details.get("tool_call_response", "")
+            response_raw = test_details.get("final_response", "")
+            error_message = test_details.get("error_message", "")
+            test_prompt = test_details.get("test_prompt", "")
+            expected_result = test_details.get("expected_result", "")
+            actual_result = test_details.get("actual_result", "")
 
-                # Extract test configuration
-                test_config = result.get("test_config", {})
-                config_str = str(test_config) if test_config else ""
+            # Extract model metadata
+            model_info = result.get("model_info", {})
+            model_version = model_info.get("version", "")
 
-                writer.writerow(
-                    [
-                        timestamp,
-                        test_date,
-                        result["model"],
-                        result.get("tool_call_support", False),
-                        result.get("handles_response", False),
-                        is_reliable,
-                        tool_call_time,
-                        response_time,
-                        total_time,
-                        iterations,
-                        tool_success_rate,
-                        response_success_rate,
-                        result.get("details", ""),
-                        tool_call_raw,
-                        response_raw,
-                        error_message,
-                        test_prompt,
-                        expected_result,
-                        actual_result,
-                        model_version,
-                        config_str,
-                    ]
-                )
+            # Extract test configuration
+            test_config = result.get("test_config", {})
+            config_str = str(test_config) if test_config else ""
+
+            # Create new row data
+            new_row = {
+                "timestamp": timestamp,
+                "date": test_date,
+                "model_id": result["model"],
+                "tool_call_support": result.get("tool_call_support", False),
+                "handles_response": result.get("handles_response", False),
+                "is_reliable": is_reliable,
+                "tool_call_time": tool_call_time,
+                "response_time": response_time,
+                "total_time": total_time,
+                "iterations": iterations,
+                "tool_success_rate": tool_success_rate,
+                "response_success_rate": response_success_rate,
+                "details": result.get("details", ""),
+                "tool_call_raw": tool_call_raw,
+                "response_raw": response_raw,
+                "error_message": error_message,
+                "test_prompt": test_prompt,
+                "expected_result": expected_result,
+                "actual_result": actual_result,
+                "model_version": model_version,
+                "test_config": config_str,
+            }
+
+            # Check if we already have results for this model+date combination
+            key = (result["model"], test_date)
+            if key in model_date_indices:
+                # Replace existing result
+                existing_index = model_date_indices[key]
+                existing_results[existing_index] = new_row
+            else:
+                # Add new result
+                existing_results.append(new_row)
+
+        # Write all results back to file
+        with open(self.results_file, "w", newline="") as f:
+            writer = csv.DictWriter(f, fieldnames=fieldnames)
+            writer.writeheader()
+            for row in existing_results:
+                writer.writerow(row)
 
         # Update models registry
         self._update_models_registry(results, test_date)
