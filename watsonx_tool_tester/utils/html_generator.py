@@ -1340,7 +1340,7 @@ class HTMLReportGenerator:
         
         # Calculate badge counts
         full_support = reliable_models  # Only reliable models get full support
-        partial_support = supported_models - handles_response_models  # Models with tool support but don't handle responses
+        partial_support = supported_models - reliable_models  # Models that work but are unreliable
         no_support = total_models - supported_models  # Models without tool support
 
         return f"""
@@ -2226,33 +2226,32 @@ class HTMLReportGenerator:
             )[
                 :7
             ]:  # Last 7 days
+                # Calculate success rate for supported models only
+                supported_success_rate = data.get('supported_models_success_rate', data.get('avg_success_rate', 0))
+                
                 trend_rows.append(
                     f"""
-                    <tr>
-                        <td>{date}</td>
-                        <td>{data['avg_tool_time']:.3f}s</td>
-                        <td>{data['avg_response_time']:.3f}s</td>
-                        <td>{data['avg_success_rate']:.1%}</td>
-                    </tr>
+                    <div class="detail-row">
+                        <div style="width: 100px; min-width: 100px; padding: 12px; border-right: 1px solid var(--border-color);">{date}</div>
+                        <div style="width: 120px; min-width: 120px; padding: 12px; border-right: 1px solid var(--border-color); text-align: center; font-family: monospace;">{data['avg_tool_time']:.3f}s</div>
+                        <div style="width: 120px; min-width: 120px; padding: 12px; border-right: 1px solid var(--border-color); text-align: center; font-family: monospace;">{data['avg_response_time']:.3f}s</div>
+                        <div style="width: 100px; min-width: 100px; padding: 12px; text-align: center; font-family: monospace; color: var(--primary-color);">{supported_success_rate:.1%}</div>
+                    </div>
                 """
                 )
 
             trends_section = f"""
             <div class="performance-trends">
                 <h3>Performance Trends</h3>
-                <table class="trends-table">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Avg Tool Time</th>
-                            <th>Avg Response Time</th>
-                            <th>Success Rate</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {''.join(trend_rows)}
-                    </tbody>
-                </table>
+                <div class="details-table">
+                    <div class="details-header">
+                        <div style="width: 100px; min-width: 100px;">Date</div>
+                        <div style="width: 120px; min-width: 120px;">Avg Tool Time</div>
+                        <div style="width: 120px; min-width: 120px;">Avg Response Time</div>
+                        <div style="width: 100px; min-width: 100px;">Success Rate</div>
+                    </div>
+                    {''.join(trend_rows)}
+                </div>
             </div>
             """
 

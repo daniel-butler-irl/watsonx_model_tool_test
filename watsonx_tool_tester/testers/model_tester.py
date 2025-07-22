@@ -312,6 +312,27 @@ class ModelTester:
                         with open(log_file, "w") as f:
                             json.dump(response_data, f, indent=2)
 
+                    # Early failure detection with probe iterations
+                    # After completing probe iterations, check if we should continue
+                    PROBE_ITERATIONS = 5
+                    MIN_SUCCESS_THRESHOLD = 1
+                    
+                    if i + 1 == PROBE_ITERATIONS and iterations > PROBE_ITERATIONS:
+                        # Check if we have any successes in probe iterations
+                        probe_successes = sum(1 for r in all_results if r.get("tool_call_support", False))
+                        
+                        if probe_successes < MIN_SUCCESS_THRESHOLD:
+                            self.logger.info(
+                                f"Model {model_id} failed probe iterations ({probe_successes}/{PROBE_ITERATIONS} successes) - skipping remaining iterations"
+                            )
+                            # Create early termination result with probe data
+                            return self._create_probe_failure_result(
+                                model_id, all_results, tool_call_successes, 
+                                response_handling_successes, total_tool_call_time,
+                                total_response_time, total_time, error_details,
+                                PROBE_ITERATIONS
+                            )
+
                     # Break out of retry loop on success
                     break
 
@@ -774,4 +795,94 @@ class ModelTester:
                 "error_count": 0,
             },
             "raw_response": None,
+        }
+
+    def _create_probe_failure_result(
+        self,
+        model_id: str,
+        all_results: List[Dict[str, Any]],
+        tool_call_successes: int,
+        response_handling_successes: int,
+        total_tool_call_time: float,
+        total_response_time: float,
+        total_time: float,
+        error_details: List[str],
+        probe_iterations: int,
+    ) -> Dict[str, Any]:
+        """Create a result for a model that failed probe iterations.
+
+        Args:
+            model_id: Model identifier
+            all_results: Results from probe iterations
+            tool_call_successes: Number of successful tool calls
+            response_handling_successes: Number of successful response handlings
+            total_tool_call_time: Total tool call time from probe iterations
+            total_response_time: Total response processing time from probe iterations
+            total_time: Total time from probe iterations
+            error_details: List of error messages
+            probe_iterations: Number of probe iterations completed
+
+        Returns:
+            Dict[str, Any]: Test result for probe failure
+        """
+        # Calculate rates based on probe iterations
+        tool_call_success_rate = (
+            tool_call_successes / probe_iterations if probe_iterations > 0 else 0
+        )
+        response_handling_success_rate = (
+            response_handling_successes / tool_call_successes
+            if tool_call_successes > 0
+            else 0
+        )
+
+        # Calculate average timings
+        successful_iterations = len([r for r in all_results if r.get("tool_call_support", False)])
+        avg_tool_call_time = (
+            total_tool_call_time / successful_iterations
+            if successful_iterations > 0
+            else 0
+        )
+        avg_response_time = (
+            total_response_time / successful_iterations
+            if successful_iterations > 0
+            else 0
+        )
+        avg_total_time = (
+            total_time / successful_iterations
+            if successful_iterations > 0
+            else 0
+        )
+
+        # Determine overall support
+        overall_tool_call_support = tool_call_successes > 0
+        overall_handles_response = response_handling_successes > 0
+
+        # Create details message
+        details = f"Failed probe iterations ({tool_call_successes}/{probe_iterations} successes)"
+        if error_details:
+            # Use the most common error as primary detail
+            from collections import Counter
+            most_common_error = Counter(error_details).most_common(1)[0][0]
+            details = most_common_error
+
+        return {
+            "model": model_id,
+            "tool_call_support": overall_tool_call_support,
+            "handles_response": overall_handles_response,
+            "details": details,
+            "response_times": {
+                "tool_call_time": avg_tool_call_time,
+                "response_processing_time": avg_response_time,
+                "total_time": avg_total_time,
+            },
+            # Probe iteration reliability data
+            "reliability": {
+                "iterations": probe_iterations,
+                "tool_call_success_rate": tool_call_success_rate,
+                "response_handling_success_rate": response_handling_success_rate,
+                "is_reliable": False if overall_tool_call_support else None,  # Not reliable if mostly failing
+                "error_count": len(error_details),
+            },
+            "raw_response": None,
+            "iteration_results": all_results,  # Include probe results for analysis
         }

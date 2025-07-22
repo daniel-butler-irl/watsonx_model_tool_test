@@ -724,6 +724,9 @@ class HistoryManager:
 
         # Fill in actual test results
         if os.path.exists(self.results_file):
+            # First, collect all test results grouped by model_id and date
+            test_data_by_model_date = {}
+            
             with open(self.results_file, "r") as f:
                 reader = csv.DictReader(f)
                 for row in reader:
@@ -731,55 +734,73 @@ class HistoryManager:
                     test_date = row["date"]
 
                     if model_id in status_matrix and test_date in date_range:
-                        # Find the status entry for this date
-                        for status_entry in status_matrix[model_id]:
-                            if status_entry["date"] == test_date:
-                                tool_support = (
-                                    row["tool_call_support"].lower() == "true"
-                                )
-                                handles_response = (
-                                    row["handles_response"].lower() == "true"
-                                )
-                                is_reliable = (
-                                    row["is_reliable"].lower() == "true"
-                                    if row["is_reliable"]
-                                    else True
-                                )
+                        key = (model_id, test_date)
+                        if key not in test_data_by_model_date:
+                            test_data_by_model_date[key] = []
+                        test_data_by_model_date[key].append(row)
+            
+            # Process each model+date combination, using the most recent result
+            for (model_id, test_date), rows in test_data_by_model_date.items():
+                # Sort by timestamp to get the most recent result
+                sorted_rows = sorted(rows, key=lambda x: x.get("timestamp", ""), reverse=True)
+                most_recent_row = sorted_rows[0]
+                
+                # Find the status entry for this date
+                for status_entry in status_matrix[model_id]:
+                    if status_entry["date"] == test_date:
+                        tool_support = (
+                            most_recent_row["tool_call_support"].lower() == "true"
+                        )
+                        handles_response = (
+                            most_recent_row["handles_response"].lower() == "true"
+                        )
+                        is_reliable = (
+                            most_recent_row["is_reliable"].lower() == "true"
+                            if most_recent_row["is_reliable"]
+                            else True
+                        )
 
-                                if not tool_support:
-                                    status_entry["status"] = "not_supported"
-                                    status_entry["details"] = (
-                                        "Model does not support tool calling"
-                                    )
-                                elif (
-                                    tool_support
-                                    and handles_response
-                                    and is_reliable
-                                ):
-                                    status_entry["status"] = "working"
-                                    status_entry["details"] = (
-                                        "Full tool calling support - reliable"
-                                    )
-                                elif (
-                                    tool_support
-                                    and handles_response
-                                    and not is_reliable
-                                ):
-                                    status_entry["status"] = "unreliable"
-                                    status_entry["details"] = (
-                                        "Full tool calling support - inconsistent results"
-                                    )
-                                elif tool_support and not handles_response:
-                                    status_entry["status"] = "partial"
-                                    status_entry["details"] = (
-                                        "Tool calling only - doesn't handle responses"
-                                    )
-                                else:
-                                    status_entry["status"] = "broken"
-                                    status_entry["details"] = (
-                                        "Tool calling failed"
-                                    )
-                                break
+                        if not tool_support:
+                            # Check if model worked before to differentiate broken vs not_supported
+                            if self.has_previously_worked(model_id):
+                                status_entry["status"] = "broken"
+                                status_entry["details"] = (
+                                    "Model previously worked but now fails"
+                                )
+                            else:
+                                status_entry["status"] = "not_supported"
+                                status_entry["details"] = (
+                                    "Model does not support tool calling"
+                                )
+                        elif (
+                            tool_support
+                            and handles_response
+                            and is_reliable
+                        ):
+                            status_entry["status"] = "working"
+                            status_entry["details"] = (
+                                "Full tool calling support - reliable"
+                            )
+                        elif (
+                            tool_support
+                            and handles_response
+                            and not is_reliable
+                        ):
+                            status_entry["status"] = "unreliable"
+                            status_entry["details"] = (
+                                "Full tool calling support - inconsistent results"
+                            )
+                        elif tool_support and not handles_response:
+                            status_entry["status"] = "partial"
+                            status_entry["details"] = (
+                                "Tool calling only - doesn't handle responses"
+                            )
+                        else:
+                            status_entry["status"] = "broken"
+                            status_entry["details"] = (
+                                "Tool calling failed"
+                            )
+                        break
 
         return status_matrix
 
@@ -1052,6 +1073,7 @@ class HistoryManager:
                                 "response_times": [],
                                 "total_times": [],
                                 "success_rates": [],
+                                "supported_model_success_rates": [],
                             }
 
                         if row["tool_call_time"]:
@@ -1070,6 +1092,12 @@ class HistoryManager:
                         daily_data[date_key]["success_rates"].append(
                             float(row["tool_success_rate"])
                         )
+                        
+                        # Only include success rates for models that support tool calling
+                        if row["tool_call_support"].lower() == "true":
+                            daily_data[date_key]["supported_model_success_rates"].append(
+                                float(row["tool_success_rate"])
+                            )
 
                         # Collect model data
                         if model_id not in model_data:
@@ -1126,6 +1154,11 @@ class HistoryManager:
                         if data["success_rates"]
                         else 0
                     ),
+                    "supported_models_success_rate": (
+                        sum(data["supported_model_success_rates"]) / len(data["supported_model_success_rates"])
+                        if data["supported_model_success_rates"]
+                        else 0
+                    ),
                 }
 
             # Calculate model performance trends
@@ -1151,6 +1184,45 @@ class HistoryManager:
                         }
 
         return performance_trends
+
+    def has_previously_worked(self, model_id: str, days: int = 365) -> bool:
+        """Check if a model has ever worked successfully in the past.
+        
+        Args:
+            model_id: The model ID to check
+            days: Number of days to look back in history (default: 365)
+            
+        Returns:
+            bool: True if the model has ever had successful tool calling in the past
+        """
+        if not os.path.exists(self.results_file):
+            return False
+            
+        # Calculate the cutoff date
+        cutoff_date = datetime.datetime.utcnow() - datetime.timedelta(days=days)
+        
+        try:
+            with open(self.results_file, "r") as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    if row["model_id"] != model_id:
+                        continue
+                        
+                    # Parse the test date
+                    test_date = self._parse_datetime_safely(row["date"])
+                    if test_date is None or test_date < cutoff_date:
+                        continue
+                    
+                    # Check if this test showed tool calling support
+                    tool_support = row.get("tool_call_support", "").lower() == "true"
+                    if tool_support:
+                        return True
+                        
+        except Exception:
+            # If there's any issue reading the file, assume no previous success
+            return False
+            
+        return False
 
     def is_new_model(self, model_id: str) -> bool:
         """Check if a model is newly detected (within the last 2 weeks).
