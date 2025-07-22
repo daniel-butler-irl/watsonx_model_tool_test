@@ -58,7 +58,7 @@ jobs:
         echo "🔧 Running tool test with HTML output..."
         echo "Output file: $HTML_REPORT_FILE"
         
-        if watsonx-tool-tester test --iterations ${{ inputs.iterations || '20' }} --output "$HTML_REPORT_FILE" --html-output --save-history; then
+        if watsonx-tool-tester test --iterations ${{ inputs.iterations || '50' }} --output "$HTML_REPORT_FILE" --html-output --save-history; then
           echo "✅ Tool test completed successfully"
         else
           echo "❌ Tool test failed with exit code $?"
@@ -151,7 +151,7 @@ jobs:
           echo "📊 **[Latest Tool Test Report](https://daniel-butler-irl.github.io/watsonx_model_tool_test/reports/latest_report.html)**" >> /tmp/new_section.txt
           echo "" >> /tmp/new_section.txt
           echo "- **Last Updated:** $CURRENT_DATE" >> /tmp/new_section.txt
-          echo "- **Test Iterations:** ${{ inputs.iterations || '20' }} per model" >> /tmp/new_section.txt
+          echo "- **Test Iterations:** ${{ inputs.iterations || '50' }} per model" >> /tmp/new_section.txt
           echo "- **All Reports:** [Browse Reports Directory](https://daniel-butler-irl.github.io/watsonx_model_tool_test/reports/)" >> /tmp/new_section.txt
           echo "" >> /tmp/new_section.txt
           echo "*Reports generated daily at 06:00 UTC and include 90-day trend analysis and reliability assessment.*" >> /tmp/new_section.txt
@@ -187,7 +187,7 @@ jobs:
           echo "📊 **[Latest Tool Test Report](https://daniel-butler-irl.github.io/watsonx_model_tool_test/reports/latest_report.html)**" >> README.md
           echo "" >> README.md
           echo "- **Last Updated:** $CURRENT_DATE" >> README.md
-          echo "- **Test Iterations:** ${{ inputs.iterations || '20' }} per model" >> README.md
+          echo "- **Test Iterations:** ${{ inputs.iterations || '50' }} per model" >> README.md
           echo "- **All Reports:** [Browse Reports Directory](https://daniel-butler-irl.github.io/watsonx_model_tool_test/reports/)" >> README.md
           echo "" >> README.md
           echo "*Reports generated daily at 06:00 UTC and include 90-day trend analysis and reliability assessment.*" >> README.md

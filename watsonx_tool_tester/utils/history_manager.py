@@ -166,9 +166,9 @@ class HistoryManager:
             test_date: Date of the test (defaults to today)
         """
         if test_date is None:
-            test_date = datetime.datetime.now().strftime("%Y-%m-%d")
+            test_date = datetime.datetime.utcnow().strftime("%Y-%m-%d")
 
-        timestamp = datetime.datetime.now().isoformat()
+        timestamp = datetime.datetime.utcnow().isoformat()
 
         # Record individual results
         with open(self.results_file, "a", newline="") as f:
@@ -565,7 +565,7 @@ class HistoryManager:
         history = []
 
         if os.path.exists(self.results_file):
-            cutoff_date = datetime.datetime.now() - datetime.timedelta(
+            cutoff_date = datetime.datetime.utcnow() - datetime.timedelta(
                 days=days
             )
 
@@ -654,7 +654,7 @@ class HistoryManager:
         history = []
 
         if os.path.exists(self.summary_file):
-            cutoff_date = datetime.datetime.now() - datetime.timedelta(
+            cutoff_date = datetime.datetime.utcnow() - datetime.timedelta(
                 days=days
             )
 
@@ -701,7 +701,7 @@ class HistoryManager:
         model_ids = [model["model_id"] for model in trackable_models]
 
         # Get date range
-        end_date = datetime.datetime.now()
+        end_date = datetime.datetime.utcnow()
         start_date = end_date - datetime.timedelta(days=days)
         date_range = []
         current_date = start_date
@@ -789,7 +789,7 @@ class HistoryManager:
         Args:
             days_to_keep: Number of days of data to keep
         """
-        cutoff_date = datetime.datetime.now() - datetime.timedelta(
+        cutoff_date = datetime.datetime.utcnow() - datetime.timedelta(
             days=days_to_keep
         )
         cutoff_str = cutoff_date.strftime("%Y-%m-%d")
@@ -849,7 +849,7 @@ class HistoryManager:
         detailed_results = []
 
         if os.path.exists(self.results_file):
-            cutoff_date = datetime.datetime.now() - datetime.timedelta(
+            cutoff_date = datetime.datetime.utcnow() - datetime.timedelta(
                 days=days
             )
 
@@ -953,7 +953,7 @@ class HistoryManager:
         }
 
         if os.path.exists(self.results_file):
-            cutoff_date = datetime.datetime.now() - datetime.timedelta(
+            cutoff_date = datetime.datetime.utcnow() - datetime.timedelta(
                 days=days
             )
 
@@ -1027,7 +1027,7 @@ class HistoryManager:
         }
 
         if os.path.exists(self.results_file):
-            cutoff_date = datetime.datetime.now() - datetime.timedelta(
+            cutoff_date = datetime.datetime.utcnow() - datetime.timedelta(
                 days=days
             )
             daily_data = {}
@@ -1165,7 +1165,7 @@ class HistoryManager:
             return False
 
         # Calculate the cutoff date (2 weeks ago)
-        cutoff_date = datetime.datetime.now() - datetime.timedelta(weeks=2)
+        cutoff_date = datetime.datetime.utcnow() - datetime.timedelta(weeks=2)
 
         with open(self.models_file, "r") as f:
             reader = csv.DictReader(f)
