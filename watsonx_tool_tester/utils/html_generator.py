@@ -1334,20 +1334,24 @@ class HTMLReportGenerator:
         # Status indicators - calculate directly from current test results to ensure accuracy
         # Count directly from the results parameter (current test run data)
 
-        # Full Support: models with both tool calling AND response handling
+        # Full Support: models with tool calling AND response handling AND reliable
         full_support = sum(
             1
             for r in results
             if r.get("tool_call_support", False)
             and r.get("handles_response", False)
+            and r.get("reliability", {}).get("is_reliable", False)
         )
 
-        # Partial Support: models with tool calling but NOT response handling
+        # Partial Support: models with tool calling but either not handling responses OR unreliable
         partial_support = sum(
             1
             for r in results
             if r.get("tool_call_support", False)
-            and not r.get("handles_response", False)
+            and (
+                not r.get("handles_response", False)
+                or not r.get("reliability", {}).get("is_reliable", False)
+            )
         )
 
         # No Support: models without tool calling
