@@ -316,21 +316,33 @@ class ModelTester:
                     # After completing probe iterations, check if we should continue
                     PROBE_ITERATIONS = 5
                     MIN_SUCCESS_THRESHOLD = 1
-                    
-                    if i + 1 == PROBE_ITERATIONS and iterations > PROBE_ITERATIONS:
+
+                    if (
+                        i + 1 == PROBE_ITERATIONS
+                        and iterations > PROBE_ITERATIONS
+                    ):
                         # Check if we have any successes in probe iterations
-                        probe_successes = sum(1 for r in all_results if r.get("tool_call_support", False))
-                        
+                        probe_successes = sum(
+                            1
+                            for r in all_results
+                            if r.get("tool_call_support", False)
+                        )
+
                         if probe_successes < MIN_SUCCESS_THRESHOLD:
                             self.logger.info(
                                 f"Model {model_id} failed probe iterations ({probe_successes}/{PROBE_ITERATIONS} successes) - skipping remaining iterations"
                             )
                             # Create early termination result with probe data
                             return self._create_probe_failure_result(
-                                model_id, all_results, tool_call_successes, 
-                                response_handling_successes, total_tool_call_time,
-                                total_response_time, total_time, error_details,
-                                PROBE_ITERATIONS
+                                model_id,
+                                all_results,
+                                tool_call_successes,
+                                response_handling_successes,
+                                total_tool_call_time,
+                                total_response_time,
+                                total_time,
+                                error_details,
+                                PROBE_ITERATIONS,
                             )
 
                     # Break out of retry loop on success
@@ -827,7 +839,9 @@ class ModelTester:
         """
         # Calculate rates based on probe iterations
         tool_call_success_rate = (
-            tool_call_successes / probe_iterations if probe_iterations > 0 else 0
+            tool_call_successes / probe_iterations
+            if probe_iterations > 0
+            else 0
         )
         response_handling_success_rate = (
             response_handling_successes / tool_call_successes
@@ -836,7 +850,9 @@ class ModelTester:
         )
 
         # Calculate average timings
-        successful_iterations = len([r for r in all_results if r.get("tool_call_support", False)])
+        successful_iterations = len(
+            [r for r in all_results if r.get("tool_call_support", False)]
+        )
         avg_tool_call_time = (
             total_tool_call_time / successful_iterations
             if successful_iterations > 0
@@ -862,6 +878,7 @@ class ModelTester:
         if error_details:
             # Use the most common error as primary detail
             from collections import Counter
+
             most_common_error = Counter(error_details).most_common(1)[0][0]
             details = most_common_error
 
@@ -880,7 +897,9 @@ class ModelTester:
                 "iterations": probe_iterations,
                 "tool_call_success_rate": tool_call_success_rate,
                 "response_handling_success_rate": response_handling_success_rate,
-                "is_reliable": False if overall_tool_call_support else None,  # Not reliable if mostly failing
+                "is_reliable": (
+                    False if overall_tool_call_support else None
+                ),  # Not reliable if mostly failing
                 "error_count": len(error_details),
             },
             "raw_response": None,

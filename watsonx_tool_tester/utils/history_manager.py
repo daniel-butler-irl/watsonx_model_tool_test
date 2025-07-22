@@ -160,7 +160,7 @@ class HistoryManager:
         self, results: List[Dict[str, Any]], test_date: Optional[str] = None
     ) -> None:
         """Record test results to CSV history.
-        
+
         If results already exist for the same model and date, they will be replaced
         with the new results to prevent duplicates.
 
@@ -177,15 +177,29 @@ class HistoryManager:
         existing_results = []
         model_date_indices = {}  # (model_id, date) -> row_index
         fieldnames = [
-            "timestamp", "date", "model_id", "tool_call_support", 
-            "handles_response", "is_reliable", "tool_call_time", 
-            "response_time", "total_time", "iterations", 
-            "tool_success_rate", "response_success_rate", "details",
-            "tool_call_raw", "response_raw", "error_message",
-            "test_prompt", "expected_result", "actual_result", 
-            "model_version", "test_config"
+            "timestamp",
+            "date",
+            "model_id",
+            "tool_call_support",
+            "handles_response",
+            "is_reliable",
+            "tool_call_time",
+            "response_time",
+            "total_time",
+            "iterations",
+            "tool_success_rate",
+            "response_success_rate",
+            "details",
+            "tool_call_raw",
+            "response_raw",
+            "error_message",
+            "test_prompt",
+            "expected_result",
+            "actual_result",
+            "model_version",
+            "test_config",
         ]
-        
+
         if os.path.exists(self.results_file):
             with open(self.results_file, "r") as f:
                 reader = csv.DictReader(f)
@@ -202,9 +216,7 @@ class HistoryManager:
             # Extract reliability info
             reliability = result.get("reliability", {})
             is_reliable = reliability.get("is_reliable", False)
-            tool_success_rate = reliability.get(
-                "tool_call_success_rate", 0.0
-            )
+            tool_success_rate = reliability.get("tool_call_success_rate", 0.0)
             response_success_rate = reliability.get(
                 "response_handling_success_rate", 0.0
             )
@@ -767,7 +779,7 @@ class HistoryManager:
         if os.path.exists(self.results_file):
             # First, collect all test results grouped by model_id and date
             test_data_by_model_date = {}
-            
+
             with open(self.results_file, "r") as f:
                 reader = csv.DictReader(f)
                 for row in reader:
@@ -779,24 +791,30 @@ class HistoryManager:
                         if key not in test_data_by_model_date:
                             test_data_by_model_date[key] = []
                         test_data_by_model_date[key].append(row)
-            
+
             # Process each model+date combination, using the most recent result
             for (model_id, test_date), rows in test_data_by_model_date.items():
                 # Sort by timestamp to get the most recent result
-                sorted_rows = sorted(rows, key=lambda x: x.get("timestamp", ""), reverse=True)
+                sorted_rows = sorted(
+                    rows, key=lambda x: x.get("timestamp", ""), reverse=True
+                )
                 most_recent_row = sorted_rows[0]
-                
+
                 # Find the status entry for this date
                 for status_entry in status_matrix[model_id]:
                     if status_entry["date"] == test_date:
                         tool_support = (
-                            most_recent_row["tool_call_support"].lower() == "true"
+                            most_recent_row["tool_call_support"].lower()
+                            == "true"
                         )
                         handles_response = (
-                            most_recent_row["handles_response"].lower() == "true"
+                            most_recent_row["handles_response"].lower()
+                            == "true"
                         )
                         # Debug: log the actual value being processed
-                        reliability_value = most_recent_row.get("is_reliable", "")
+                        reliability_value = most_recent_row.get(
+                            "is_reliable", ""
+                        )
                         is_reliable = (
                             reliability_value.lower() == "true"
                             if reliability_value and reliability_value.strip()
@@ -815,11 +833,7 @@ class HistoryManager:
                                 status_entry["details"] = (
                                     "Model does not support tool calling"
                                 )
-                        elif (
-                            tool_support
-                            and handles_response
-                            and is_reliable
-                        ):
+                        elif tool_support and handles_response and is_reliable:
                             status_entry["status"] = "working"
                             status_entry["details"] = (
                                 "Full tool calling support - reliable"
@@ -840,9 +854,7 @@ class HistoryManager:
                             )
                         else:
                             status_entry["status"] = "broken"
-                            status_entry["details"] = (
-                                "Tool calling failed"
-                            )
+                            status_entry["details"] = "Tool calling failed"
                         break
 
         return status_matrix
@@ -1135,12 +1147,12 @@ class HistoryManager:
                         daily_data[date_key]["success_rates"].append(
                             float(row["tool_success_rate"])
                         )
-                        
+
                         # Only include success rates for models that support tool calling
                         if row["tool_call_support"].lower() == "true":
-                            daily_data[date_key]["supported_model_success_rates"].append(
-                                float(row["tool_success_rate"])
-                            )
+                            daily_data[date_key][
+                                "supported_model_success_rates"
+                            ].append(float(row["tool_success_rate"]))
 
                         # Collect model data
                         if model_id not in model_data:
@@ -1198,7 +1210,8 @@ class HistoryManager:
                         else 0
                     ),
                     "supported_models_success_rate": (
-                        sum(data["supported_model_success_rates"]) / len(data["supported_model_success_rates"])
+                        sum(data["supported_model_success_rates"])
+                        / len(data["supported_model_success_rates"])
                         if data["supported_model_success_rates"]
                         else 0
                     ),
@@ -1230,41 +1243,45 @@ class HistoryManager:
 
     def has_previously_worked(self, model_id: str, days: int = 365) -> bool:
         """Check if a model has ever worked successfully in the past.
-        
+
         Args:
             model_id: The model ID to check
             days: Number of days to look back in history (default: 365)
-            
+
         Returns:
             bool: True if the model has ever had successful tool calling in the past
         """
         if not os.path.exists(self.results_file):
             return False
-            
+
         # Calculate the cutoff date
-        cutoff_date = datetime.datetime.utcnow() - datetime.timedelta(days=days)
-        
+        cutoff_date = datetime.datetime.utcnow() - datetime.timedelta(
+            days=days
+        )
+
         try:
             with open(self.results_file, "r") as f:
                 reader = csv.DictReader(f)
                 for row in reader:
                     if row["model_id"] != model_id:
                         continue
-                        
+
                     # Parse the test date
                     test_date = self._parse_datetime_safely(row["date"])
                     if test_date is None or test_date < cutoff_date:
                         continue
-                    
+
                     # Check if this test showed tool calling support
-                    tool_support = row.get("tool_call_support", "").lower() == "true"
+                    tool_support = (
+                        row.get("tool_call_support", "").lower() == "true"
+                    )
                     if tool_support:
                         return True
-                        
+
         except Exception:
             # If there's any issue reading the file, assume no previous success
             return False
-            
+
         return False
 
     def is_new_model(self, model_id: str) -> bool:

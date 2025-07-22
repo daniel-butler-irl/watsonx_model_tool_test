@@ -52,6 +52,8 @@ class HTMLReportGenerator:
         )
 
         # Build HTML structure
+        # NOTE: All summary statistics and badges are calculated from current test results (results parameter)
+        # Historical data (history_manager) is only used for the timeline visualization
         html_content = f"""
 <!DOCTYPE html>
 <html lang="en">
@@ -1275,10 +1277,17 @@ class HTMLReportGenerator:
         self, summary: Dict[str, Any], results: List[Dict[str, Any]]
     ) -> str:
         """Generate the summary statistics section."""
-        # Calculate percentages
-        total_count = summary.get("total_count", 0)
-        supported_count = summary.get("supported_count", 0)
-        handles_response_count = summary.get("handles_response_count", 0)
+        # Calculate counts directly from current test results to ensure accuracy
+        total_count = len(results)
+        supported_count = sum(
+            1 for r in results if r.get("tool_call_support", False)
+        )
+        handles_response_count = sum(
+            1
+            for r in results
+            if r.get("tool_call_support", False)
+            and r.get("handles_response", False)
+        )
 
         support_percentage = (
             (supported_count / total_count * 100) if total_count > 0 else 0
@@ -1289,33 +1298,28 @@ class HTMLReportGenerator:
             else 0
         )
 
-        # Generate reliability info
+        # Generate reliability info from current test results
         reliability_info = ""
         if "reliability" in summary:
             rel_stats = summary["reliability"]
             reliable_count = rel_stats.get("reliable_count", 0)
-            total_tested = rel_stats.get("total_tested", 0)
 
-            # Use supported_count instead of total_tested for display consistency
-            # since total_tested might still include unsupported models in some cases
-            display_total = (
-                supported_count if supported_count > 0 else total_tested
-            )
+            # Use supported_count from current results for consistency
             reliability_percentage = (
-                (reliable_count / display_total * 100)
-                if display_total > 0
+                (reliable_count / supported_count * 100)
+                if supported_count > 0
                 else 0
             )
 
             reliability_info = f"""
             <div class="summary-card">
                 <h3>Reliability</h3>
-                <div class="value" style="color: var(--success-color);">{reliable_count}/{display_total}</div>
+                <div class="value" style="color: var(--success-color);">{reliable_count}/{supported_count}</div>
                 <div class="description">Models with 100% consistency ({reliability_percentage:.1f}%)</div>
             </div>
             """
 
-        # Generate performance info
+        # Generate performance info from current results
         performance_info = ""
         if summary.get("fastest_model"):
             fastest = summary["fastest_model"]
@@ -1327,21 +1331,29 @@ class HTMLReportGenerator:
             </div>
             """
 
-        # Status indicators - calculate from summary statistics to avoid double counting
-        # Get counts from summary which are already correctly calculated
-        total_models = summary.get("total_count", 0)
-        supported_models = summary.get("supported_count", 0)
-        handles_response_models = summary.get("handles_response_count", 0)
-        
-        # Calculate badge counts based on current day results only
+        # Status indicators - calculate directly from current test results to ensure accuracy
+        # Count directly from the results parameter (current test run data)
+
         # Full Support: models with both tool calling AND response handling
-        full_support = handles_response_models  # Models that both call tools AND handle responses
-        
-        # Partial Support: models with tool calling but NOT response handling  
-        partial_support = supported_models - handles_response_models  # Tool calling but no response handling
-        
+        full_support = sum(
+            1
+            for r in results
+            if r.get("tool_call_support", False)
+            and r.get("handles_response", False)
+        )
+
+        # Partial Support: models with tool calling but NOT response handling
+        partial_support = sum(
+            1
+            for r in results
+            if r.get("tool_call_support", False)
+            and not r.get("handles_response", False)
+        )
+
         # No Support: models without tool calling
-        no_support = total_models - supported_models  # No tool calling at all
+        no_support = sum(
+            1 for r in results if not r.get("tool_call_support", False)
+        )
 
         return f"""
         <section class="section">
@@ -2227,8 +2239,11 @@ class HTMLReportGenerator:
                 :7
             ]:  # Last 7 days
                 # Calculate success rate for supported models only
-                supported_success_rate = data.get('supported_models_success_rate', data.get('avg_success_rate', 0))
-                
+                supported_success_rate = data.get(
+                    "supported_models_success_rate",
+                    data.get("avg_success_rate", 0),
+                )
+
                 trend_rows.append(
                     f"""
                     <div class="detail-row">

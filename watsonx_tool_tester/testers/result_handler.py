@@ -308,11 +308,14 @@ class ResultHandler:
     ) -> Dict[str, Any]:
         """Calculate summary statistics for test results.
 
+        NOTE: This method calculates statistics ONLY from the provided results
+        (current test run). It does not mix historical data.
+
         Args:
-            results: List of test result dictionaries
+            results: List of test result dictionaries from current test execution
 
         Returns:
-            Dict[str, Any]: Summary statistics
+            Dict[str, Any]: Summary statistics based only on current results
         """
         total_count = len(results)
         supported_count = sum(
@@ -430,12 +433,15 @@ class ResultHandler:
 
         # Only consider reliable models for fastest calculation
         reliable_results = [
-            r for r in successful_results 
+            r
+            for r in successful_results
             if r.get("reliability", {}).get("is_reliable") is True
         ]
-        
+
         # If no reliable models, fall back to all successful models
-        models_to_check = reliable_results if reliable_results else successful_results
+        models_to_check = (
+            reliable_results if reliable_results else successful_results
+        )
 
         for result in models_to_check:
             total_time = result.get("response_times", {}).get("total_time")
@@ -568,7 +574,9 @@ class ResultHandler:
                 supported_reliable = rel_stats["reliable_count"]
                 supported_unreliable = rel_stats["unreliable_count"]
                 # Calculate unsupported from total results, not just reliability-tested results
-                unsupported = summary["total_count"] - summary["supported_count"]
+                unsupported = (
+                    summary["total_count"] - summary["supported_count"]
+                )
 
                 click.secho(
                     f"✅ Supported & Reliable: {supported_reliable} models",
