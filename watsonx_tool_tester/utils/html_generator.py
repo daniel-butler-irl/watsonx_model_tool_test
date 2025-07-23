@@ -100,6 +100,7 @@ class HTMLReportGenerator:
         return """
         :root {
             --primary-color: #0f62fe;
+            --primary-color-light: rgba(15, 98, 254, 0.1);
             --success-color: #24a148;
             --warning-color: #f1c21b;
             --error-color: #da1e28;
@@ -286,6 +287,48 @@ class HTMLReportGenerator:
             text-transform: uppercase;
             letter-spacing: 0.5px;
             box-shadow: 0 1px 3px rgba(245, 158, 11, 0.3);
+            cursor: help;
+        }
+
+        .previously-working-label {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7em;
+            font-weight: 600;
+            margin-left: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 1px 3px rgba(239, 68, 68, 0.3);
+            cursor: help;
+        }
+
+        .newly-working-label {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7em;
+            font-weight: 600;
+            margin-left: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 1px 3px rgba(16, 185, 129, 0.3);
+            cursor: help;
+        }
+
+        .currently-broken-label {
+            background: linear-gradient(135deg, #991b1b, #7f1d1d);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7em;
+            font-weight: 600;
+            margin-left: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 1px 3px rgba(153, 27, 27, 0.3);
             cursor: help;
         }
 
@@ -1277,17 +1320,11 @@ class HTMLReportGenerator:
         self, summary: Dict[str, Any], results: List[Dict[str, Any]]
     ) -> str:
         """Generate the summary statistics section."""
-        # Calculate counts directly from current test results to ensure accuracy
-        total_count = len(results)
-        supported_count = sum(
-            1 for r in results if r.get("tool_call_support", False)
-        )
-        handles_response_count = sum(
-            1
-            for r in results
-            if r.get("tool_call_support", False)
-            and r.get("handles_response", False)
-        )
+        # Use summary statistics calculated by ResultHandler to ensure consistency
+        # This eliminates duplicate calculation logic and ensures single source of truth
+        total_count = summary.get("total_count", 0)
+        supported_count = summary.get("supported_count", 0)
+        handles_response_count = summary.get("handles_response_count", 0)
 
         support_percentage = (
             (supported_count / total_count * 100) if total_count > 0 else 0
@@ -1298,13 +1335,13 @@ class HTMLReportGenerator:
             else 0
         )
 
-        # Generate reliability info from current test results
+        # Generate reliability info from summary statistics
         reliability_info = ""
         if "reliability" in summary:
             rel_stats = summary["reliability"]
             reliable_count = rel_stats.get("reliable_count", 0)
 
-            # Use supported_count from current results for consistency
+            # Use supported_count from summary for consistency
             reliability_percentage = (
                 (reliable_count / supported_count * 100)
                 if supported_count > 0
@@ -1319,7 +1356,7 @@ class HTMLReportGenerator:
             </div>
             """
 
-        # Generate performance info from current results
+        # Generate performance info from summary statistics
         performance_info = ""
         if summary.get("fastest_model"):
             fastest = summary["fastest_model"]
@@ -1340,7 +1377,7 @@ class HTMLReportGenerator:
             for r in results
             if r.get("tool_call_support", False)
             and r.get("handles_response", False)
-            and r.get("reliability", {}).get("is_reliable", False)
+            and r.get("reliability", {}).get("is_reliable") is True
         )
 
         # Partial Support: models with tool calling but either not handling responses OR unreliable
@@ -1350,7 +1387,7 @@ class HTMLReportGenerator:
             if r.get("tool_call_support", False)
             and (
                 not r.get("handles_response", False)
-                or not r.get("reliability", {}).get("is_reliable", False)
+                or r.get("reliability", {}).get("is_reliable") is False
             )
         )
 
@@ -1513,7 +1550,7 @@ class HTMLReportGenerator:
         def get_status_priority(result):
             tool_support = result["tool_call_support"]
             handles_response = result["handles_response"]
-            is_reliable = result.get("is_reliable", True)
+            is_reliable = result.get("is_reliable")
 
             # Check if this is a model that never supported tool calling
             error_message = result["test_details"].get("error_message", "")
@@ -1528,9 +1565,9 @@ class HTMLReportGenerator:
             )
 
             # Status priority order: Working(1) -> Unreliable(2) -> Partial(3) -> Broken(4) -> Not Supported(5)
-            if tool_support and handles_response and is_reliable:
+            if tool_support and handles_response and is_reliable is True:
                 return (1, result["model_info"]["display_name"])  # Working
-            elif tool_support and handles_response and not is_reliable:
+            elif tool_support and handles_response and is_reliable is False:
                 return (2, result["model_info"]["display_name"])  # Unreliable
             elif tool_support and not handles_response:
                 return (3, result["model_info"]["display_name"])  # Partial
@@ -1553,7 +1590,7 @@ class HTMLReportGenerator:
             # Determine status based on support and reliability
             tool_support = result["tool_call_support"]
             handles_response = result["handles_response"]
-            is_reliable = result.get("is_reliable", True)
+            is_reliable = result.get("is_reliable")
 
             # Check if this is a model that never supported tool calling vs one that is broken
             error_message = result["test_details"].get("error_message", "")
@@ -1570,10 +1607,10 @@ class HTMLReportGenerator:
             if is_not_supported:
                 status_class = "not-supported"
                 status_text = "Not Supported"
-            elif tool_support and handles_response and is_reliable:
+            elif tool_support and handles_response and is_reliable is True:
                 status_class = "working"
                 status_text = "Working"
-            elif tool_support and handles_response and not is_reliable:
+            elif tool_support and handles_response and is_reliable is False:
                 status_class = "unreliable"
                 status_text = "Unreliable"
             elif tool_support and not handles_response:
@@ -1587,7 +1624,7 @@ class HTMLReportGenerator:
                 f"""
                 <div class="detail-row" data-model="{result['model_id']}">
                     <div class="detail-date">{result['date']}</div>
-                    <div class="detail-model">{result['model_info']['display_name']}{self._generate_new_label(result['model_id'])}</div>
+                    <div class="detail-model">{result['model_info']['display_name']}{self._generate_new_label(result['model_id'])}{self._generate_previously_working_label(result['model_id'], result)}{self._generate_newly_working_label(result['model_id'], result)}{self._generate_currently_broken_label(result['model_id'], result)}</div>
                     <div class="detail-status {status_class}">{status_text}</div>
                     <div class="detail-time">{result['performance']['total_time']:.3f}s</div>
                     <div class="detail-success">{result['performance'].get('tool_success_rate', 0):.1%}</div>
@@ -1743,7 +1780,7 @@ class HTMLReportGenerator:
 
             row = f"""
             <tr data-model="{model_name.lower()}" data-support="{tool_support}" data-handling="{handles_response}">
-                <td class="model-name">{model_name}{self._generate_new_label(model_name)}{self._generate_variable_label(result)}</td>
+                <td class="model-name">{model_name}{self._generate_new_label(model_name)}{self._generate_variable_label(result)}{self._generate_previously_working_label(model_name, result)}{self._generate_newly_working_label(model_name, result)}{self._generate_currently_broken_label(model_name, result)}</td>
                 <td>{tool_support_html}</td>
                 <td>{response_support_html}</td>
                 <td>{call_time_html}</td>
@@ -1831,7 +1868,7 @@ class HTMLReportGenerator:
                 model_items.append(
                     f"""
                 <div class="unsupported-model-item">
-                    <span class="model-name">{model_name}{self._generate_new_label(model_name)}{self._generate_variable_label(result)}</span>
+                    <span class="model-name">{model_name}{self._generate_new_label(model_name)}{self._generate_variable_label(result)}{self._generate_previously_working_label(model_name, result)}{self._generate_newly_working_label(model_name, result)}{self._generate_currently_broken_label(model_name, result)}</span>
                     <details class="model-details-expandable">
                         <summary class="model-details-summary">{short_details}</summary>
                         <div class="model-details-full">{details}</div>
@@ -1843,7 +1880,7 @@ class HTMLReportGenerator:
                 model_items.append(
                     f"""
                 <div class="unsupported-model-item">
-                    <span class="model-name">{model_name}{self._generate_new_label(model_name)}{self._generate_variable_label(result)}</span>
+                    <span class="model-name">{model_name}{self._generate_new_label(model_name)}{self._generate_variable_label(result)}{self._generate_previously_working_label(model_name, result)}{self._generate_newly_working_label(model_name, result)}{self._generate_currently_broken_label(model_name, result)}</span>
                     <span class="model-details">{details}</span>
                 </div>
                 """
@@ -1870,17 +1907,10 @@ class HTMLReportGenerator:
         avg_response_time = summary.get("avg_response_time", 0)
         avg_total_time = summary.get("avg_total_time", 0)
 
-        # Model categories
-        total_models = len(results)
-        supported_models = sum(
-            1 for r in results if r.get("tool_call_support", False)
-        )
-        handling_models = sum(
-            1
-            for r in results
-            if r.get("tool_call_support", False)
-            and r.get("handles_response", False)
-        )
+        # Model categories from summary statistics
+        total_models = summary.get("total_count", 0)
+        supported_models = summary.get("supported_count", 0)
+        handling_models = summary.get("handles_response_count", 0)
 
         # Generate reliability chart if available
         reliability_chart = ""
@@ -1960,36 +1990,36 @@ class HTMLReportGenerator:
     def _has_test_execution_for_date(self, target_date: str) -> bool:
         """
         Directly check if any tests were executed for the given date.
-        
+
         This method provides a robust check by directly querying the CSV file
         rather than relying on complex status matrix processing that can fail.
-        
+
         Args:
             target_date: Date string in YYYY-MM-DD format
-            
+
         Returns:
             True if any test results exist for the target date, False otherwise
         """
         if not self.history_manager:
             return False
-            
-        import os
+
         import csv
-        
+        import os
+
         results_file = self.history_manager.results_file
         if not os.path.exists(results_file):
             return False
-            
+
         try:
-            with open(results_file, 'r') as f:
+            with open(results_file, "r") as f:
                 reader = csv.DictReader(f)
                 for row in reader:
-                    if row.get('date') == target_date:
+                    if row.get("date") == target_date:
                         return True
         except (IOError, csv.Error):
             # If we can't read the file, assume no data
             return False
-            
+
         return False
 
     def _generate_history_section(self) -> str:
@@ -2017,6 +2047,17 @@ class HTMLReportGenerator:
         for model in trackable_models:
             model_id = model["model_id"]
             display_name = model["display_name"]
+
+            # Get latest result data for badge logic
+            latest_result = None
+            if self.history_manager:
+                detailed_results = (
+                    self.history_manager.get_detailed_test_results(
+                        model_id=model_id, days=1
+                    )
+                )
+                if detailed_results:
+                    latest_result = detailed_results[0]  # Most recent result
 
             # Get status for each date
             status_cells = []
@@ -2091,7 +2132,7 @@ class HTMLReportGenerator:
                 f"""
                 <div class="model-row">
                     <div class="model-info">
-                        <span class="model-name">{display_name}{self._generate_new_label(model_id)}</span>
+                        <span class="model-name">{display_name}{self._generate_new_label(model_id)}{self._generate_previously_working_label(model_id, {"tool_call_support": latest_result["tool_call_support"], "handles_response": latest_result["handles_response"], "reliability": {"is_reliable": latest_result.get("is_reliable")}}) if latest_result else ""}{self._generate_newly_working_label(model_id, {"tool_call_support": latest_result["tool_call_support"], "handles_response": latest_result["handles_response"], "reliability": {"is_reliable": latest_result.get("is_reliable")}}) if latest_result else ""}{self._generate_currently_broken_label(model_id, {"tool_call_support": latest_result["tool_call_support"], "handles_response": latest_result["handles_response"], "reliability": {"is_reliable": latest_result.get("is_reliable")}}) if latest_result else ""}</span>
                     </div>
                     <div class="status-timeline">
                         {''.join(status_cells)}
@@ -2106,8 +2147,10 @@ class HTMLReportGenerator:
         if latest_date:
             # Use direct CSV file check instead of complex status matrix processing
             # This prevents false positives when tests ran but status matrix processing fails
-            has_test_data_today = self._has_test_execution_for_date(latest_date)
-            
+            has_test_data_today = self._has_test_execution_for_date(
+                latest_date
+            )
+
             # Only show warning if there is genuinely no test data for today
             # This is extremely conservative to prevent false positives
             if not has_test_data_today:
@@ -2330,6 +2373,61 @@ class HTMLReportGenerator:
             return f'<span class="variable-label" title="Model has inconsistent results across {total_runs} tests">VARIABLE</span>'
         return ""
 
+    def _generate_previously_working_label(
+        self, model_id: str, result: Dict[str, Any]
+    ) -> str:
+        """Generate a PREVIOUSLY WORKING label for models that were working but now aren't.
+
+        Args:
+            model_id: The model ID to check
+            result: The result dictionary to check
+
+        Returns:
+            str: HTML for the PREVIOUSLY WORKING label if applicable, empty string otherwise
+        """
+        if (
+            self.history_manager
+            and self.history_manager.is_previously_working(model_id, result)
+        ):
+            return '<span class="previously-working-label" title="Model was working recently but is now broken/unreliable">PREVIOUSLY WORKING</span>'
+        return ""
+
+    def _generate_newly_working_label(
+        self, model_id: str, result: Dict[str, Any]
+    ) -> str:
+        """Generate a NEWLY WORKING label for models that are newly working.
+
+        Args:
+            model_id: The model ID to check
+            result: The result dictionary to check
+
+        Returns:
+            str: HTML for the NEWLY WORKING label if applicable, empty string otherwise
+        """
+        if self.history_manager and self.history_manager.is_newly_working(
+            model_id, result
+        ):
+            return '<span class="newly-working-label" title="Model was not working before but is working now">NEWLY WORKING</span>'
+        return ""
+
+    def _generate_currently_broken_label(
+        self, model_id: str, result: Dict[str, Any]
+    ) -> str:
+        """Generate a CURRENTLY BROKEN label for models that were working but are now completely broken.
+
+        Args:
+            model_id: The model ID to check
+            result: The result dictionary to check
+
+        Returns:
+            str: HTML for the CURRENTLY BROKEN label if applicable, empty string otherwise
+        """
+        if self.history_manager and self.history_manager.is_currently_broken(
+            model_id, result
+        ):
+            return '<span class="currently-broken-label" title="Model was working but is now completely broken">CURRENTLY BROKEN</span>'
+        return ""
+
     def _get_javascript(self) -> str:
         """Generate JavaScript for interactive features."""
         return """
@@ -2502,12 +2600,82 @@ class HTMLReportGenerator:
             rows.forEach(row => tbody.appendChild(row));
         }
 
+        // Model navigation functionality
+        function initializeModelNavigation() {
+            const modelNames = document.querySelectorAll('.model-name');
+            
+            modelNames.forEach(modelName => {
+                // Make model names clickable
+                modelName.style.cursor = 'pointer';
+                modelName.style.textDecoration = 'underline';
+                modelName.style.color = 'var(--primary-color)';
+                
+                modelName.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Extract model ID from the clicked element
+                    const modelText = this.textContent.replace(/NEW|VARIABLE|PREVIOUSLY WORKING|NEWLY WORKING|CURRENTLY BROKEN/g, '').trim();
+                    const modelId = modelText.toLowerCase();
+                    
+                    // Try to find the model in the results table
+                    const resultsTable = document.getElementById('results-table');
+                    if (resultsTable) {
+                        const rows = resultsTable.querySelectorAll('tr[data-model]');
+                        for (let row of rows) {
+                            if (row.dataset.model === modelId || row.dataset.model.includes(modelId)) {
+                                // Scroll to the row
+                                row.scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'center'
+                                });
+                                
+                                // Highlight the row temporarily
+                                row.style.transition = 'background-color 0.3s ease';
+                                row.style.backgroundColor = 'var(--primary-color-light)';
+                                
+                                setTimeout(() => {
+                                    row.style.backgroundColor = '';
+                                }, 2000);
+                                
+                                return;
+                            }
+                        }
+                    }
+                    
+                    // If not found in results table, try to find in history section
+                    const historySection = document.querySelector('.history-section');
+                    if (historySection) {
+                        const detailRows = historySection.querySelectorAll('.detail-row[data-model]');
+                        for (let row of detailRows) {
+                            if (row.dataset.model === modelId || row.dataset.model.includes(modelId)) {
+                                row.scrollIntoView({
+                                    behavior: 'smooth',
+                                    block: 'center'
+                                });
+                                
+                                // Highlight the row temporarily
+                                row.style.transition = 'background-color 0.3s ease';
+                                row.style.backgroundColor = 'var(--primary-color-light)';
+                                
+                                setTimeout(() => {
+                                    row.style.backgroundColor = '';
+                                }, 2000);
+                                
+                                return;
+                            }
+                        }
+                    }
+                });
+            });
+        }
+
         // Initialize all functionality when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
             initializeFilters();
             initializeCollapsibles();
             initializeStatusCells();
             initializeTableSorting();
+            initializeModelNavigation();
         });
 
         // Make toggleDetails globally available for inline onclick handlers

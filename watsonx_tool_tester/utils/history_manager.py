@@ -215,7 +215,9 @@ class HistoryManager:
         for result in results:
             # Extract reliability info
             reliability = result.get("reliability", {})
-            is_reliable = reliability.get("is_reliable", False)
+            is_reliable = reliability.get(
+                "is_reliable", None
+            )  # None for unsupported models
             tool_success_rate = reliability.get("tool_call_success_rate", 0.0)
             response_success_rate = reliability.get(
                 "response_handling_success_rate", 0.0
@@ -644,8 +646,18 @@ class HistoryManager:
                                         "handles_response"
                                     ].lower()
                                     == "true",
-                                    "is_reliable": row["is_reliable"].lower()
-                                    == "true",
+                                    "is_reliable": (
+                                        None
+                                        if not row["is_reliable"]
+                                        or row["is_reliable"].lower()
+                                        in ["none", ""]
+                                        else (
+                                            True
+                                            if row["is_reliable"].lower()
+                                            == "true"
+                                            else False
+                                        )
+                                    ),
                                     "tool_call_time": (
                                         float(row["tool_call_time"])
                                         if row["tool_call_time"]
@@ -1310,5 +1322,116 @@ class HistoryManager:
 
                     # Check if first_seen is within the last 2 weeks
                     return first_seen >= cutoff_date
+
+        return False
+
+    def is_previously_working(
+        self, model_id: str, current_result: Dict[str, Any]
+    ) -> bool:
+        """Check if a model was previously working but is now broken/unreliable.
+
+        Args:
+            model_id: The model ID to check
+            current_result: Current test result for the model
+
+        Returns:
+            bool: True if model was working in recent history but is currently not working
+        """
+        # Current model must not be fully working for this badge to apply
+        current_working = (
+            current_result.get("tool_call_support", False)
+            and current_result.get("handles_response", False)
+            and current_result.get("reliability", {}).get("is_reliable")
+            is True
+        )
+        if current_working:
+            return False
+
+        # Check historical data for recent working status
+        history = self.get_model_history(model_id, days=7)  # Check last week
+        if not history:
+            return False
+
+        # Look for recent working states (excluding today)
+        for entry in history:
+            if (
+                entry["tool_call_support"]
+                and entry["handles_response"]
+                and entry["is_reliable"] is True
+            ):
+                return True
+
+        return False
+
+    def is_newly_working(
+        self, model_id: str, current_result: Dict[str, Any]
+    ) -> bool:
+        """Check if a model is newly working (wasn't working before but is now).
+
+        Args:
+            model_id: The model ID to check
+            current_result: Current test result for the model
+
+        Returns:
+            bool: True if model is currently working but wasn't working in recent history
+        """
+        # Current model must be fully working for this badge to apply
+        current_working = (
+            current_result.get("tool_call_support", False)
+            and current_result.get("handles_response", False)
+            and current_result.get("reliability", {}).get("is_reliable")
+            is True
+        )
+        if not current_working:
+            return False
+
+        # Check historical data
+        history = self.get_model_history(model_id, days=7)  # Check last week
+        if not history:
+            # No history means it's newly working
+            return True
+
+        # Look for any previous working states
+        for entry in history:
+            if (
+                entry["tool_call_support"]
+                and entry["handles_response"]
+                and entry["is_reliable"] is True
+            ):
+                # Was working before, so not newly working
+                return False
+
+        # Has history but was never fully working before
+        return True
+
+    def is_currently_broken(
+        self, model_id: str, current_result: Dict[str, Any]
+    ) -> bool:
+        """Check if a model is currently broken (was working, now completely broken).
+
+        Args:
+            model_id: The model ID to check
+            current_result: Current test result for the model
+
+        Returns:
+            bool: True if model was working but is now completely broken (no tool support)
+        """
+        # Current model must have no tool support for this badge to apply
+        if current_result.get("tool_call_support", False):
+            return False
+
+        # Check historical data for recent working status
+        history = self.get_model_history(model_id, days=7)  # Check last week
+        if not history:
+            return False
+
+        # Look for recent working states
+        for entry in history:
+            if (
+                entry["tool_call_support"]
+                and entry["handles_response"]
+                and entry["is_reliable"] is True
+            ):
+                return True
 
         return False
