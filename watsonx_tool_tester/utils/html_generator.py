@@ -2061,13 +2061,47 @@ class HTMLReportGenerator:
 
             # Get status for each date
             status_cells = []
+            today = datetime.datetime.utcnow().strftime("%Y-%m-%d")
+            
             for date in dates:
                 status_data = None
-                if model_id in status_matrix:
-                    for status_entry in status_matrix[model_id]:
-                        if status_entry["date"] == date:
-                            status_data = status_entry
-                            break
+                
+                # For today's date, use current results instead of historical status matrix
+                if date == today and latest_result:
+                    # Calculate status from current result using same logic as history manager
+                    tool_support = latest_result.get("tool_call_support", False)
+                    handles_response = latest_result.get("handles_response", False)
+                    is_reliable = latest_result.get("reliability", {}).get("is_reliable", False)
+                    
+                    if tool_support and handles_response and is_reliable:
+                        status = "working"
+                        details = "Full tool calling support - reliable"
+                    elif tool_support and handles_response and not is_reliable:
+                        status = "unreliable"
+                        details = "Full tool calling support - inconsistent results"
+                    elif tool_support and not handles_response:
+                        status = "partial"
+                        details = "Tool calling only - doesn't handle responses"
+                    elif not tool_support:
+                        status = "not_supported"
+                        details = "Model does not support tool calling"
+                    else:
+                        status = "broken"
+                        details = "Tool calling failed"
+                    
+                    # Create status data structure consistent with historical data
+                    status_data = {
+                        "status": status,
+                        "details": details,
+                        "date": date
+                    }
+                else:
+                    # For historical dates, use status matrix as before
+                    if model_id in status_matrix:
+                        for status_entry in status_matrix[model_id]:
+                            if status_entry["date"] == date:
+                                status_data = status_entry
+                                break
 
                 if status_data:
                     status = status_data["status"]
@@ -2076,7 +2110,27 @@ class HTMLReportGenerator:
 
                     # Get detailed test data for rich tooltips
                     detailed_data = None
-                    if self.history_manager:
+                    
+                    # For today's date, use current results for tooltip data
+                    if date == today and latest_result:
+                        # Create detailed data structure from current result
+                        detailed_data = {
+                            "date": date,
+                            "performance": {
+                                "iterations": latest_result.get("reliability", {}).get("iterations", 1),
+                                "tool_success_rate": latest_result.get("reliability", {}).get("tool_success_rate", 0.0),
+                                "response_success_rate": latest_result.get("reliability", {}).get("response_success_rate", 0.0),
+                                "total_time": latest_result.get("response_times", {}).get("total_time", 0.0)
+                            },
+                            "test_details": {
+                                "error_message": latest_result.get("error_message", ""),
+                                "details": latest_result.get("details", ""),
+                                "expected_result": latest_result.get("expected_result", ""),
+                                "actual_result": latest_result.get("actual_result", "")
+                            }
+                        }
+                    elif self.history_manager:
+                        # For historical dates, use history manager data
                         detailed_results = (
                             self.history_manager.get_detailed_test_results(
                                 model_id=model_id, days=30
