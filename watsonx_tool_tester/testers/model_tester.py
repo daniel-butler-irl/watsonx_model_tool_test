@@ -268,12 +268,49 @@ class ModelTester:
                     ) = result
 
                     # Check if this is a definitive "not supported" result
-                    if i == 0 and not tool_call_support:
-                        if self._is_definitive_not_supported(details):
-                            self.logger.info(
-                                f"Model {model_id} does not support tool calling - skipping remaining iterations"
+                    # Only terminate early after minimum attempts to avoid false positives
+                    MIN_ATTEMPTS_BEFORE_TERMINATION = 3
+                    if (
+                        (i + 1) >= MIN_ATTEMPTS_BEFORE_TERMINATION
+                        and not tool_call_support
+                    ):
+                        # Check if all attempts so far have been definitive failures
+                        all_failed = True
+                        definitive_failures = 0
+                        for prev_result in all_results:
+                            if prev_result.get("tool_call_support", False):
+                                all_failed = False
+                                break
+                            if self._is_definitive_not_supported(
+                                prev_result.get("details", "")
+                            ):
+                                definitive_failures += 1
+
+                        # Check if model has historical working status - if so, be more lenient
+                        has_previously_worked = self._has_previously_worked(
+                            model_id
+                        )
+                        min_required_failures = (
+                            MIN_ATTEMPTS_BEFORE_TERMINATION - 1
+                        )
+                        if has_previously_worked:
+                            # Require more definitive failures for previously working models
+                            min_required_failures = (
+                                MIN_ATTEMPTS_BEFORE_TERMINATION
                             )
-                            # Return early with a single result for unsupported models
+                            self.logger.debug(
+                                f"Model {model_id} has worked before - requiring stricter failure criteria"
+                            )
+
+                        # Only terminate early if ALL attempts failed AND enough were definitive failures
+                        if (
+                            all_failed
+                            and definitive_failures >= min_required_failures
+                        ):
+                            self.logger.info(
+                                f"Model {model_id} consistently fails tool calling after {i + 1} attempts ({definitive_failures} definitive failures) - skipping remaining iterations"
+                            )
+                            # Return early with current results for definitively unsupported models
                             return self._create_unsupported_result(
                                 model_id, details, response_times
                             )
@@ -714,28 +751,83 @@ class ModelTester:
         Returns:
             bool: True if this is a definitive "not supported" error
         """
-        # Common patterns that indicate tool calling is not supported
-        not_supported_patterns = [
+        # More specific patterns that indicate definitive lack of tool calling support
+        # Avoid overly broad patterns that might catch intermittent failures
+        definitive_not_supported_patterns = [
             "tool calling not supported",
             "function calling not supported",
             "tools are not supported",
-            "does not support tool",
-            "No tool calls in response",
-            "did not use hello_world tool",
-            "400 Bad Request",  # Often indicates invalid request format
-            "422 Unprocessable Entity",  # Model can't process the request
-            "Model does not support",
-            "unsupported parameter",
-            "invalid parameter",
-            "function_call",  # Some models may return this error
-            "tool_calls",  # Some models may return this error
+            "does not support tool calling",
+            "does not support function calling",
+            "tool calls are not supported",
+            "function calls are not supported",
+            "unsupported parameter: tools",
+            "unsupported parameter: functions",
+            "invalid parameter: tools",
+            "invalid parameter: functions",
+        ]
+
+        # Patterns that suggest intermittent issues, not permanent lack of support
+        intermittent_patterns = [
+            "did not use hello_world tool",  # Could be model confusion, not lack of support
+            "no tool calls in response",  # Could be temporary failure
+            "finish reason: stop",  # Could be intermittent behavior
         ]
 
         details_lower = details.lower()
-        return any(
-            pattern.lower() in details_lower
-            for pattern in not_supported_patterns
-        )
+
+        # Check for definitive patterns first
+        for pattern in definitive_not_supported_patterns:
+            if pattern.lower() in details_lower:
+                return True
+
+        # Check for HTTP error codes that definitively indicate lack of support
+        if "400 bad request" in details_lower and (
+            "tool" in details_lower or "function" in details_lower
+        ):
+            return True
+        if "422 unprocessable entity" in details_lower and (
+            "tool" in details_lower or "function" in details_lower
+        ):
+            return True
+
+        # Don't treat intermittent patterns as definitive failures
+        return False
+
+    def _has_previously_worked(self, model_id: str) -> bool:
+        """Check if a model has previously worked with tool calling.
+
+        Args:
+            model_id: The model ID to check
+
+        Returns:
+            bool: True if model has successful tool calling history
+        """
+        try:
+            from watsonx_tool_tester.utils.history_manager import (
+                HistoryManager,
+            )
+
+            history_manager = HistoryManager()
+
+            # Check last 14 days for any successful tool calling
+            history = history_manager.get_model_history(model_id, days=14)
+
+            for entry in history:
+                if (
+                    entry.get("tool_call_support", False)
+                    and entry.get("handles_response", False)
+                    and entry.get("is_reliable")
+                    is not None  # Was actually tested, not just assumed
+                ):
+                    return True
+
+            return False
+
+        except Exception as e:
+            # If we can't check history, be conservative and assume no history
+            self.logger.debug(f"Could not check history for {model_id}: {e}")
+            return False
 
     def _is_intermittent_error(self, error_msg: str) -> bool:
         """Check if error might be intermittent and worth retrying.

@@ -1328,23 +1328,20 @@ class HistoryManager:
     def is_previously_working(
         self, model_id: str, current_result: Dict[str, Any]
     ) -> bool:
-        """Check if a model was previously working but is now broken/unreliable.
+        """Check if a model was previously working but is now completely broken.
 
         Args:
             model_id: The model ID to check
             current_result: Current test result for the model
 
         Returns:
-            bool: True if model was working in recent history but is currently not working
+            bool: True if model was working in recent history but is now completely broken (no tool support)
         """
-        # Current model must not be fully working for this badge to apply
-        current_working = (
-            current_result.get("tool_call_support", False)
-            and current_result.get("handles_response", False)
-            and current_result.get("reliability", {}).get("is_reliable")
-            is True
-        )
-        if current_working:
+        # Current model must have NO tool support for this badge to apply
+        # Models that are unreliable or partially working should NOT get this badge
+        has_tool_support = current_result.get("tool_call_support", False)
+        if has_tool_support:
+            # Model has some tool support (even if unreliable/partial), no "Previously Working" badge
             return False
 
         # Check historical data for recent working status
