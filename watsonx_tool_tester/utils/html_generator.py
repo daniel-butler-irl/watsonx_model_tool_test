@@ -78,7 +78,7 @@ class HTMLReportGenerator:
 
         <main>
             {self._generate_summary_section(summary, results)}
-            {self._generate_history_section() if include_history and self.history_manager else ''}
+            {self._generate_history_section(results) if include_history and self.history_manager else ''}
             {self._generate_results_section(results, config)}
         </main>
 
@@ -2022,8 +2022,12 @@ class HTMLReportGenerator:
 
         return False
 
-    def _generate_history_section(self) -> str:
-        """Generate the history section with service-outage-style visualization."""
+    def _generate_history_section(self, current_results: List[Dict[str, Any]]) -> str:
+        """Generate the history section with service-outage-style visualization.
+
+        Args:
+            current_results: Current test results to use for latest day badge calculations
+        """
         if not self.history_manager:
             return ""
 
@@ -2048,16 +2052,12 @@ class HTMLReportGenerator:
             model_id = model["model_id"]
             display_name = model["display_name"]
 
-            # Get latest result data for badge logic
+            # Get latest result data for badge logic from current test results
             latest_result = None
-            if self.history_manager:
-                detailed_results = (
-                    self.history_manager.get_detailed_test_results(
-                        model_id=model_id, days=1
-                    )
-                )
-                if detailed_results:
-                    latest_result = detailed_results[0]  # Most recent result
+            for result in current_results:
+                if result.get("model") == model_id:
+                    latest_result = result
+                    break
 
             # Get status for each date
             status_cells = []
@@ -2128,11 +2128,22 @@ class HTMLReportGenerator:
                         f'<div class="status-cell status-untested" title="{date}: Not tested" data-date="{date}" data-model="{model_id}"></div>'
                     )
 
+            # Format current result for badge generation methods
+            badge_result = None
+            if latest_result:
+                badge_result = {
+                    "tool_call_support": latest_result.get("tool_call_support", False),
+                    "handles_response": latest_result.get("handles_response", False),
+                    "reliability": {
+                        "is_reliable": latest_result.get("reliability", {}).get("is_reliable", False)
+                    }
+                }
+
             model_rows.append(
                 f"""
                 <div class="model-row">
                     <div class="model-info">
-                        <span class="model-name">{display_name}{self._generate_new_label(model_id)}{self._generate_previously_working_label(model_id, {"tool_call_support": latest_result["tool_call_support"], "handles_response": latest_result["handles_response"], "reliability": {"is_reliable": latest_result.get("is_reliable")}}) if latest_result else ""}{self._generate_newly_working_label(model_id, {"tool_call_support": latest_result["tool_call_support"], "handles_response": latest_result["handles_response"], "reliability": {"is_reliable": latest_result.get("is_reliable")}}) if latest_result else ""}{self._generate_currently_broken_label(model_id, {"tool_call_support": latest_result["tool_call_support"], "handles_response": latest_result["handles_response"], "reliability": {"is_reliable": latest_result.get("is_reliable")}}) if latest_result else ""}</span>
+                        <span class="model-name">{display_name}{self._generate_new_label(model_id)}{self._generate_previously_working_label(model_id, badge_result) if badge_result else ""}{self._generate_newly_working_label(model_id, badge_result) if badge_result else ""}{self._generate_currently_broken_label(model_id, badge_result) if badge_result else ""}</span>
                     </div>
                     <div class="status-timeline">
                         {''.join(status_cells)}

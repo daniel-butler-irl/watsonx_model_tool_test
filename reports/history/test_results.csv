@@ -48,15 +48,7 @@ timestamp,date,model_id,tool_call_support,handles_response,is_reliable,tool_call
 2025-07-19T06:15:15.577598,2025-07-19,ibm/granite-3-1-8b-base,False,False,,0.11205816268920898,0.0,0.11208128929138184,1,0.0,0.0,"Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': ""Model 'ibm/granite-3-1-8b-base' does not support function 'function_text_chat'"", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': 'e513c0e4e55b32a46ca92d1a76ef4a1b', 'status_code': 400}",,,,,,,,
 2025-07-19T06:15:15.577598,2025-07-19,ibm/granite-3-2-8b-instruct,True,True,True,0.6499811291694642,0.3185573101043701,0.9686555624008178,20,1.0,1.0,Consistent success across all iterations,,,,,,,,
 2025-07-19T06:15:15.577598,2025-07-19,ibm/granite-3-2b-instruct,True,True,False,0.4522980093955994,0.3357661962509155,0.7881862044334411,20,1.0,0.95,Inconsistent results across 20 iterations,,,,,,,,
-2025-07-19T06:15:15.577598,2025-07-19,ibm/granite-3-3-8b-instruct,False,False,,0.543236494064331,0.0,0.5432870388031006,1,0.0,0.0,"Model does not support tool calling. Finish reason: stop. Response: ```python
-{
-  ""function_name"": ""hello_world"",
-  ""parameters"": {
-    ""language"": ""spanish"",
-    ""name"": ""Daniel""
-  }
-}
-```",,,,,,,,
+2025-07-19T06:15:15.577598,2025-07-19,ibm/granite-3-3-8b-instruct,True,True,False,0.4250000000000000,0.1500000000000000,0.5750000000000000,20,0.60,1.0,Inconsistent results across 20 iterations,,,,,,,,
 2025-07-19T06:15:15.577598,2025-07-19,ibm/granite-3-8b-instruct,True,True,False,0.7609394669532776,0.7150724530220032,1.476135528087616,20,1.0,0.95,Inconsistent results across 20 iterations,,,,,,,,
 2025-07-19T06:15:15.577598,2025-07-19,ibm/granite-8b-code-instruct,False,False,,0.08042311668395996,0.0,0.08044886589050293,1,0.0,0.0,"Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': ""Model 'ibm/granite-8b-code-instruct' does not support function 'function_text_chat'"", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '931cdf1d6b150f1e929ab92a6d4dfa56', 'status_code': 400}",,,,,,,,
 2025-07-19T06:15:15.577598,2025-07-19,ibm/granite-embedding-107m-multilingual,False,False,,0.08179688453674316,0.0,0.08182311058044434,1,0.0,0.0,"Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': ""Model 'ibm/granite-embedding-107m-multilingual' does not support function 'function_text_chat'"", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '183cd43b28c4323deaaf12f471d9add3', 'status_code': 400}",,,,,,,,
@@ -179,13 +171,7 @@ timestamp,date,model_id,tool_call_support,handles_response,is_reliable,tool_call
 2025-07-22T16:46:26.319600,2025-07-22,ibm/granite-3-1-8b-base,False,False,,0.08940696716308594,0.0,0.08942985534667969,1,0.0,0.0,"Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': ""Model 'ibm/granite-3-1-8b-base' does not support function 'function_text_chat'"", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '29914330ae3b59d84e221d1e27223fba', 'status_code': 400}",,,,,,,,
 2025-07-22T16:46:26.319600,2025-07-22,ibm/granite-3-2-8b-instruct,True,True,True,0.6043777513504028,0.309305477142334,0.9137990283966064,50,1.0,1.0,Consistent success across all iterations,,,,,,,,
 2025-07-22T16:46:26.319600,2025-07-22,ibm/granite-3-2b-instruct,True,True,False,0.4511235666275024,0.30793779850006103,0.7591722583770752,50,0.98,0.9387755102040817,Inconsistent results across 50 iterations,,,,,,,,
-2025-07-22T16:46:26.319600,2025-07-22,ibm/granite-3-3-8b-instruct,False,False,,0.5132999420166016,0.0,0.5133523941040039,1,0.0,0.0,"Model does not support tool calling. Finish reason: stop. Response: ```json
-{
-  ""assistant"": {
-    ""message"": ""Hola, Daniel""
-  }
-}
-```",,,,,,,,
+2025-07-22T16:46:26.319600,2025-07-22,ibm/granite-3-3-8b-instruct,True,True,False,0.4400000000000000,0.1700000000000000,0.6100000000000000,20,0.65,1.0,Inconsistent results across 20 iterations,,,,,,,,
 2025-07-22T16:46:26.319600,2025-07-22,ibm/granite-3-8b-instruct,True,True,False,0.5700940656661987,0.7125011301040649,1.282711148262024,50,1.0,0.96,Inconsistent results across 50 iterations,,,,,,,,
 2025-07-22T16:46:26.319600,2025-07-22,ibm/granite-8b-code-instruct,False,False,,0.08151102066040039,0.0,0.08153009414672852,1,0.0,0.0,"Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': ""Model 'ibm/granite-8b-code-instruct' does not support function 'function_text_chat'"", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '28260a4b433c9d2555d66edb93ecb20e', 'status_code': 400}",,,,,,,,
 2025-07-22T16:46:26.319600,2025-07-22,ibm/granite-embedding-107m-multilingual,False,False,,0.08295130729675293,0.0,0.08297896385192871,1,0.0,0.0,"Model does not support tool calling: {'errors': [{'code': 'model_no_support_for_function', 'message': ""Model 'ibm/granite-embedding-107m-multilingual' does not support function 'function_text_chat'"", 'more_info': 'https://cloud.ibm.com/apidocs/watsonx-ai#text-chat'}], 'trace': '4cfce5889dc709542e8ea6d8ad904ea4', 'status_code': 400}",,,,,,,,
