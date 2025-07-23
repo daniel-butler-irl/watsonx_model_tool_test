@@ -1957,6 +1957,41 @@ class HTMLReportGenerator:
         </section>
         """
 
+    def _has_test_execution_for_date(self, target_date: str) -> bool:
+        """
+        Directly check if any tests were executed for the given date.
+        
+        This method provides a robust check by directly querying the CSV file
+        rather than relying on complex status matrix processing that can fail.
+        
+        Args:
+            target_date: Date string in YYYY-MM-DD format
+            
+        Returns:
+            True if any test results exist for the target date, False otherwise
+        """
+        if not self.history_manager:
+            return False
+            
+        import os
+        import csv
+        
+        results_file = self.history_manager.results_file
+        if not os.path.exists(results_file):
+            return False
+            
+        try:
+            with open(results_file, 'r') as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    if row.get('date') == target_date:
+                        return True
+        except (IOError, csv.Error):
+            # If we can't read the file, assume no data
+            return False
+            
+        return False
+
     def _generate_history_section(self) -> str:
         """Generate the history section with service-outage-style visualization."""
         if not self.history_manager:
@@ -2065,42 +2100,24 @@ class HTMLReportGenerator:
             """
             )
 
-        # Validate for blank columns, especially the latest day
+        # Validate for missing test execution - use direct CSV check to avoid false positives
         latest_date = dates[-1] if dates else None
         blank_column_warning = ""
         if latest_date:
-            # Check if the latest day has any test data across all models
-            latest_day_has_data = False
-            for model in trackable_models:
-                model_id = model["model_id"]
-                if model_id in status_matrix:
-                    for status_entry in status_matrix[model_id]:
-                        if (
-                            status_entry["date"] == latest_date
-                            and status_entry["status"] != "untested"
-                        ):
-                            latest_day_has_data = True
-                            break
-                if latest_day_has_data:
-                    break
-
-            # If latest day is blank but we have recent test results, show warning
-            if not latest_day_has_data and self.history_manager:
-                recent_results = (
-                    self.history_manager.get_detailed_test_results(days=2)
-                )
-                if recent_results:
-                    # Find the most recent actual test date
-                    most_recent_test_date = max(
-                        result["date"] for result in recent_results
-                    )
-                    blank_column_warning = f"""
-                    <div style="background: #fff3cd; color: #856404; padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #ffeaa7;">
-                        <strong>⚠️ Timeline Notice:</strong> The latest column ({latest_date}) shows no test data.
-                        Most recent test results are from {most_recent_test_date}.
-                        This may indicate a timezone mismatch or tests haven't run today.
-                    </div>
-                    """
+            # Use direct CSV file check instead of complex status matrix processing
+            # This prevents false positives when tests ran but status matrix processing fails
+            has_test_data_today = self._has_test_execution_for_date(latest_date)
+            
+            # Only show warning if there is genuinely no test data for today
+            # This is extremely conservative to prevent false positives
+            if not has_test_data_today:
+                blank_column_warning = f"""
+                <div style="background: #fff3cd; color: #856404; padding: 15px; border-radius: 8px; margin: 15px 0; border-left: 4px solid #ffeaa7;">
+                    <strong>⚠️ Timeline Notice:</strong> No test results found for {latest_date}.
+                    This indicates the daily test pipeline may not have executed successfully.
+                    Please check the pipeline logs and CSV data file.
+                </div>
+                """
 
         # Generate date headers for display
         date_headers = []
