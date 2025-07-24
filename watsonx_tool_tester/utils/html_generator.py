@@ -618,7 +618,7 @@ class HTMLReportGenerator:
             box-shadow: var(--shadow);
             overflow-x: auto;
         }
-        
+
         .history-container {
             min-width: 800px;
             width: 100%;
@@ -758,83 +758,83 @@ class HTMLReportGenerator:
             z-index: 10;
             position: relative;
         }
-        
+
         .status-cell[title] {
             white-space: pre-line;
         }
-        
+
         /* Responsive adjustments for timeline */
         @media (max-width: 1200px) {
             .date-header {
                 font-size: 0.6em;
                 min-width: 20px;
             }
-            
+
             .status-cell {
                 min-width: 20px;
                 height: 20px;
             }
         }
-        
+
         @media (max-width: 900px) {
             .history-container {
                 min-width: 600px;
             }
-            
+
             .model-header,
             .model-info {
                 min-width: 150px;
                 max-width: 150px;
             }
-            
+
             .date-header {
                 font-size: 0.5em;
                 min-width: 18px;
             }
-            
+
             .status-cell {
                 min-width: 18px;
                 height: 18px;
             }
         }
-        
+
         @media (max-width: 768px) {
             .history-section {
                 padding: 16px;
             }
-            
+
             .history-container {
                 min-width: 500px;
             }
-            
+
             .model-header,
             .model-info {
                 min-width: 120px;
                 max-width: 120px;
                 font-size: 0.9em;
             }
-            
+
             .date-header {
                 font-size: 0.4em;
                 min-width: 16px;
                 padding: 8px 1px;
             }
-            
+
             .status-cell {
                 min-width: 16px;
                 height: 16px;
             }
-            
+
             .chart-body {
                 max-height: 400px;
             }
         }
-        
+
         @media (max-width: 480px) {
             .history-container {
                 min-width: 400px;
             }
-            
+
             .model-header,
             .model-info {
                 min-width: 100px;
@@ -842,28 +842,28 @@ class HTMLReportGenerator:
                 font-size: 0.8em;
                 padding: 8px;
             }
-            
+
             .date-header {
                 font-size: 0.3em;
                 min-width: 14px;
                 padding: 6px 1px;
             }
-            
+
             .status-cell {
                 min-width: 14px;
                 height: 14px;
                 margin: 0 0.5px;
             }
-            
+
             .chart-body {
                 max-height: 300px;
             }
-            
+
             .history-legend {
                 flex-direction: column;
                 gap: 10px;
             }
-            
+
             .legend-item {
                 font-size: 0.9em;
             }
@@ -2022,7 +2022,9 @@ class HTMLReportGenerator:
 
         return False
 
-    def _generate_history_section(self, current_results: List[Dict[str, Any]]) -> str:
+    def _generate_history_section(
+        self, current_results: List[Dict[str, Any]]
+    ) -> str:
         """Generate the history section with service-outage-style visualization.
 
         Args:
@@ -2062,38 +2064,48 @@ class HTMLReportGenerator:
             # Get status for each date
             status_cells = []
             today = datetime.datetime.utcnow().strftime("%Y-%m-%d")
-            
+
             for date in dates:
                 status_data = None
-                
+
                 # For today's date, use current results instead of historical status matrix
                 if date == today and latest_result:
                     # Calculate status from current result using same logic as history manager
-                    tool_support = latest_result.get("tool_call_support", False)
-                    handles_response = latest_result.get("handles_response", False)
-                    is_reliable = latest_result.get("reliability", {}).get("is_reliable", False)
-                    
+                    tool_support = latest_result.get(
+                        "tool_call_support", False
+                    )
+                    handles_response = latest_result.get(
+                        "handles_response", False
+                    )
+                    is_reliable = latest_result.get("reliability", {}).get(
+                        "is_reliable", False
+                    )
+
                     if tool_support and handles_response and is_reliable:
                         status = "working"
                         details = "Full tool calling support - reliable"
                     elif tool_support and handles_response and not is_reliable:
                         status = "unreliable"
-                        details = "Full tool calling support - inconsistent results"
+                        details = (
+                            "Full tool calling support - inconsistent results"
+                        )
                     elif tool_support and not handles_response:
                         status = "partial"
-                        details = "Tool calling only - doesn't handle responses"
+                        details = (
+                            "Tool calling only - doesn't handle responses"
+                        )
                     elif not tool_support:
                         status = "not_supported"
                         details = "Model does not support tool calling"
                     else:
                         status = "broken"
                         details = "Tool calling failed"
-                    
+
                     # Create status data structure consistent with historical data
                     status_data = {
                         "status": status,
                         "details": details,
-                        "date": date
+                        "date": date,
                     }
                 else:
                     # For historical dates, use status matrix as before
@@ -2110,24 +2122,38 @@ class HTMLReportGenerator:
 
                     # Get detailed test data for rich tooltips
                     detailed_data = None
-                    
+
                     # For today's date, use current results for tooltip data
                     if date == today and latest_result:
                         # Create detailed data structure from current result
                         detailed_data = {
                             "date": date,
                             "performance": {
-                                "iterations": latest_result.get("reliability", {}).get("iterations", 1),
-                                "tool_success_rate": latest_result.get("reliability", {}).get("tool_success_rate", 0.0),
-                                "response_success_rate": latest_result.get("reliability", {}).get("response_success_rate", 0.0),
-                                "total_time": latest_result.get("response_times", {}).get("total_time", 0.0)
+                                "iterations": latest_result.get(
+                                    "reliability", {}
+                                ).get("iterations", 1),
+                                "tool_success_rate": latest_result.get(
+                                    "reliability", {}
+                                ).get("tool_success_rate", 0.0),
+                                "response_success_rate": latest_result.get(
+                                    "reliability", {}
+                                ).get("response_success_rate", 0.0),
+                                "total_time": latest_result.get(
+                                    "response_times", {}
+                                ).get("total_time", 0.0),
                             },
                             "test_details": {
-                                "error_message": latest_result.get("error_message", ""),
+                                "error_message": latest_result.get(
+                                    "error_message", ""
+                                ),
                                 "details": latest_result.get("details", ""),
-                                "expected_result": latest_result.get("expected_result", ""),
-                                "actual_result": latest_result.get("actual_result", "")
-                            }
+                                "expected_result": latest_result.get(
+                                    "expected_result", ""
+                                ),
+                                "actual_result": latest_result.get(
+                                    "actual_result", ""
+                                ),
+                            },
                         }
                     elif self.history_manager:
                         # For historical dates, use history manager data
@@ -2186,11 +2212,17 @@ class HTMLReportGenerator:
             badge_result = None
             if latest_result:
                 badge_result = {
-                    "tool_call_support": latest_result.get("tool_call_support", False),
-                    "handles_response": latest_result.get("handles_response", False),
+                    "tool_call_support": latest_result.get(
+                        "tool_call_support", False
+                    ),
+                    "handles_response": latest_result.get(
+                        "handles_response", False
+                    ),
                     "reliability": {
-                        "is_reliable": latest_result.get("reliability", {}).get("is_reliable", False)
-                    }
+                        "is_reliable": latest_result.get(
+                            "reliability", {}
+                        ).get("is_reliable", False)
+                    },
                 }
 
             model_rows.append(
@@ -2574,7 +2606,7 @@ class HTMLReportGenerator:
                 cell.addEventListener('mouseenter', function(e) {
                     showTooltip(e, this.getAttribute('title'));
                 });
-                
+
                 cell.addEventListener('mouseleave', function() {
                     hideTooltip();
                 });
@@ -2583,7 +2615,7 @@ class HTMLReportGenerator:
 
         function showTooltip(event, content) {
             if (!content) return;
-            
+
             const tooltip = document.createElement('div');
             tooltip.id = 'status-tooltip';
             tooltip.innerHTML = content.replace(/\n/g, '<br>');
@@ -2600,14 +2632,14 @@ class HTMLReportGenerator:
                 pointer-events: none;
                 white-space: nowrap;
             `;
-            
+
             document.body.appendChild(tooltip);
-            
+
             // Position tooltip near mouse
             const rect = event.target.getBoundingClientRect();
             tooltip.style.left = (rect.right + 10) + 'px';
             tooltip.style.top = rect.top + 'px';
-            
+
             // Adjust if tooltip goes off screen
             const tooltipRect = tooltip.getBoundingClientRect();
             if (tooltipRect.right > window.innerWidth) {
@@ -2668,20 +2700,20 @@ class HTMLReportGenerator:
         // Model navigation functionality
         function initializeModelNavigation() {
             const modelNames = document.querySelectorAll('.model-name');
-            
+
             modelNames.forEach(modelName => {
                 // Make model names clickable
                 modelName.style.cursor = 'pointer';
                 modelName.style.textDecoration = 'underline';
                 modelName.style.color = 'var(--primary-color)';
-                
+
                 modelName.addEventListener('click', function(e) {
                     e.preventDefault();
-                    
+
                     // Extract model ID from the clicked element
                     const modelText = this.textContent.replace(/NEW|VARIABLE|PREVIOUSLY WORKING|NEWLY WORKING|CURRENTLY BROKEN/g, '').trim();
                     const modelId = modelText.toLowerCase();
-                    
+
                     // Try to find the model in the results table
                     const resultsTable = document.getElementById('results-table');
                     if (resultsTable) {
@@ -2693,20 +2725,20 @@ class HTMLReportGenerator:
                                     behavior: 'smooth',
                                     block: 'center'
                                 });
-                                
+
                                 // Highlight the row temporarily
                                 row.style.transition = 'background-color 0.3s ease';
                                 row.style.backgroundColor = 'var(--primary-color-light)';
-                                
+
                                 setTimeout(() => {
                                     row.style.backgroundColor = '';
                                 }, 2000);
-                                
+
                                 return;
                             }
                         }
                     }
-                    
+
                     // If not found in results table, try to find in history section
                     const historySection = document.querySelector('.history-section');
                     if (historySection) {
@@ -2717,15 +2749,15 @@ class HTMLReportGenerator:
                                     behavior: 'smooth',
                                     block: 'center'
                                 });
-                                
+
                                 // Highlight the row temporarily
                                 row.style.transition = 'background-color 0.3s ease';
                                 row.style.backgroundColor = 'var(--primary-color-light)';
-                                
+
                                 setTimeout(() => {
                                     row.style.backgroundColor = '';
                                 }, 2000);
-                                
+
                                 return;
                             }
                         }

@@ -25,7 +25,6 @@ class HistoryManager:
         self.history_dir = history_dir
         self.results_file = os.path.join(history_dir, "test_results.csv")
         self.models_file = os.path.join(history_dir, "models_registry.csv")
-        self.summary_file = os.path.join(history_dir, "daily_summary.csv")
 
         # Ensure directory exists
         os.makedirs(history_dir, exist_ok=True)
@@ -134,25 +133,6 @@ class HistoryManager:
                         "best_tool_time",
                         "best_response_time",
                         "consistency_score",
-                    ]
-                )
-
-        # Daily summary CSV
-        if not os.path.exists(self.summary_file):
-            with open(self.summary_file, "w", newline="") as f:
-                writer = csv.writer(f)
-                writer.writerow(
-                    [
-                        "datetime",
-                        "total_models",
-                        "working_models",
-                        "handling_models",
-                        "reliable_models",
-                        "avg_tool_time",
-                        "avg_response_time",
-                        "avg_total_time",
-                        "fastest_model",
-                        "fastest_time",
                     ]
                 )
 
@@ -291,9 +271,6 @@ class HistoryManager:
 
         # Update models registry
         self._update_models_registry(results, test_date)
-
-        # Update daily summary
-        self._update_daily_summary(results, test_date)
 
     def _update_models_registry(
         self, results: List[Dict[str, Any]], test_date: str
@@ -441,107 +418,115 @@ class HistoryManager:
             for model_data in registry.values():
                 writer.writerow(model_data)
 
-    def _update_daily_summary(
-        self, results: List[Dict[str, Any]], test_date: str
-    ) -> None:
-        """Update daily summary statistics."""
-        # Calculate summary stats
-        total_models = len(results)
-        working_models = sum(
-            1 for r in results if r.get("tool_call_support", False)
-        )
-        handling_models = sum(
-            1 for r in results if r.get("handles_response", False)
-        )
-        reliable_models = sum(
-            1
-            for r in results
-            if r.get("reliability", {}).get("is_reliable", False)
-        )
+    def get_aggregated_daily_summary(
+        self, days: int = 30
+    ) -> List[Dict[str, Any]]:
+        """Generate daily summary statistics by aggregating test_results.csv data.
 
-        # Calculate timing averages
-        times = [r.get("response_times", {}) for r in results]
-        tool_times = [
-            t.get("tool_call_time", 0)
-            for t in times
-            if t.get("tool_call_time")
-        ]
-        response_times = [
-            t.get("response_processing_time", 0)
-            for t in times
-            if t.get("response_processing_time")
-        ]
-        total_times = [
-            t.get("total_time", 0) for t in times if t.get("total_time")
-        ]
+        Args:
+            days: Number of days to look back
 
-        avg_tool_time = sum(tool_times) / len(tool_times) if tool_times else 0
-        avg_response_time = (
-            sum(response_times) / len(response_times) if response_times else 0
-        )
-        avg_total_time = (
-            sum(total_times) / len(total_times) if total_times else 0
+        Returns:
+            List of daily summary data points aggregated from test results
+        """
+        daily_summaries = []
+
+        if not os.path.exists(self.results_file):
+            return daily_summaries
+
+        cutoff_date = datetime.datetime.utcnow() - datetime.timedelta(
+            days=days
         )
 
-        # Find fastest model
-        fastest_model = ""
-        fastest_time = float("inf")
-        for result in results:
-            total_time = result.get("response_times", {}).get("total_time")
-            if total_time and total_time < fastest_time:
-                fastest_time = total_time
-                fastest_model = result["model"]
+        # Group test results by date
+        daily_data = {}
 
-        if fastest_time == float("inf"):
-            fastest_time = 0
+        with open(self.results_file, "r") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                # Parse the test date
+                test_date = self._parse_datetime_safely(row["date"])
+                if test_date is None or test_date < cutoff_date:
+                    continue
 
-        # Load existing summary and update/append
-        summary_data = []
-        if os.path.exists(self.summary_file):
-            with open(self.summary_file, "r") as f:
-                reader = csv.DictReader(f)
-                summary_data = [
-                    row
-                    for row in reader
-                    if row.get("datetime", row.get("date", "")) != test_date
-                ]
+                date_key = row["date"]
+                if date_key not in daily_data:
+                    daily_data[date_key] = []
+                daily_data[date_key].append(row)
 
-        # Add new summary
-        summary_data.append(
-            {
-                "datetime": test_date,
-                "total_models": total_models,
-                "working_models": working_models,
-                "handling_models": handling_models,
-                "reliable_models": reliable_models,
-                "avg_tool_time": f"{avg_tool_time:.3f}",
-                "avg_response_time": f"{avg_response_time:.3f}",
-                "avg_total_time": f"{avg_total_time:.3f}",
-                "fastest_model": fastest_model,
-                "fastest_time": f"{fastest_time:.3f}",
-            }
-        )
-
-        # Save updated summary
-        with open(self.summary_file, "w", newline="") as f:
-            writer = csv.DictWriter(
-                f,
-                fieldnames=[
-                    "datetime",
-                    "total_models",
-                    "working_models",
-                    "handling_models",
-                    "reliable_models",
-                    "avg_tool_time",
-                    "avg_response_time",
-                    "avg_total_time",
-                    "fastest_model",
-                    "fastest_time",
-                ],
+        # Calculate aggregated statistics for each date
+        for date_key, rows in daily_data.items():
+            total_models = len(rows)
+            working_models = sum(
+                1 for r in rows if r["tool_call_support"].lower() == "true"
             )
-            writer.writeheader()
-            for row in summary_data:
-                writer.writerow(row)
+            handling_models = sum(
+                1 for r in rows if r["handles_response"].lower() == "true"
+            )
+            reliable_models = sum(
+                1
+                for r in rows
+                if r["is_reliable"] and r["is_reliable"].lower() == "true"
+            )
+
+            # Calculate timing averages
+            tool_times = [
+                float(r["tool_call_time"])
+                for r in rows
+                if r["tool_call_time"] and float(r["tool_call_time"]) > 0
+            ]
+            response_times = [
+                float(r["response_time"])
+                for r in rows
+                if r["response_time"] and float(r["response_time"]) > 0
+            ]
+            total_times = [
+                float(r["total_time"])
+                for r in rows
+                if r["total_time"] and float(r["total_time"]) > 0
+            ]
+
+            avg_tool_time = (
+                sum(tool_times) / len(tool_times) if tool_times else 0
+            )
+            avg_response_time = (
+                sum(response_times) / len(response_times)
+                if response_times
+                else 0
+            )
+            avg_total_time = (
+                sum(total_times) / len(total_times) if total_times else 0
+            )
+
+            # Find fastest model
+            fastest_model = ""
+            fastest_time = float("inf")
+            for row in rows:
+                if row["total_time"] and float(row["total_time"]) > 0:
+                    total_time = float(row["total_time"])
+                    if total_time < fastest_time:
+                        fastest_time = total_time
+                        fastest_model = row["model_id"]
+
+            if fastest_time == float("inf"):
+                fastest_time = 0
+
+            daily_summaries.append(
+                {
+                    "date": date_key,
+                    "total_models": total_models,
+                    "working_models": working_models,
+                    "handling_models": handling_models,
+                    "reliable_models": reliable_models,
+                    "avg_tool_time": avg_tool_time,
+                    "avg_response_time": avg_response_time,
+                    "avg_total_time": avg_total_time,
+                    "fastest_model": fastest_model,
+                    "fastest_time": fastest_time,
+                }
+            )
+
+        return sorted(daily_summaries, key=lambda x: x["date"])
 
     def _extract_display_name(self, model_id: str) -> str:
         """Extract a display name from model ID."""
@@ -708,7 +693,7 @@ class HistoryManager:
     def get_daily_summary_history(
         self, days: int = 30
     ) -> List[Dict[str, Any]]:
-        """Get daily summary history.
+        """Get daily summary history by aggregating test results data.
 
         Args:
             days: Number of days to look back
@@ -716,40 +701,7 @@ class HistoryManager:
         Returns:
             List of daily summary data points
         """
-        history = []
-
-        if os.path.exists(self.summary_file):
-            cutoff_date = datetime.datetime.utcnow() - datetime.timedelta(
-                days=days
-            )
-
-            with open(self.summary_file, "r") as f:
-                reader = csv.DictReader(f)
-                for row in reader:
-                    # Try to parse date with fallback for different formats
-                    test_date = self._parse_datetime_safely(row["date"])
-                    if test_date is None:
-                        # Skip rows with unparseable dates
-                        continue
-                    if test_date >= cutoff_date:
-                        history.append(
-                            {
-                                "date": row["date"],
-                                "total_models": int(row["total_models"]),
-                                "working_models": int(row["working_models"]),
-                                "handling_models": int(row["handling_models"]),
-                                "reliable_models": int(row["reliable_models"]),
-                                "avg_tool_time": float(row["avg_tool_time"]),
-                                "avg_response_time": float(
-                                    row["avg_response_time"]
-                                ),
-                                "avg_total_time": float(row["avg_total_time"]),
-                                "fastest_model": row["fastest_model"],
-                                "fastest_time": float(row["fastest_time"]),
-                            }
-                        )
-
-        return sorted(history, key=lambda x: x["date"])
+        return self.get_aggregated_daily_summary(days)
 
     def get_status_matrix(
         self, days: int = 30
@@ -902,25 +854,8 @@ class HistoryManager:
 
             os.replace(temp_file, self.results_file)
 
-        # Clean up daily summary
-        if os.path.exists(self.summary_file):
-            temp_file = self.summary_file + ".tmp"
-            with open(self.summary_file, "r") as infile, open(
-                temp_file, "w", newline=""
-            ) as outfile:
-                reader = csv.DictReader(infile)
-                if reader.fieldnames:
-                    writer = csv.DictWriter(
-                        outfile, fieldnames=reader.fieldnames
-                    )
-                    writer.writeheader()
-
-                    for row in reader:
-                        # Handle missing date field gracefully
-                        if "date" in row and row["date"] >= cutoff_str:
-                            writer.writerow(row)
-
-            os.replace(temp_file, self.summary_file)
+        # Daily summary is now generated dynamically from test_results.csv,
+        # so no separate cleanup is needed
 
     def get_detailed_test_results(
         self, model_id: Optional[str] = None, days: int = 30
