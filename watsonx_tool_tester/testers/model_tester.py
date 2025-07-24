@@ -232,8 +232,10 @@ class ModelTester:
             Dict[str, Any]: Test results with reliability metrics
         """
         iterations = self.config.test_iterations
+        # Always run minimum 5 iterations unless user specifically requested fewer
+        min_required_iterations = min(5, iterations)
         self.logger.info(
-            f"Running {iterations} iterations for reliability testing..."
+            f"Running {iterations} iterations for reliability testing (minimum {min_required_iterations} required)..."
         )
 
         # Track results across iterations
@@ -268,12 +270,10 @@ class ModelTester:
                     ) = result
 
                     # Check if this is a definitive "not supported" result
-                    # Only terminate early after minimum attempts to avoid false positives
-                    MIN_ATTEMPTS_BEFORE_TERMINATION = 3
+                    # Only terminate early after minimum required iterations to avoid false positives
                     if (
-                        (i + 1) >= MIN_ATTEMPTS_BEFORE_TERMINATION
-                        and not tool_call_support
-                    ):
+                        i + 1
+                    ) >= min_required_iterations and not tool_call_support:
                         # Check if all attempts so far have been definitive failures
                         all_failed = True
                         definitive_failures = 0
@@ -290,22 +290,20 @@ class ModelTester:
                         has_previously_worked = self._has_previously_worked(
                             model_id
                         )
-                        min_required_failures = (
-                            MIN_ATTEMPTS_BEFORE_TERMINATION - 1
-                        )
+
+                        # Require ALL minimum iterations to be definitive failures before terminating
+                        required_definitive_failures = min_required_iterations
+
                         if has_previously_worked:
-                            # Require more definitive failures for previously working models
-                            min_required_failures = (
-                                MIN_ATTEMPTS_BEFORE_TERMINATION
-                            )
                             self.logger.debug(
-                                f"Model {model_id} has worked before - requiring stricter failure criteria"
+                                f"Model {model_id} has worked before - requiring all {min_required_iterations} minimum iterations to be definitive failures"
                             )
 
-                        # Only terminate early if ALL attempts failed AND enough were definitive failures
+                        # Only terminate early if ALL minimum iterations failed AND ALL were definitive failures
                         if (
                             all_failed
-                            and definitive_failures >= min_required_failures
+                            and definitive_failures
+                            >= required_definitive_failures
                         ):
                             self.logger.info(
                                 f"Model {model_id} consistently fails tool calling after {i + 1} attempts ({definitive_failures} definitive failures) - skipping remaining iterations"
@@ -751,47 +749,58 @@ class ModelTester:
         Returns:
             bool: True if this is a definitive "not supported" error
         """
-        # More specific patterns that indicate definitive lack of tool calling support
-        # Avoid overly broad patterns that might catch intermittent failures
+        # Only API-level errors that definitively indicate lack of tool calling support
+        # These are server-side rejections, not response-level issues
         definitive_not_supported_patterns = [
-            "tool calling not supported",
-            "function calling not supported",
-            "tools are not supported",
-            "does not support tool calling",
-            "does not support function calling",
-            "tool calls are not supported",
-            "function calls are not supported",
             "unsupported parameter: tools",
             "unsupported parameter: functions",
             "invalid parameter: tools",
             "invalid parameter: functions",
+            "tool calling not supported by this model",
+            "function calling not supported by this model",
         ]
 
-        # Patterns that suggest intermittent issues, not permanent lack of support
+        # Patterns that suggest the model tried to respond but failed - these are intermittent
+        # Should NOT be treated as definitive lack of support
         intermittent_patterns = [
-            "did not use hello_world tool",  # Could be model confusion, not lack of support
+            "does not support tool calling",  # Often followed by "Finish reason: stop" - model attempted response
+            "does not support function calling",  # Same as above
+            "did not use hello_world tool",  # Model confusion, not lack of support
             "no tool calls in response",  # Could be temporary failure
-            "finish reason: stop",  # Could be intermittent behavior
+            "finish reason: stop",  # Model gave a response, just not proper tool call
+            "tools are not supported",  # Could be response-level confusion
+            "tool calls are not supported",  # Could be response-level confusion
+            "function calls are not supported",  # Could be response-level confusion
         ]
 
         details_lower = details.lower()
 
-        # Check for definitive patterns first
+        # First check if this matches intermittent patterns - if so, it's NOT definitive
+        for pattern in intermittent_patterns:
+            if pattern.lower() in details_lower:
+                return False
+
+        # Check for definitive patterns
         for pattern in definitive_not_supported_patterns:
             if pattern.lower() in details_lower:
                 return True
 
         # Check for HTTP error codes that definitively indicate lack of support
-        if "400 bad request" in details_lower and (
-            "tool" in details_lower or "function" in details_lower
+        # But only if they contain "unsupported" or "invalid", not general tool/function mentions
+        if (
+            "400" in details_lower
+            and "unsupported parameter" in details_lower
+            and ("tool" in details_lower or "function" in details_lower)
         ):
             return True
-        if "422 unprocessable entity" in details_lower and (
-            "tool" in details_lower or "function" in details_lower
+        if (
+            "422" in details_lower
+            and "unsupported parameter" in details_lower
+            and ("tool" in details_lower or "function" in details_lower)
         ):
             return True
 
-        # Don't treat intermittent patterns as definitive failures
+        # Default to not definitive - be conservative about early termination
         return False
 
     def _has_previously_worked(self, model_id: str) -> bool:
