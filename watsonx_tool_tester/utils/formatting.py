@@ -6,10 +6,44 @@ This module provides functions for formatting test results and other
 output in a user-friendly way.
 """
 
+import datetime
 import json
 from typing import Any, Dict, List, Optional
 
 import click
+
+
+def get_consistent_test_date() -> str:
+    """Get a consistent date string for test operations.
+
+    This function ensures that both CSV writing and HTML report generation
+    use exactly the same date calculation logic, preventing timing race
+    conditions that can occur during daily pipeline runs.
+
+    Returns:
+        str: Date string in YYYY-MM-DD format using UTC timezone
+    """
+    return datetime.datetime.utcnow().strftime("%Y-%m-%d")
+
+
+def get_consistent_date_range(days: int = 30) -> List[str]:
+    """Get a consistent list of dates for history timeline operations.
+
+    This function ensures that all date range calculations are identical
+    across different modules, preventing inconsistencies in timeline generation.
+
+    Args:
+        days: Number of days to include in the range (default 30)
+
+    Returns:
+        List[str]: List of date strings in YYYY-MM-DD format, from oldest to newest
+    """
+    base_time = datetime.datetime.utcnow()
+    dates = []
+    for i in range(days - 1, -1, -1):
+        date = (base_time - datetime.timedelta(days=i)).strftime("%Y-%m-%d")
+        dates.append(date)
+    return dates
 
 
 def format_test_result(

@@ -10,7 +10,9 @@ import datetime
 import os
 from typing import Any, Dict, List, Optional
 
+from .formatting import get_consistent_date_range, get_consistent_test_date
 from .history_manager import HistoryManager
+from .logging import get_logger
 
 
 class HTMLReportGenerator:
@@ -2000,7 +2002,12 @@ class HTMLReportGenerator:
         Returns:
             True if any test results exist for the target date, False otherwise
         """
+        logger = get_logger("html_generator")
+
         if not self.history_manager:
+            logger.debug(
+                f"Timeline check for {target_date}: No history manager available"
+            )
             return False
 
         import csv
@@ -2008,19 +2015,51 @@ class HTMLReportGenerator:
 
         results_file = self.history_manager.results_file
         if not os.path.exists(results_file):
+            logger.debug(
+                f"Timeline check for {target_date}: Results file {results_file} does not exist"
+            )
             return False
+
+        # Track what dates we actually find for debugging
+        found_dates = set()
+        target_matches = 0
 
         try:
             with open(results_file, "r") as f:
                 reader = csv.DictReader(f)
                 for row in reader:
-                    if row.get("date") == target_date:
-                        return True
-        except (IOError, csv.Error):
-            # If we can't read the file, assume no data
-            return False
+                    row_date = row.get("date")
+                    if row_date:
+                        found_dates.add(row_date)
+                        if row_date == target_date:
+                            target_matches += 1
 
-        return False
+            # Log debugging information about the search
+            logger.debug(
+                f"Timeline check for {target_date}: Found {len(found_dates)} unique dates in CSV"
+            )
+            logger.debug(
+                f"Timeline check for {target_date}: Found {target_matches} entries for target date"
+            )
+
+            if target_matches == 0:
+                # Log recent dates to help with debugging timing issues
+                recent_dates = sorted(found_dates)[-5:] if found_dates else []
+                logger.info(
+                    f"Timeline notice: No test results found for {target_date}. Recent dates in CSV: {recent_dates}. Expected today: {get_consistent_test_date()}"
+                )
+            else:
+                logger.debug(
+                    f"Timeline check for {target_date}: Successfully found test data"
+                )
+
+            return target_matches > 0
+
+        except (IOError, csv.Error) as e:
+            logger.warning(
+                f"Timeline check for {target_date}: Error reading CSV file {results_file}: {e}"
+            )
+            return False
 
     def _generate_history_section(
         self, current_results: List[Dict[str, Any]]
@@ -2040,13 +2079,8 @@ class HTMLReportGenerator:
         if not trackable_models:
             return ""
 
-        # Generate date headers (last 30 days) - use UTC to match test execution timezone
-        dates = []
-        for i in range(29, -1, -1):
-            date = (
-                datetime.datetime.utcnow() - datetime.timedelta(days=i)
-            ).strftime("%Y-%m-%d")
-            dates.append(date)
+        # Generate date headers (last 30 days) - use consistent date function
+        dates = get_consistent_date_range(30)
 
         # Generate model status rows
         model_rows = []
@@ -2063,7 +2097,7 @@ class HTMLReportGenerator:
 
             # Get status for each date
             status_cells = []
-            today = datetime.datetime.utcnow().strftime("%Y-%m-%d")
+            today = get_consistent_test_date()
 
             for date in dates:
                 status_data = None

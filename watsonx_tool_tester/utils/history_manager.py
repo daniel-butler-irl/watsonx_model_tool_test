@@ -12,6 +12,8 @@ import os
 import re
 from typing import Any, Dict, List, Optional
 
+from .formatting import get_consistent_test_date
+
 
 class HistoryManager:
     """Manager for tracking model performance history using CSV files."""
@@ -149,7 +151,7 @@ class HistoryManager:
             test_date: Date of the test (defaults to today)
         """
         if test_date is None:
-            test_date = datetime.datetime.utcnow().strftime("%Y-%m-%d")
+            test_date = get_consistent_test_date()
 
         timestamp = datetime.datetime.utcnow().isoformat()
 
