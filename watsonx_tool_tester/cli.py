@@ -19,7 +19,6 @@ from watsonx_tool_tester.config import (
 from watsonx_tool_tester.testers.model_tester import ModelTester
 from watsonx_tool_tester.testers.result_handler import ResultHandler
 from watsonx_tool_tester.utils import errors
-from watsonx_tool_tester.utils.history_manager import HistoryManager
 
 
 @click.group()
@@ -159,10 +158,8 @@ def test(
         tester = ModelTester(config)
         results = tester.test_all_models(filter_model=config.model)
 
-        # Record test results in history if enabled
-        if config.save_history:
-            history_manager = HistoryManager()
-            history_manager.record_test_results(results)
+        # Note: CSV saving is now handled in model_tester.py before HTML generation
+        # to ensure proper sequence for timeline detection
 
         # Print summary
         handler = ResultHandler()
