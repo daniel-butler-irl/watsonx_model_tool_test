@@ -2157,8 +2157,8 @@ class HTMLReportGenerator:
                     # Get detailed test data for rich tooltips
                     detailed_data = None
 
-                    # For today's date, use current results for tooltip data
-                    if date == today and latest_result:
+                    # Prioritize current results if available for tooltip data
+                    if latest_result:
                         # Create detailed data structure from current result
                         detailed_data = {
                             "date": date,
@@ -2168,10 +2168,10 @@ class HTMLReportGenerator:
                                 ).get("iterations", 1),
                                 "tool_success_rate": latest_result.get(
                                     "reliability", {}
-                                ).get("tool_success_rate", 0.0),
+                                ).get("tool_call_success_rate", 0.0),
                                 "response_success_rate": latest_result.get(
                                     "reliability", {}
-                                ).get("response_success_rate", 0.0),
+                                ).get("response_handling_success_rate", 0.0),
                                 "total_time": latest_result.get(
                                     "response_times", {}
                                 ).get("total_time", 0.0),
