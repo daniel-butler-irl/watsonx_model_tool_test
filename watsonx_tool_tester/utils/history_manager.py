@@ -237,12 +237,14 @@ class HistoryManager:
                 "tool_call_support": result.get("tool_call_support", False),
                 "handles_response": result.get("handles_response", False),
                 "is_reliable": is_reliable,
-                "tool_call_time": tool_call_time,
-                "response_time": response_time,
-                "total_time": total_time,
+                "tool_call_time": round(float(tool_call_time), 4),
+                "response_time": round(float(response_time), 4),
+                "total_time": round(float(total_time), 4),
                 "iterations": iterations,
-                "tool_success_rate": tool_success_rate,
-                "response_success_rate": response_success_rate,
+                "tool_success_rate": round(float(tool_success_rate), 4),
+                "response_success_rate": round(
+                    float(response_success_rate), 4
+                ),
                 "details": result.get("details", ""),
                 "tool_call_raw": tool_call_raw,
                 "response_raw": response_raw,
@@ -921,11 +923,24 @@ class HistoryManager:
                                         if row["total_time"]
                                         else 0
                                     ),
-                                    "tool_success_rate": float(
-                                        row["tool_success_rate"]
+                                    "tool_success_rate": max(
+                                        0.0,
+                                        min(
+                                            1.0,
+                                            float(
+                                                row["tool_success_rate"] or 0.0
+                                            ),
+                                        ),
                                     ),
-                                    "response_success_rate": float(
-                                        row["response_success_rate"]
+                                    "response_success_rate": max(
+                                        0.0,
+                                        min(
+                                            1.0,
+                                            float(
+                                                row["response_success_rate"]
+                                                or 0.0
+                                            ),
+                                        ),
                                     ),
                                     "iterations": int(row["iterations"]),
                                 },

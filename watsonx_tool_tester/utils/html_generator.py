@@ -2202,15 +2202,25 @@ class HTMLReportGenerator:
                                 break
 
                     # Create rich tooltip content
-                    if detailed_data:
-                        iterations = detailed_data["performance"]["iterations"]
-                        tool_success_rate = detailed_data["performance"][
-                            "tool_success_rate"
-                        ]
-                        response_success_rate = detailed_data["performance"][
-                            "response_success_rate"
-                        ]
-                        total_time = detailed_data["performance"]["total_time"]
+                    if detailed_data and isinstance(detailed_data, dict):
+                        performance = detailed_data.get("performance", {})
+                        iterations = performance.get("iterations", 1)
+                        tool_success_rate = performance.get(
+                            "tool_success_rate", 0.0
+                        )
+                        response_success_rate = performance.get(
+                            "response_success_rate", 0.0
+                        )
+                        total_time = performance.get("total_time", 0.0)
+
+                        # Ensure success rates are valid floats in [0.0, 1.0] range
+                        tool_success_rate = max(
+                            0.0, min(1.0, float(tool_success_rate or 0.0))
+                        )
+                        response_success_rate = max(
+                            0.0, min(1.0, float(response_success_rate or 0.0))
+                        )
+                        total_time = float(total_time or 0.0)
 
                         tooltip_content = (
                             f"Date: {date}\n"
@@ -2222,8 +2232,11 @@ class HTMLReportGenerator:
                         )
 
                         # Add error details if available
-                        error_msg = detailed_data["test_details"].get(
-                            "error_message", ""
+                        test_details = detailed_data.get("test_details", {})
+                        error_msg = (
+                            test_details.get("error_message", "")
+                            if isinstance(test_details, dict)
+                            else ""
                         )
                         if error_msg:
                             tooltip_content += f"\nError: {error_msg[:100]}{'...' if len(error_msg) > 100 else ''}"

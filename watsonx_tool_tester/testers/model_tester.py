@@ -18,10 +18,10 @@ import click
 from watsonx_tool_tester.clients.litellm import LiteLLMClient
 from watsonx_tool_tester.clients.watsonx import WatsonXClient
 from watsonx_tool_tester.config import ClientType, Config
-from watsonx_tool_tester.utils.history_manager import HistoryManager
 from watsonx_tool_tester.testers.result_handler import ResultHandler
 from watsonx_tool_tester.utils import errors
 from watsonx_tool_tester.utils import logging as log_utils
+from watsonx_tool_tester.utils.history_manager import HistoryManager
 
 
 class ModelTester:
@@ -613,7 +613,9 @@ class ModelTester:
             # CRITICAL FIX: Save to CSV BEFORE generating HTML report
             # This ensures the HTML generator can find today's data when checking the timeline
             if self.config.save_history:
-                self.logger.info("Saving results to CSV history before generating HTML report")
+                self.logger.info(
+                    "Saving results to CSV history before generating HTML report"
+                )
                 history_manager = HistoryManager()
                 history_manager.record_test_results(results)
                 self.logger.info("CSV history saved successfully")
