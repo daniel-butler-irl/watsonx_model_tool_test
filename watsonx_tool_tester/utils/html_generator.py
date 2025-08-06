@@ -1354,7 +1354,7 @@ class HTMLReportGenerator:
             <div class="summary-card">
                 <h3>Reliability</h3>
                 <div class="value" style="color: var(--success-color);">{reliable_count}/{supported_count}</div>
-                <div class="description">Models with 100% consistency ({reliability_percentage:.1f}%)</div>
+                <div class="description">Models with ≥90% success rate ({reliability_percentage:.1f}%)</div>
             </div>
             """
 
@@ -2129,11 +2129,22 @@ class HTMLReportGenerator:
                             "Tool calling only - doesn't handle responses"
                         )
                     elif not tool_support:
+                        # Check if model previously worked to differentiate broken vs not_supported
+                        if (
+                            self.history_manager
+                            and self.history_manager.has_previously_worked(
+                                model_id
+                            )
+                        ):
+                            status = "broken"
+                            details = "Model previously worked but now fails"
+                        else:
+                            status = "not_supported"
+                            details = "Model does not support tool calling"
+                    else:
+                        # Default to not_supported for any unknown case
                         status = "not_supported"
                         details = "Model does not support tool calling"
-                    else:
-                        status = "broken"
-                        details = "Tool calling failed"
 
                     # Create status data structure consistent with historical data
                     status_data = {

@@ -537,7 +537,7 @@ class ResultHandler:
             rel_stats = summary["reliability"]
             click.echo("\n=== Reliability Assessment ===")
             click.echo(f"Test iterations per model: {rel_stats['iterations']}")
-            click.echo("Reliability standard: 100% consistency required")
+            click.echo("Reliability standard: ≥90% success rate required")
             click.echo(
                 f"Models tested for reliability: {rel_stats['total_tested']}"
             )

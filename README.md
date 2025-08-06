@@ -292,7 +292,7 @@ After the table, a summary section provides:
 
 3. **Reliability Assessment** (when using `--iterations > 1`):
    - Test iterations per model
-   - 100% consistency required for reliability
+   - ≥90% success rate required for reliability
    - Number of reliable vs unreliable models
    - Average success rates across all models
 

@@ -837,8 +837,12 @@ class HistoryManager:
                                 "Tool calling only - doesn't handle responses"
                             )
                         else:
-                            status_entry["status"] = "broken"
-                            status_entry["details"] = "Tool calling failed"
+                            # Default to not_supported for any other case
+                            # Only mark as broken if we have evidence it previously worked
+                            status_entry["status"] = "not_supported"
+                            status_entry["details"] = (
+                                "Model does not support tool calling"
+                            )
                         break
 
         return status_matrix
