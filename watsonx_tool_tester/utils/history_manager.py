@@ -892,21 +892,61 @@ class HistoryManager:
                         # Skip rows with unparseable dates
                         continue
                     if test_date >= cutoff_date:
+                        # Parse performance metrics first to calculate reliability dynamically
+                        tool_call_support = (
+                            row["tool_call_support"].lower() == "true"
+                        )
+                        handles_response = (
+                            row["handles_response"].lower() == "true"
+                        )
+
+                        tool_success_rate = max(
+                            0.0,
+                            min(
+                                1.0,
+                                float(row["tool_success_rate"] or 0.0),
+                            ),
+                        )
+                        response_success_rate = max(
+                            0.0,
+                            min(
+                                1.0,
+                                float(row["response_success_rate"] or 0.0),
+                            ),
+                        )
+
+                        # Calculate reliability dynamically based on success rates
+                        # This matches the logic in model_tester.py lines 446-449
+                        if tool_call_support:
+                            is_reliable = (
+                                tool_success_rate == 1.0
+                                and response_success_rate == 1.0
+                            )
+                        else:
+                            is_reliable = None  # Models without tool support aren't classified as reliable/unreliable
+
+                        # Validation: Check for inconsistency between stored and calculated reliability
+                        stored_reliable = (
+                            row["is_reliable"].lower() == "true"
+                            if row["is_reliable"]
+                            else False
+                        )
+                        if (
+                            tool_call_support
+                            and stored_reliable != is_reliable
+                        ):
+                            # This can happen when CSV data contains outdated reliability assessments
+                            # The dynamic calculation should take precedence for accurate reporting
+                            pass  # Silently use calculated value - this fix resolves the inconsistency
+
                         detailed_results.append(
                             {
                                 "date": row["date"],
                                 "timestamp": row["timestamp"],
                                 "model_id": row["model_id"],
-                                "tool_call_support": row[
-                                    "tool_call_support"
-                                ].lower()
-                                == "true",
-                                "handles_response": row[
-                                    "handles_response"
-                                ].lower()
-                                == "true",
-                                "is_reliable": row["is_reliable"].lower()
-                                == "true",
+                                "tool_call_support": tool_call_support,
+                                "handles_response": handles_response,
+                                "is_reliable": is_reliable,
                                 "performance": {
                                     "tool_call_time": (
                                         float(row["tool_call_time"])
@@ -923,25 +963,8 @@ class HistoryManager:
                                         if row["total_time"]
                                         else 0
                                     ),
-                                    "tool_success_rate": max(
-                                        0.0,
-                                        min(
-                                            1.0,
-                                            float(
-                                                row["tool_success_rate"] or 0.0
-                                            ),
-                                        ),
-                                    ),
-                                    "response_success_rate": max(
-                                        0.0,
-                                        min(
-                                            1.0,
-                                            float(
-                                                row["response_success_rate"]
-                                                or 0.0
-                                            ),
-                                        ),
-                                    ),
+                                    "tool_success_rate": tool_success_rate,
+                                    "response_success_rate": response_success_rate,
                                     "iterations": int(row["iterations"]),
                                 },
                                 "test_details": {
