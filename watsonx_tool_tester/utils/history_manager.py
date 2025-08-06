@@ -1293,7 +1293,6 @@ class HistoryManager:
         except Exception:
             # If there's any issue reading the file, assume no previous success
             return False
-
         return False
 
     def is_new_model(self, model_id: str) -> bool:
