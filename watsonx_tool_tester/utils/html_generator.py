@@ -1594,17 +1594,21 @@ class HTMLReportGenerator:
             handles_response = result["handles_response"]
             is_reliable = result.get("is_reliable")
 
-            # Check if this is a model that never supported tool calling vs one that is broken
-            error_message = result["test_details"].get("error_message", "")
-            details = result["test_details"].get("details", "")
-
-            # Models that explicitly don't support tool calling
-            is_not_supported = not tool_support and (
-                "not support" in error_message.lower()
-                or "not support" in details.lower()
-                or "function" in error_message.lower()
-                and "not support" in error_message.lower()
-            )
+            # Use proper logic to differentiate "not supported" vs "broken"
+            # Don't rely on string matching - use historical data
+            if not tool_support:
+                # Check if model has ever worked to differentiate broken vs not_supported
+                if (
+                    self.history_manager
+                    and self.history_manager.has_previously_worked(
+                        result["model_id"]
+                    )
+                ):
+                    is_not_supported = False  # Model worked before, now it's broken
+                else:
+                    is_not_supported = True  # Model never worked, not supported
+            else:
+                is_not_supported = False  # Model has tool support
 
             if is_not_supported:
                 status_class = "not-supported"
