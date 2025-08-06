@@ -90,8 +90,9 @@ watsonx-tool-tester test --model "ibm/granite-3-2b-instruct" --iterations 5
 
 **Reliability Assessment:**
 - Models are tested multiple times to identify inconsistent behavior
-- A model is marked as **RELIABLE** (✅ 100%/100%) only if it succeeds 100% of the time across all iterations
-- A model is marked as **UNRELIABLE** (⚠️ with success rates) if it fails even once among supported models
+- A model is marked as **RELIABLE** (✅) if it achieves ≥90% success rate for both tool calling and response handling
+- A model is marked as **UNRELIABLE** (⚠️ with success rates) if it falls below the 90% threshold
+- The 90% threshold (defined in `RELIABILITY_THRESHOLD`) allows for occasional network issues or API timeouts while maintaining high quality standards
 - Models that don't support tool calling are marked as **NOT SUPPORTED** rather than unreliable
 - The tool reports individual success rates for tool calling and response handling
 
@@ -268,7 +269,7 @@ The test results are presented in a table format with the following columns:
 | MODEL | The model ID being tested |
 | TOOL SUPPORT | Whether the model correctly invokes the tool (✅ or ❌) |
 | HANDLED | Whether the model correctly uses the results returned by the tool (✅ or ❌) |
-| RELIABILITY | Reliability assessment when testing multiple iterations (✅ 100%/100% for reliable models, ⚠️ with success rates like "67%/33%" for unreliable models, or "NOT SUPPORTED" for models without tool calling capability). Shows iteration count in header (e.g., "RELIABILITY (5x)") |
+| RELIABILITY | Reliability assessment when testing multiple iterations (✅ for models with ≥90% success rate on both tool calls and response handling, ⚠️ for models with <90% success rates, or "NOT SUPPORTED" for models without tool calling capability). Shows iteration count in header (e.g., "RELIABILITY (5x)"). The 90% threshold allows for occasional network issues while maintaining high quality standards. |
 | CALL TIME | Time taken for the model to generate the initial tool call |
 | RESP TIME | Time taken for the model to process the tool response |
 | TOTAL TIME | Sum of tool call time and response time |

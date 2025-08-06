@@ -441,11 +441,14 @@ class ModelTester:
         overall_handles_response = response_handling_successes > 0
 
         # Calculate reliability based on consistency
+        from watsonx_tool_tester.config import RELIABILITY_THRESHOLD
+
         if overall_tool_call_support:
             # Models with some tool call support can be reliable or unreliable
+            # Using 90% threshold to allow for occasional issues while maintaining high quality
             is_reliable = (
-                tool_call_success_rate == 1.0
-                and response_handling_success_rate == 1.0
+                tool_call_success_rate >= RELIABILITY_THRESHOLD
+                and response_handling_success_rate >= RELIABILITY_THRESHOLD
             )
         else:
             # Models with no tool call support are not classified as reliable/unreliable

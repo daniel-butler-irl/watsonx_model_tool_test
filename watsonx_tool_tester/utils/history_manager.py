@@ -779,15 +779,31 @@ class HistoryManager:
                             most_recent_row["handles_response"].lower()
                             == "true"
                         )
-                        # Debug: log the actual value being processed
-                        reliability_value = most_recent_row.get(
-                            "is_reliable", ""
+
+                        # Parse success rates from CSV to calculate reliability dynamically
+                        from watsonx_tool_tester.config import (
+                            RELIABILITY_THRESHOLD,
                         )
-                        is_reliable = (
-                            reliability_value.lower() == "true"
-                            if reliability_value and reliability_value.strip()
-                            else False
+
+                        tool_success_rate = float(
+                            most_recent_row.get("tool_success_rate", 0.0)
+                            or 0.0
                         )
+                        response_success_rate = float(
+                            most_recent_row.get("response_success_rate", 0.0)
+                            or 0.0
+                        )
+
+                        # Calculate reliability dynamically using the threshold
+                        # This matches the logic in model_tester.py but with 90% threshold
+                        if tool_support:
+                            is_reliable = (
+                                tool_success_rate >= RELIABILITY_THRESHOLD
+                                and response_success_rate
+                                >= RELIABILITY_THRESHOLD
+                            )
+                        else:
+                            is_reliable = False  # Models without tool support aren't reliable
 
                         if not tool_support:
                             # Check if model worked before to differentiate broken vs not_supported
@@ -916,11 +932,16 @@ class HistoryManager:
                         )
 
                         # Calculate reliability dynamically based on success rates
-                        # This matches the logic in model_tester.py lines 446-449
+                        # Using the 90% threshold for more realistic assessment
+                        from watsonx_tool_tester.config import (
+                            RELIABILITY_THRESHOLD,
+                        )
+
                         if tool_call_support:
                             is_reliable = (
-                                tool_success_rate == 1.0
-                                and response_success_rate == 1.0
+                                tool_success_rate >= RELIABILITY_THRESHOLD
+                                and response_success_rate
+                                >= RELIABILITY_THRESHOLD
                             )
                         else:
                             is_reliable = None  # Models without tool support aren't classified as reliable/unreliable

@@ -15,6 +15,11 @@ from typing import Any, Dict, List, Optional, Tuple
 
 logger = logging.getLogger("watsonx_tool_tester")
 
+# Reliability threshold for model evaluation
+# Models with both tool_success_rate and response_success_rate >= this threshold are considered reliable
+# Set to 0.9 (90%) to allow for occasional network issues or API timeouts while maintaining high quality
+RELIABILITY_THRESHOLD = 0.9
+
 
 def load_dotenv(dotenv_path=None):
     """Load environment variables from .env file.
